@@ -1,15 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, } from '@angular/core';
 
 @Component({
-  selector: 'app-search-todo-lists',
   templateUrl: './search-todo-lists.component.html',
-  styleUrls: ['./search-todo-lists.component.scss']
+  styleUrls: [
+    './search-todo-lists.component.scss',
+  ],
 })
-export class SearchTodoListsComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class SearchTodoListsComponent { }
