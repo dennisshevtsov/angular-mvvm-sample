@@ -1,0 +1,17 @@
+<header class="container-fluid border-bottom p-3">
+  <div class="row">
+    <div class="col-md-3">
+      <a class="text-dark text-decoration-none fs-4"
+         [routerLink]="homeLink">
+        <i class="bi bi-card-checklist me-2"></i>
+        <span>TODO list</span>
+      </a>
+    </div>
+    <div class="col-md-9 d-grid gap-2 d-md-flex justify-content-md-end">
+      <ng-container *ngTemplateOutlet="actions"></ng-container>
+    </div>
+  </div>
+</header>
+<main class="d-flex">
+  <ng-container *ngTemplateOutlet="body"></ng-container>
+</main>
