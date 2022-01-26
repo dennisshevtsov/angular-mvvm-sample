@@ -1,0 +1,28 @@
+<div #modal class="modal fade" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <ng-container *ngTemplateOutlet="title"></ng-container>
+        <h5 *ngIf="!title" class="modal-title">Warning!</h5>
+        <button type="button"
+                class="btn-close"
+                (click)="onCancelClicked()"></button>
+      </div>
+      <div class="modal-body">
+        <ng-container *ngTemplateOutlet="body"></ng-container>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-secondary"
+                (click)="onCancelClicked()">
+          <span>Close</span>
+        </button>
+        <button type="button"
+                class="btn btn-primary"
+                (click)="onOkClicked()">
+          <span>Ok</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
