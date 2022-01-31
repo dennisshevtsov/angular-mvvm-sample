@@ -1,7 +1,7 @@
 import { Injectable, } from '@angular/core';
 
 import { TodoListRoutingLinks,         } from './todo-list-routing.links';
-import { TODO_LIST_ROUTE_ID_PARAMETER, } from './todo-list-routing.values';
+import { TODO_LIST_ROUTE_ID_PARAMETER, } from './todo-list-routing.fragments';
 
 @Injectable({
   providedIn: 'root',
