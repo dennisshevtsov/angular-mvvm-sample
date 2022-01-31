@@ -6,7 +6,7 @@ import { TODO_LIST_ROUTE_NEW_FRAGMENT,
 @Injectable({
   providedIn: 'root',
 })
-export class TodoListRoutingLinks {
+export class TodoListLinkProvider {
   public addTodoListLink(): Array<any> {
     return [
       '/',

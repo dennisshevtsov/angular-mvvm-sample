@@ -4,24 +4,24 @@ import { RouterModule, Routes, } from '@angular/router';
 import { AddTodoListComponent,
          SearchTodoListsComponent,
          UpdateTodoListComponent,  } from './components';
-import { TodoListRoutingLinks,
-         TodoListRoutingRoutes,    } from './routing';
+import { TodoListLinkProvider,
+         TodoListRouteProvider,    } from './routing';
 
 const options = {
   providers: [
     {
-      provide: TodoListRoutingRoutes,
-      deps: [ TodoListRoutingLinks ],
+      provide: TodoListRouteProvider,
+      deps: [ TodoListLinkProvider ],
     },
     {
-      provide: TodoListRoutingLinks,
+      provide: TodoListLinkProvider,
       deps: [],
     },
   ],
 }
 const factory = Injector.create(options);
 
-const routeProvider = factory.get(TodoListRoutingRoutes);
+const routeProvider = factory.get(TodoListRouteProvider);
 
 const routes: Routes = [
   {
