@@ -1,7 +1,7 @@
 import { NgModule,     } from '@angular/core';
 import { RouterModule, } from '@angular/router';
 
-import { TODO_LIST_TASK_ROUTES } from './routing/todo-list-task.routes';
+import { TODO_LIST_TASK_ROUTES } from './routing';
 
 @NgModule({
   imports: [
