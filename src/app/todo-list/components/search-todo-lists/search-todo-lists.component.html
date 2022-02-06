@@ -1,0 +1,49 @@
+<app-page [actions]="pageActions"
+          [body]="pageBody">
+</app-page>
+
+<ng-template #pageActions>
+  <a class="btn btn-light"
+     style="width: 100px;"
+     [routerLink]="addTodoListLink">
+    <i class="bi bi-plus"></i>
+    <span>Add</span>
+  </a>
+</ng-template>
+
+<ng-template #pageBody>
+  <div class="list-group list-group-flush border-bottom w-100">
+    <div class="list-group-item list-group-item-action"
+         *ngFor="let record of vm.datasource">
+      <h5><strong class="mb-1">{{ record.title }}</strong></h5>
+      <p><small>{{ record.description }}</small></p>
+      <div class="d-flex w-100 align-items-center">
+        <a class="me-2"
+           style="cursor: pointer;"
+           (click)="onDeleteTodoList(record)"><span>remove</span></a>
+        <a class="me-2"
+            [routerLink]="updateTodoListLink(record.todoListId)">
+            <span>edit</span>
+        </a>
+        <a class="me-2"
+            [routerLink]="searchTodoListTasksLink(record.todoListId)">
+            <span>tasks</span>
+        </a>
+      </div>
+    </div>
+    <a class="list-group-item list-group-item-action"
+       [routerLink]="addTodoListLink">
+      <i class="bi bi-plus"></i>
+      <span>Add new TODO list</span>
+    </a>
+  </div>
+</ng-template>
+
+<!-- <app-modal #modal
+           [body]="modalBody"
+           (ok)="onOkDeleteTodoList()">
+</app-modal>
+
+<ng-template #modalBody>
+  <p *ngIf="selected">Are you sure that you want to remove TODO list <span class="text-nowrap">'{{ selected.title }}'</span>?</p>
+</ng-template> -->
