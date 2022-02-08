@@ -12,4 +12,12 @@ export class AddTodoListComponent {
   public constructor(
     public readonly vm: AddTodoListViewModel,
   ) {}
+
+  public get backLink(): string {
+    return '';
+  }
+
+  public onOkPressed(): void {
+    this.vm.add();
+  }
 }
