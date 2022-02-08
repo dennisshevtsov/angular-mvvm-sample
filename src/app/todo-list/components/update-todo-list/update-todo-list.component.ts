@@ -12,4 +12,12 @@ export class UpdateTodoListComponent {
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
   ) {}
+
+  public get backLink(): string {
+    return '';
+  }
+
+  public onOkPressed(): void {
+    this.vm.update();
+  }
 }
