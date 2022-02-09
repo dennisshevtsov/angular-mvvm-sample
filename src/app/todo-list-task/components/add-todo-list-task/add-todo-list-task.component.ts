@@ -12,4 +12,8 @@ export class AddTodoListTaskComponent {
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
   ) {}
+
+  public onOkPressed(): void {
+    this.vm.add();
+  }
 }
