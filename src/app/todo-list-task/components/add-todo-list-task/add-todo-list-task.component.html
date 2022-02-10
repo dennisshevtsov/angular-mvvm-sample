@@ -1,0 +1,97 @@
+<app-page [actions]="pageActions"
+          [body]="pageBody">
+</app-page>
+
+<ng-template #pageActions>
+  <a class="btn btn-light"
+     style="width: 100px"
+     [routerLink]="backLink">
+    <i class="bi bi-chevron-left"></i>
+    <span>Back</span>
+  </a>
+  <a class="btn btn-primary"
+     style="width: 100px; cursor: pointer;"
+     (click)="onSubmit()">
+    <i class="bi bi-check-lg"></i>
+    <span>Ok</span>
+  </a>
+</ng-template>
+
+<ng-template #pageBody>
+  <form class="w-100 p-3"
+        [formGroup]="form">
+    <div class="form-group mb-3"
+         [ngClass]="{ 'has-error': !isValid('title')}">
+      <label for="txtTitle" class="form-label">Title</label>
+      <input id="txtTitle"
+             class="form-control"
+             type="text"
+             placeholder="Title"
+             formControlName="title">
+      <span class="invalid-feedback"
+            *ngIf="hasErrors('title')">
+        <span *ngIf="hasError('title', 'required')">Please enter a title.</span>
+      </span>
+    </div>
+    <div formGroupName="date">
+      <div class="form-group mb-3"
+           [ngClass]="{ 'has-error': !isValid('day')}">
+        <label for="dpDate" class="form-label">Date</label>
+        <input id="dpDate"
+               class="form-control"
+               type="date"
+               placeholder="Date"
+               formControlName="day">
+        <span class="invalid-feedback"
+              *ngIf="hasErrors('day')">
+          <span *ngIf="hasError('day', 'required')">Please enter a date.</span>
+        </span>
+      </div>
+      <div class="form-group form-check mb-3">
+        <input id="chbIsFullDay"
+               type="checkbox"
+               class="form-check-input"
+               formControlName="fullDay">
+        <label for="chbIsFullDay" class="form-check-label">Full Day</label>
+      </div>
+      <div class="form-group mb-3"
+           [ngClass]="{ 'has-error': !isValid('date.start')}"
+           *ngIf="!form.value.date.fullDay">
+        <label for="dpStartTime" class="form-label">Start Time</label>
+        <input id="dpStartTime"
+               class="form-control"
+               type="time"
+               placeholder="Start time"
+               formControlName="start">
+        <span class="invalid-feedback"
+              *ngIf="hasErrors('date.start')">
+          <span *ngIf="hasError('date.start', 'required')">Please enter a start.</span>
+          <span *ngIf="hasError('date.start', 'startBeforeEnd')">Please enter a start before an end.</span>
+        </span>
+      </div>
+      <div class="form-group mb-3"
+           [ngClass]="{ 'has-error': !isValid('date.end')}"
+           *ngIf="!form.value.date.fullDay">
+        <label for="dpEndTime" class="form-label">End Time</label>
+        <input id="dpEndTime"
+               class="form-control"
+               type="time"
+               placeholder="End time"
+               formControlName="end">
+        <span class="invalid-feedback"
+              *ngIf="hasErrors('date.end')">
+          <span *ngIf="hasError('date.end', 'required')">Please enter an end.</span>
+          <span *ngIf="hasError('date.end', 'startBeforeEnd')">Please enter an end after a start.</span>
+        </span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="txtDescription" class="form-label">Description</label>
+      <textarea id="txtDescription"
+                class="form-control"
+                type="text"
+                placeholder="Description"
+                formControlName="description"></textarea>
+    </div>
+  </form>
+</ng-template>
