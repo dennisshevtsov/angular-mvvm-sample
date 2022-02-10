@@ -1,0 +1,57 @@
+<app-page [actions]="pageActions"
+          [body]="pageBody">
+</app-page>
+
+<ng-template #pageActions>
+  <a class="btn btn-light"
+     style="width: 100px"
+     [routerLink]="backLink">
+    <i class="bi bi-chevron-left"></i>
+    <span>Back</span>
+  </a>
+  <a class="btn btn-light"
+     style="width: 100px"
+     [routerLink]="addTodoListTaskLink">
+    <i class="bi bi-plus"></i>
+    <span>Add</span>
+  </a>
+</ng-template>
+
+<ng-template #pageBody>
+  <div class="list-group list-group-flush border-bottom w-100">
+    <div class="list-group-item list-group-item-action d-flex gap-3"
+         *ngFor="let record of datasource">
+      <input type="checkbox"
+             class="form-check-input flex-shrink-0"
+             [checked]="record.completed"
+             (change)="onComplete(record)">
+      <div class="form-checked-content">
+        <h5><strong class="mb-1">{{ record.title }}</strong></h5>
+        <div><small><i class="bi bi-calendar me-2"></i>{{ record.date | todoListTaskTime }}</small></div>
+        <div><small>{{ record.description }}</small></div>
+        <div class="d-flex w-100 align-items-center">
+          <a class="me-2"
+             style="cursor: pointer;"
+             (click)="onDeleteTodoListTask(record)"><span>remove</span></a>
+          <a class="me-2"
+             style="cursor: pointer;"
+             [routerLink]="updateTodoListTaskLink(record.todoListTaskId)"><span>edit</span></a>
+        </div>
+      </div>
+    </div>
+    <a class="list-group-item list-group-item-action"
+       style="cursor: pointer;"
+       [routerLink]="addTodoListTaskLink">
+      <i class="bi bi-plus"></i>
+      <span>Add new task</span>
+    </a>
+  </div>
+</ng-template>
+
+<ng-template #modalBody>
+  <p *ngIf="selected">Are you sure that you want to remove TODO list task <span class="text-nowrap">'{{ selected.title }}'</span>?</p>
+</ng-template>
+<app-modal #modal
+           [body]="modalBody"
+           (ok)="onOkDeleteTodoListTask()">
+</app-modal>
