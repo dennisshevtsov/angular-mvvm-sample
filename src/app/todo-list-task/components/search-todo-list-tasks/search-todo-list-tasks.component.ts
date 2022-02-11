@@ -16,4 +16,12 @@ export class SearchTodoListTasksComponent implements OnInit {
   public ngOnInit(): void {
     this.vm.search();
   }
+
+  public get backLink(): string {
+    return '';
+  }
+
+  public get addTodoListTaskLink(): string {
+    return '';
+  }
 }
