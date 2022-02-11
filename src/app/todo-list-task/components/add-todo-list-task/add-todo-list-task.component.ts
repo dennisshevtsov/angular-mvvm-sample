@@ -1,4 +1,5 @@
 import { Component, } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 import { AddTodoListTaskViewModel, } from './add-todo-list-task.view-model';
 
@@ -11,7 +12,13 @@ import { AddTodoListTaskViewModel, } from './add-todo-list-task.view-model';
 export class AddTodoListTaskComponent {
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
+
+    private readonly fb: FormBuilder,
   ) {}
+
+  public get form(): FormGroup {
+    return this.fb.group({});
+  }
 
   public onOkPressed(): void {
     this.vm.add();
