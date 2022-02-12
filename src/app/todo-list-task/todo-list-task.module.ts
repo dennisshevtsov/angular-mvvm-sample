@@ -1,19 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { AddTodoListTaskComponent } from './components/add-todo-list-task/add-todo-list-task.component';
-import { SearchTodoListTasksComponent } from './components/search-todo-list-tasks/search-todo-list-tasks.component';
-import { UpdateTodoListTaskComponent } from './components/update-todo-list-task/update-todo-list-task.component';
+import { NgModule,     } from '@angular/core';
+import { CommonModule, } from '@angular/common';
 
-
+import { AddTodoListTaskComponent,
+         SearchTodoListTasksComponent,
+         UpdateTodoListTaskComponent,  } from './components';
+import { CoreModule,                   } from '../core';
+import { TodoListTaskRoutingModule } from './todo-list-task-routing.module';
 
 @NgModule({
   declarations: [
     AddTodoListTaskComponent,
     SearchTodoListTasksComponent,
-    UpdateTodoListTaskComponent
+    UpdateTodoListTaskComponent,
   ],
   imports: [
-    CommonModule
+    CoreModule,
+    CommonModule,
+    TodoListTaskRoutingModule,
   ]
 })
 export class TodoListTaskModule { }

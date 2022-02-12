@@ -11,4 +11,4 @@ import { TODO_LIST_TASK_ROUTES } from './routing';
     RouterModule,
   ],
 })
-export class TodoListRoutingModule { }
+export class TodoListTaskRoutingModule { }
