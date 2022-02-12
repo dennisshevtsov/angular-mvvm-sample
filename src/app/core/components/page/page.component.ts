@@ -13,4 +13,8 @@ export class PageComponent {
 
   @Input()
   public body: TemplateRef<any> | null = null;
+
+  public get homeLink(): string {
+    return '';
+  }
 }
