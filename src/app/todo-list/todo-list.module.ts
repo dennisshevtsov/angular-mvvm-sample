@@ -5,6 +5,7 @@ import { AddTodoListComponent,
          SearchTodoListsComponent,
          UpdateTodoListComponent,  } from './components';
 import { TodoListRoutingModule,    } from './todo-list-routing.module';
+import { CoreModule,               } from '../core';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { TodoListRoutingModule,    } from './todo-list-routing.module';
   ],
   imports: [
     CommonModule,
+    CoreModule,
     TodoListRoutingModule,
   ],
 })
