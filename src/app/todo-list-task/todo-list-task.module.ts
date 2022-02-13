@@ -1,11 +1,12 @@
-import { NgModule,     } from '@angular/core';
-import { CommonModule, } from '@angular/common';
+import { CommonModule,         } from '@angular/common';
+import { NgModule,             } from '@angular/core';
+import { ReactiveFormsModule,  } from '@angular/forms';
 
+import { CoreModule,                   } from '../core';
 import { AddTodoListTaskComponent,
          SearchTodoListTasksComponent,
          UpdateTodoListTaskComponent,  } from './components';
-import { CoreModule,                   } from '../core';
-import { TodoListTaskRoutingModule } from './todo-list-task-routing.module';
+import { TodoListTaskRoutingModule,    } from './todo-list-task-routing.module';
 
 @NgModule({
   declarations: [
@@ -14,8 +15,10 @@ import { TodoListTaskRoutingModule } from './todo-list-task-routing.module';
     UpdateTodoListTaskComponent,
   ],
   imports: [
-    CoreModule,
     CommonModule,
+    ReactiveFormsModule,
+
+    CoreModule,
     TodoListTaskRoutingModule,
   ]
 })
