@@ -20,7 +20,7 @@
 <ng-template #pageBody>
   <div class="list-group list-group-flush border-bottom w-100">
     <div class="list-group-item list-group-item-action d-flex gap-3"
-         *ngFor="let record of tasks">
+         *ngFor="let record of vm.tasks">
       <input type="checkbox"
              class="form-check-input flex-shrink-0"
              [checked]="record.completed"
