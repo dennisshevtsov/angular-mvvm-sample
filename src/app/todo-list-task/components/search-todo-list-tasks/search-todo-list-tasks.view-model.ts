@@ -8,4 +8,6 @@ export class SearchTodoListTasksViewModel {
   public search(): void {}
 
   public complete(): void {}
+
+  public delete(record: SearchTodoListTasksRecordResponseDto) {}
 }

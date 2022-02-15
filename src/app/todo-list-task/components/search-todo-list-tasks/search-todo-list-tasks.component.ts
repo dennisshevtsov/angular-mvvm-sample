@@ -30,4 +30,9 @@ export class SearchTodoListTasksComponent implements OnInit {
     record: SearchTodoListTasksRecordResponseDto): void {
     this.vm.complete();
   }
+
+  public onDeletePressed(
+    record: SearchTodoListTasksRecordResponseDto): void {
+    this.vm.delete(record);
+  }
 }
