@@ -6,4 +6,6 @@ export class SearchTodoListTasksViewModel {
   }
 
   public search(): void {}
+
+  public complete(): void {}
 }

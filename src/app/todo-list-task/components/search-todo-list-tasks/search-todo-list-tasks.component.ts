@@ -1,6 +1,7 @@
 import { Component, OnInit, } from '@angular/core';
 
-import { SearchTodoListTasksViewModel, } from './search-todo-list-tasks.view-model';
+import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task-api';
+import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
 @Component({
   templateUrl: './search-todo-list-tasks.component.html',
@@ -23,5 +24,10 @@ export class SearchTodoListTasksComponent implements OnInit {
 
   public get addTodoListTaskLink(): string {
     return '';
+  }
+
+  public onCompletedChanged(
+    record: SearchTodoListTasksRecordResponseDto): void {
+    this.vm.complete();
   }
 }

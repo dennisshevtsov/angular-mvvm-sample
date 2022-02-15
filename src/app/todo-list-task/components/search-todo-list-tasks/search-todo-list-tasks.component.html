@@ -24,7 +24,7 @@
       <input type="checkbox"
              class="form-check-input flex-shrink-0"
              [checked]="record.completed"
-             (change)="onComplete(record)">
+             (change)="onCompletedChanged(record)">
       <div class="form-checked-content">
         <h5><strong class="mb-1">{{ record.title }}</strong></h5>
         <div><small><i class="bi bi-calendar me-2"></i>{{ record.date | todoListTaskTime }}</small></div>
