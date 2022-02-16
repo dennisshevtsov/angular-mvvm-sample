@@ -1,5 +1,6 @@
-import { Component, OnInit, } from '@angular/core';
+import { Component, OnInit, ViewChild, } from '@angular/core';
 
+import { ModalComponent,                       } from 'src/app/core';
 import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task-api';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -10,12 +11,25 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
   ],
 })
 export class SearchTodoListTasksComponent implements OnInit {
+  @ViewChild('modal')
+  private modalRef!: ModalComponent;
+
+  private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
+
   public constructor(
     public readonly vm: SearchTodoListTasksViewModel,
   ) {}
 
   public ngOnInit(): void {
     this.vm.search();
+  }
+
+  public get selected(): SearchTodoListTasksRecordResponseDto {
+    return this.recordValue ?? new SearchTodoListTasksRecordResponseDto(0);
+  }
+
+  public set selected(record: SearchTodoListTasksRecordResponseDto) {
+    this.recordValue = record;
   }
 
   public get backLink(): string {
@@ -26,6 +40,11 @@ export class SearchTodoListTasksComponent implements OnInit {
     return '';
   }
 
+  public updateTodoListTaskLink(
+    todoListTaskId: number | string) : string {
+    return '';
+  }
+
   public onCompletedChanged(
     record: SearchTodoListTasksRecordResponseDto): void {
     this.vm.complete();
@@ -33,6 +52,12 @@ export class SearchTodoListTasksComponent implements OnInit {
 
   public onDeletePressed(
     record: SearchTodoListTasksRecordResponseDto): void {
-    this.vm.delete(record);
+    this.selected = { ...record, };
+    this.modalRef.show();
+  }
+
+  public onDeleteOkPressed(): void {
+    this.vm.delete(this.selected);
+    this.vm.search();
   }
 }
