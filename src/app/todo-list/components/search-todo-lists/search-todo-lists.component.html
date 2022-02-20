@@ -14,7 +14,7 @@
 <ng-template #pageBody>
   <div class="list-group list-group-flush border-bottom w-100">
     <div class="list-group-item list-group-item-action"
-         *ngFor="let record of vm.datasource">
+         *ngFor="let record of vm.todoLists">
       <h5><strong class="mb-1">{{ record.title }}</strong></h5>
       <p><small>{{ record.description }}</small></p>
       <div class="d-flex w-100 align-items-center">
@@ -22,11 +22,11 @@
            style="cursor: pointer;"
            (click)="onDeletePressed(record)"><span>remove</span></a>
         <a class="me-2"
-            [routerLink]="updateTodoListLink(record.todoListId)">
+            [routerLink]="updateTodoListLink(record)">
             <span>edit</span>
         </a>
         <a class="me-2"
-            [routerLink]="searchTodoListTasksLink(record.todoListId)">
+            [routerLink]="searchTodoListTasksLink(record)">
             <span>tasks</span>
         </a>
       </div>
