@@ -36,11 +36,11 @@ export class SearchTodoListsComponent implements OnInit {
     return '';
   }
 
-  public updateTodoListLink(todoListId: string | number) : string {
+  public updateTodoListLink(record: SearchTodoListsRecordResponseDto) : string {
     return '';
   }
 
-  public searchTodoListTasksLink(todoListId: string | number) : string {
+  public searchTodoListTasksLink(record: SearchTodoListsRecordResponseDto) : string {
     return '';
   }
 
