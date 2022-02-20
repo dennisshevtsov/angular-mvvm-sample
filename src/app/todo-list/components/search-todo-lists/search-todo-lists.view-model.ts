@@ -1,14 +1,29 @@
 import { Injectable, } from '@angular/core';
 
-import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list-api';
+import { DeleteTodoListRequestDto,
+         SearchTodoListsRecordResponseDto,
+         SearchTodoListsRequestDto,
+         TodoListService,                  } from 'src/app/todo-list-api';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SearchTodoListsViewModel {
-  public datasource: SearchTodoListsRecordResponseDto[] | undefined;
+  private todoListsValue: SearchTodoListsRecordResponseDto[] | undefined;
 
-  public search(): void {}
+  public constructor(
+    private readonly service: TodoListService,
+  ) {}
 
-  public delete(selected: SearchTodoListsRecordResponseDto) {}
+  public get todoLists(): SearchTodoListsRecordResponseDto[] {
+    return this.todoListsValue ?? [];
+  }
+
+  public search(): void {
+    this.todoListsValue = this.service.searchTodoList(new SearchTodoListsRequestDto());
+  }
+
+  public delete(record: SearchTodoListsRecordResponseDto) {
+    this.service.deleteTodoList(new DeleteTodoListRequestDto(record.todoListId));
+  }
 }
