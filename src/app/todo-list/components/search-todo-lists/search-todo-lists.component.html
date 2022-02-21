@@ -45,5 +45,5 @@
 </app-modal>
 
 <ng-template #modalBody>
-  <p *ngIf="selected">Are you sure that you want to remove TODO list <span class="text-nowrap">'{{ selected.title }}'</span>?</p>
+  <p *ngIf="vm.hasSelection">Are you sure that you want to remove TODO list <span class="text-nowrap">'{{ selected.title }}'</span>?</p>
 </ng-template>

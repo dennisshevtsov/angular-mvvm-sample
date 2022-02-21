@@ -9,11 +9,24 @@ import { DeleteTodoListRequestDto,
   providedIn: 'root',
 })
 export class SearchTodoListsViewModel {
+  private selectedValue: SearchTodoListsRecordResponseDto | undefined;
   private todoListsValue: SearchTodoListsRecordResponseDto[] | undefined;
 
   public constructor(
     private readonly service: TodoListService,
   ) {}
+
+  public get hasSelection(): boolean {
+    return this.selected.todoListId != 0;
+  }
+
+  public get selected(): SearchTodoListsRecordResponseDto {
+    return this.selectedValue ?? (this.selectedValue = new SearchTodoListsRecordResponseDto(0, '', ''));
+  }
+
+  public set selected(record: SearchTodoListsRecordResponseDto) {
+    this.selectedValue = record;
+  }
 
   public get todoLists(): SearchTodoListsRecordResponseDto[] {
     return this.todoListsValue ?? [];
@@ -23,7 +36,11 @@ export class SearchTodoListsViewModel {
     this.todoListsValue = this.service.searchTodoList(new SearchTodoListsRequestDto());
   }
 
-  public delete(record: SearchTodoListsRecordResponseDto) {
-    this.service.deleteTodoList(new DeleteTodoListRequestDto(record.todoListId));
+  public delete() {
+    if (this.hasSelection) {
+      const request = new DeleteTodoListRequestDto(this.selected.todoListId);
+
+      this.service.deleteTodoList(request);
+    }
   }
 }
