@@ -7,6 +7,7 @@ import { AddTodoListComponent,
          UpdateTodoListComponent,  } from './components';
 import { TodoListRoutingModule,    } from './todo-list-routing.module';
 import { CoreModule,               } from '../core';
+import { TodoListNavigationModule, } from '../todo-list-navigation';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { CoreModule,               } from '../core';
     ReactiveFormsModule,
 
     CoreModule,
+    TodoListNavigationModule,
     TodoListRoutingModule,
   ],
 })
