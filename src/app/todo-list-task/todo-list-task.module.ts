@@ -3,6 +3,7 @@ import { NgModule,             } from '@angular/core';
 import { ReactiveFormsModule,  } from '@angular/forms';
 
 import { CoreModule,                   } from '../core';
+import { TodoListNavigationModule,     } from '../todo-list-navigation';
 import { AddTodoListTaskComponent,
          SearchTodoListTasksComponent,
          UpdateTodoListTaskComponent,  } from './components';
@@ -21,6 +22,7 @@ import { TodoListTaskRoutingModule,    } from './todo-list-task-routing.module';
     ReactiveFormsModule,
 
     CoreModule,
+    TodoListNavigationModule,
     TodoListTaskRoutingModule,
   ]
 })
