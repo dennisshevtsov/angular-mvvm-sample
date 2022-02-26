@@ -1,13 +1,13 @@
 import { Routes, } from '@angular/router';
 
-import { TODO_LIST_ROUTE_ID_PARAMETER,      } from '../../todo-list/routing';
+import { TODO_LIST_ROUTE_ID_PARAMETER,
+         TODO_LIST_TASK_ROUTE_ID_PARAMETER,
+         TodoListTaskLinks,                 } from 'src/app/core';
 import { AddTodoListTaskComponent,
          SearchTodoListTasksComponent,
          UpdateTodoListTaskComponent,       } from '../components';
-import { TodoListTaskLinkProvider,          } from './todo-list-task.link-provider';
-import { TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from './todo-list-task.routing-fragments';
 
-const linkProvider = new TodoListTaskLinkProvider();
+const linkProvider = new TodoListTaskLinks();
 
 export const TODO_LIST_TASK_ROUTES: Routes = [
   {

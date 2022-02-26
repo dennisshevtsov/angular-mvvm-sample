@@ -7,7 +7,7 @@ import { TODO_LIST_TASK_ROUTE_NEW_FRAGMENT,
 @Injectable({
   providedIn: 'root',
 })
-export class TodoListTaskLinkProvider {
+export class TodoListTaskLinks {
   public addTodoListTaskLink(todoListId: string | number) : Array<any> {
     return [
       '/',

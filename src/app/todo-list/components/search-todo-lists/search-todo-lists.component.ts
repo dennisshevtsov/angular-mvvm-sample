@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild, } from '@angular/core';
 import { ModalComponent,                   } from 'src/app/core';
 import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list-api';
 import { TodoListLinks,
-         TodoListTaskLinkProvider,         } from 'src/app/core';
+         TodoListTaskLinks,         } from 'src/app/core';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
 
 @Component({
@@ -20,7 +20,7 @@ export class SearchTodoListsComponent implements OnInit {
     public vm: SearchTodoListsViewModel,
 
     private readonly todoListLinks: TodoListLinks,
-    private readonly todoListTaskLinks: TodoListTaskLinkProvider,
+    private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {}
 
   public ngOnInit(): void {
