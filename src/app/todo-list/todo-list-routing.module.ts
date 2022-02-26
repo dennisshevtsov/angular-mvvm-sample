@@ -1,20 +1,20 @@
 import { Injector, NgModule,   } from '@angular/core';
 import { RouterModule, Routes, } from '@angular/router';
 
+import { TodoListLinks,            } from 'src/app/core';
 import { AddTodoListComponent,
          SearchTodoListsComponent,
          UpdateTodoListComponent,  } from './components';
-import { TodoListLinkProvider,
-         TodoListRouteProvider,    } from './routing';
+import { TodoListRouteProvider,    } from './routing';
 
 const options = {
   providers: [
     {
       provide: TodoListRouteProvider,
-      deps: [ TodoListLinkProvider ],
+      deps: [ TodoListLinks ],
     },
     {
-      provide: TodoListLinkProvider,
+      provide: TodoListLinks,
       deps: [],
     },
   ],

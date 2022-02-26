@@ -1,8 +1,8 @@
 import { Component, } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
-import { FormComponentBase,    } from 'src/app/core';
-import { TodoListLinkProvider, } from 'src/app/todo-list/routing';
+import { FormComponentBase,
+         TodoListLinks,        } from 'src/app/core';
 import { AddTodoListViewModel, } from './add-todo-list.view-model';
 
 @Component({
@@ -16,7 +16,7 @@ export class AddTodoListComponent extends FormComponentBase {
     public readonly vm: AddTodoListViewModel,
 
     private readonly fb: FormBuilder,
-    private readonly todoListLinks: TodoListLinkProvider,
+    private readonly todoListLinks: TodoListLinks,
   ) {
     super();
   }
