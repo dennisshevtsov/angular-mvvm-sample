@@ -1,16 +1,12 @@
 import { NgModule,             } from '@angular/core';
 import { RouterModule, Routes, } from '@angular/router';
 
-import { TodoListTaskLinks,
+import { convertToRoute, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { AddTodoListTaskComponent,
          SearchTodoListTasksComponent,
          UpdateTodoListTaskComponent,       } from './components';
-
-function convertToRoute(link: Array<any>): string {
-  return link.slice(1).join('/');
-}
 
 const links = new TodoListTaskLinks();
 
