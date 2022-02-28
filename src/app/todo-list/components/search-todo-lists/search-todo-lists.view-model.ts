@@ -3,7 +3,7 @@ import { Injectable, } from '@angular/core';
 import { DeleteTodoListRequestDto,
          SearchTodoListsRecordResponseDto,
          SearchTodoListsRequestDto,
-         TodoListService,                  } from 'src/app/todo-list-api';
+         TodoListService,                  } from 'src/app/todo-list/api';
 
 @Injectable({
   providedIn: 'root',
