@@ -1,4 +1,4 @@
-import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task-api';
+import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
 
 export class SearchTodoListTasksViewModel {
   public get tasks(): SearchTodoListTasksRecordResponseDto[] {
