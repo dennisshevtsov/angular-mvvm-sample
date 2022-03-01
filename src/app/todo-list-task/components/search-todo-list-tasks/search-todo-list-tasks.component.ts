@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
-import { ModalComponent,                       } from 'src/app/core';
+import { ModalComponent,
+         TodoListLinks, TodoListTaskLinks, TODO_LIST_ROUTE_ID_PARAMETER,     } from 'src/app/core';
 import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -14,14 +16,26 @@ export class SearchTodoListTasksComponent implements OnInit {
   @ViewChild('modal')
   private modalRef!: ModalComponent;
 
+  private todoListId!: number | string;
   private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
 
   public constructor(
     public readonly vm: SearchTodoListTasksViewModel,
+
+    private readonly route: ActivatedRoute,
+    private readonly todoListLinks: TodoListLinks,
+    private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {}
 
   public ngOnInit(): void {
-    this.vm.search();
+    this.route.paramMap.subscribe(params => {
+      const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
+
+      if (todoListId) {
+        this.vm.todoListId = todoListId;
+        this.vm.search();
+      }
+    });
   }
 
   public get selected(): SearchTodoListTasksRecordResponseDto {
@@ -32,17 +46,17 @@ export class SearchTodoListTasksComponent implements OnInit {
     this.recordValue = record;
   }
 
-  public get backLink(): string {
-    return '';
+  public get backLink(): any[] {
+    return this.todoListLinks.searchTodoListsLink();
   }
 
-  public get addTodoListTaskLink(): string {
-    return '';
+  public get addTodoListTaskLink(): any[] {
+    return this.todoListTaskLinks.addTodoListTaskLink(this.vm.todoListId);
   }
 
   public updateTodoListTaskLink(
-    todoListTaskId: number | string) : string {
-    return '';
+    todoListTaskId: number | string) : any[] {
+      return this.todoListTaskLinks.updateTodoListTaskLink(this.vm.todoListId, todoListTaskId);
   }
 
   public onCompletedChanged(
