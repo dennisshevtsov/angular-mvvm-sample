@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild, } from '@angular/core';
 
-import { ModalComponent,                   } from 'src/app/core';
-import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list-api';
-import { TodoListLinks,
-         TodoListTaskLinks,         } from 'src/app/core';
+import { ModalComponent, TodoListLinks,
+         TodoListTaskLinks,                } from 'src/app/core';
+import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list/api';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
 
 @Component({
