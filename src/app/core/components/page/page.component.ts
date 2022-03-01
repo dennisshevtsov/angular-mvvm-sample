@@ -1,5 +1,7 @@
 import { Component, Input, TemplateRef, } from '@angular/core';
 
+import { TodoListLinks, } from 'src/app/core/navigation';
+
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
@@ -14,7 +16,11 @@ export class PageComponent {
   @Input()
   public body: TemplateRef<any> | null = null;
 
-  public get homeLink(): string {
-    return '';
+  public constructor(
+    private readonly links: TodoListLinks,
+  ) {}
+
+  public get homeLink(): any[] {
+    return this.links.searchTodoListsLink();
   }
 }
