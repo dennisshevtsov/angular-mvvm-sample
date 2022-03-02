@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild, } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,               } from '@angular/router';
 
 import { ModalComponent,
-         TodoListLinks, TodoListTaskLinks, TODO_LIST_ROUTE_ID_PARAMETER,     } from 'src/app/core';
+         TodoListLinks, TodoListTaskLinks,
+         TODO_LIST_ROUTE_ID_PARAMETER,         } from 'src/app/core';
 import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -16,7 +17,6 @@ export class SearchTodoListTasksComponent implements OnInit {
   @ViewChild('modal')
   private modalRef!: ModalComponent;
 
-  private todoListId!: number | string;
   private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
 
   public constructor(
