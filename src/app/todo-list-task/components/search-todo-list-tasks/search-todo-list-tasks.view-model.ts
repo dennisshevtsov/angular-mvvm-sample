@@ -1,8 +1,15 @@
-import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
+import { SearchTodoListTasksRecordResponseDto,
+         SearchTodoListTasksRequestDto,
+         TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 
 export class SearchTodoListTasksViewModel {
   private todoListIdValue: number | string | undefined;
   private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
+  private tasksValue: SearchTodoListTasksRecordResponseDto[] | undefined;
+
+  public constructor(
+    private readonly service: TodoListTaskService,
+  ) {}
 
   public get todoListId(): number | string {
     return this.todoListIdValue ?? 0;
@@ -21,10 +28,19 @@ export class SearchTodoListTasksViewModel {
   }
 
   public get tasks(): SearchTodoListTasksRecordResponseDto[] {
-    return [];
+    return this.tasksValue ?? [];
   }
 
-  public search(): void {}
+  public set tasks(tasks: SearchTodoListTasksRecordResponseDto[]) {
+    this.tasksValue = tasks;
+  }
+
+  public search(): void {
+    const requestDto = new SearchTodoListTasksRequestDto(this.todoListId);
+    const responseDtos = this.service.searchTodoListTasks(requestDto);
+
+    this.tasks = responseDtos;
+  }
 
   public complete(): void {}
 
