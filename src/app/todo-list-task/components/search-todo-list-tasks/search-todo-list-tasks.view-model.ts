@@ -2,6 +2,7 @@ import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/ap
 
 export class SearchTodoListTasksViewModel {
   private todoListIdValue: number | string | undefined;
+  private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
 
   public get todoListId(): number | string {
     return this.todoListIdValue ?? 0;
@@ -9,6 +10,14 @@ export class SearchTodoListTasksViewModel {
 
   public set todoListId(todoListId: number | string) {
     this.todoListIdValue = todoListId;
+  }
+
+  public get selected(): SearchTodoListTasksRecordResponseDto {
+    return this.recordValue ?? new SearchTodoListTasksRecordResponseDto(0);
+  }
+
+  public set selected(record: SearchTodoListTasksRecordResponseDto) {
+    this.recordValue = record;
   }
 
   public get tasks(): SearchTodoListTasksRecordResponseDto[] {
@@ -19,5 +28,5 @@ export class SearchTodoListTasksViewModel {
 
   public complete(): void {}
 
-  public delete(record: SearchTodoListTasksRecordResponseDto) {}
+  public delete(  ) {}
 }

@@ -38,14 +38,6 @@ export class SearchTodoListTasksComponent implements OnInit {
     });
   }
 
-  public get selected(): SearchTodoListTasksRecordResponseDto {
-    return this.recordValue ?? new SearchTodoListTasksRecordResponseDto(0);
-  }
-
-  public set selected(record: SearchTodoListTasksRecordResponseDto) {
-    this.recordValue = record;
-  }
-
   public get backLink(): any[] {
     return this.todoListLinks.searchTodoListsLink();
   }
@@ -66,12 +58,12 @@ export class SearchTodoListTasksComponent implements OnInit {
 
   public onDeletePressed(
     record: SearchTodoListTasksRecordResponseDto): void {
-    this.selected = { ...record, };
+    this.vm.selected = record;
     this.modalRef.show();
   }
 
   public onDeleteOkPressed(): void {
-    this.vm.delete(this.selected);
+    this.vm.delete();
     this.vm.search();
   }
 }
