@@ -4,8 +4,10 @@ import { ActivatedRoute,         } from '@angular/router';
 
 import { FormComponentBase,
          TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { UpdateTodoListTaskViewModel,  } from './update-todo-list-task.view-model';
+         TODO_LIST_ROUTE_ID_PARAMETER,
+         TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { UpdateTodoListTaskRequestDto,      } from 'src/app/todo-list-task/api';
+import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
 
 @Component({
   templateUrl: './update-todo-list-task.component.html',
@@ -29,9 +31,23 @@ export class UpdateTodoListTaskComponent
   public ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
+      const todoListTaskId = params.get(TODO_LIST_TASK_ROUTE_ID_PARAMETER);
 
-      if (todoListId) {
+      if (todoListId && todoListTaskId) {
         this.vm.todoListId = todoListId;
+        this.vm.todoListTaskId = todoListTaskId;
+
+        this.vm.initialize();
+
+        this.form.valueChanges.subscribe(value => {
+          this.vm.task = new UpdateTodoListTaskRequestDto(
+            this.vm.todoListId,
+            this.vm.todoListTaskId,
+            value.title,
+            value.deacription,
+            value.date,
+          );
+        });
       }
     });
   }
@@ -40,7 +56,9 @@ export class UpdateTodoListTaskComponent
     return this.links.searchTodoListTasksLink(this.vm.todoListId);
   }
 
-  public onOkPressed(): void {}
+  public onOkPressed(): void {
+    this.vm.update();
+  }
 
   protected buildForm(): FormGroup {
     return this.fb.group({});
