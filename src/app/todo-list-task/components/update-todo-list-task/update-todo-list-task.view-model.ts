@@ -1,4 +1,5 @@
-import { GetTodoListTaskRequestDto, TodoListTaskService,
+import { GetTodoListTaskRequestDto,
+         TodoListTaskService,
          UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 
 export class UpdateTodoListTaskViewModel {
