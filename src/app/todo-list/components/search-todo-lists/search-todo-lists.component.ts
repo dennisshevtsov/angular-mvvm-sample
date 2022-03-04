@@ -42,7 +42,9 @@ export class SearchTodoListsComponent implements OnInit {
     return this.todoListTaskLinks.searchTodoListTasksLink(record.todoListId);
   }
 
-  public onDeletePressed(record: SearchTodoListsRecordResponseDto): void {
+  public onDeletePressed(
+    record: SearchTodoListsRecordResponseDto)
+    : void {
     this.vm.selected = record;
     this.modelRef.show();
   }
