@@ -1,6 +1,11 @@
+import { Injectable, } from '@angular/core';
+
 import { AddTodoListRequestDto,
          TodoListService,       } from 'src/app/todo-list/api';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AddTodoListViewModel {
   private todoListValue: AddTodoListRequestDto | undefined;
 
