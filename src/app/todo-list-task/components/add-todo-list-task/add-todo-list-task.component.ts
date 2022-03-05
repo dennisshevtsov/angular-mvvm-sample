@@ -33,6 +33,12 @@ export class AddTodoListTaskComponent
         this.vm.todoListId = todoListId;
       }
     });
+
+    this.form.valueChanges.subscribe(value => {
+      this.vm.task.title = value.title;
+      this.vm.task.description = value.title;
+      this.vm.task.date = value.date;
+    });
   }
 
   public get backLink(): any[] {
@@ -44,6 +50,15 @@ export class AddTodoListTaskComponent
   }
 
   protected buildForm(): FormGroup {
-    return this.fb.group({});
+    return this.fb.group({
+      'title': '',
+      'description': '',
+      'date': this.fb.group({
+        'day': Date.now(),
+        'fullDay': false,
+        'start': Date.now(),
+        'end': ''
+      }),
+    });
   }
 }
