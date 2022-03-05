@@ -1,4 +1,6 @@
-import { SearchTodoListTasksRecordResponseDto,
+import { CompleteTodoListTaskRequestDto,
+         DeleteTodoListTaskRequestDto,
+         SearchTodoListTasksRecordResponseDto,
          SearchTodoListTasksRequestDto,
          TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 
@@ -42,7 +44,22 @@ export class SearchTodoListTasksViewModel {
     this.tasks = responseDtos;
   }
 
-  public complete(): void {}
+  public complete(): void {
+    const requestDto = new CompleteTodoListTaskRequestDto(
+      this.todoListId,
+      this.selected.todoListTaskId,
+    );
 
-  public delete(  ) {}
+    this.service.completeTodoListTask(requestDto);
+  }
+
+  public delete() {
+    const requestDto = new DeleteTodoListTaskRequestDto(
+      this.todoListId,
+      this.selected.todoListTaskId,
+    );
+
+    this.service.deleteTodoListTask(requestDto);
+    this.search();
+  }
 }
