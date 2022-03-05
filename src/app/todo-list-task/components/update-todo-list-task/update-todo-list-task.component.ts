@@ -39,6 +39,17 @@ export class UpdateTodoListTaskComponent
 
         this.vm.initialize();
 
+        this.form.setValue({
+          'title': this.vm.task.title,
+          'deacription': this.vm.task.description,
+          'date': {
+            'day': this.vm.task.date.day,
+            'fullDay': this.vm.task.date.fullDay,
+            'start': this.vm.task.date.start,
+            'end': this.vm.task.date.end
+          },
+        });
+
         this.form.valueChanges.subscribe(value => {
           this.vm.task = new UpdateTodoListTaskRequestDto(
             this.vm.todoListId,
@@ -61,6 +72,15 @@ export class UpdateTodoListTaskComponent
   }
 
   protected buildForm(): FormGroup {
-    return this.fb.group({});
+    return this.fb.group({
+      'title': '',
+      'deacription': '',
+      'date': this.fb.group({
+        'day': Date.now(),
+        'fullDay': false,
+        'start': Date.now(),
+        'end': ''
+      }),
+    });
   }
 }
