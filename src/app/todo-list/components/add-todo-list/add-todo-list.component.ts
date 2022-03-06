@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, } from '@angular/forms';
 
 import { FormComponentBase,
          TodoListLinks,
-         TodoListNavigator,        } from 'src/app/core';
+         TodoListNavigator,    } from 'src/app/core';
 import { AddTodoListViewModel, } from './add-todo-list.view-model';
 
 @Component({
