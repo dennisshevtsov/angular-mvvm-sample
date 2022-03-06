@@ -1,7 +1,7 @@
 import { Injectable, } from '@angular/core';
 
 import { TODO_LIST_ROUTE_NEW_FRAGMENT,
-         TODO_LIST_ROUTE_ROOT_FRAGMENT, } from './todo-list-routing-fragments';
+         TODO_LIST_ROUTE_ROOT_FRAGMENT, } from './todo-list.routing';
 
 @Injectable({
   providedIn: 'root',
