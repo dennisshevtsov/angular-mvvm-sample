@@ -1,6 +1,7 @@
 import { Injectable, } from '@angular/core';
 
 import { AddTodoListRequestDto,
+         AddTodoListResponseDto,
          DeleteTodoListRequestDto,
          GetTodoListRequestDto,
          GetTodoListResponseDto,
@@ -23,9 +24,9 @@ export class TodoListService {
   ];
 
   public getTodoList(
-    getTodoListRequestDto: GetTodoListRequestDto)
+    requestDto: GetTodoListRequestDto)
     : GetTodoListResponseDto | null {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId === getTodoListRequestDto.todoListId);
+    const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
 
     if (index > -1) {
       const todoList =  this.todoLists[index];
@@ -37,7 +38,7 @@ export class TodoListService {
   }
 
   public searchTodoList(
-    searchTodoListRequestDto: SearchTodoListsRequestDto)
+    requestDto: SearchTodoListsRequestDto)
     : SearchTodoListsRecordResponseDto[] {
     return this.todoLists.map(todoList => new SearchTodoListsRecordResponseDto(
       todoList.todoListId,
@@ -46,29 +47,33 @@ export class TodoListService {
   }
 
   public addTodoList(
-    addTodoListRequestDto: AddTodoListRequestDto)
-    : void {
+    requestDto: AddTodoListRequestDto)
+    : AddTodoListResponseDto {
+    const todoListId = this.todoLists.length + 1;
+
     this.todoLists.push({
       todoListId: this.todoLists.length + 1,
-      title: addTodoListRequestDto.title,
-      description: addTodoListRequestDto.description,
+      title: requestDto.title,
+      description: requestDto.description,
     });
+
+    return new AddTodoListResponseDto(todoListId);
   }
 
   public updateTodoList(
-    updateTodoListRequestDto: UpdateTodoListRequestDto)
+    requestDto: UpdateTodoListRequestDto)
     : void {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId === updateTodoListRequestDto.todoListId);
+    const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
     const todoList =  this.todoLists[index];
 
-    todoList.title = updateTodoListRequestDto.title;
-    todoList.description = updateTodoListRequestDto.description;
+    todoList.title = requestDto.title;
+    todoList.description = requestDto.description;
   }
 
   public deleteTodoList(
-    deleteTodoListRequestDto: DeleteTodoListRequestDto)
+    requestDto: DeleteTodoListRequestDto)
     : void {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId === deleteTodoListRequestDto.todoListId);
+    const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
 
     if (index >= 0) {
       this.todoLists.splice(index, 1);

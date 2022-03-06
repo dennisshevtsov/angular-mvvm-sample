@@ -2,7 +2,8 @@ import { Component, OnInit,      } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 
 import { FormComponentBase,
-         TodoListLinks,        } from 'src/app/core';
+         TodoListLinks,
+         TodoListNavigator,        } from 'src/app/core';
 import { AddTodoListViewModel, } from './add-todo-list.view-model';
 
 @Component({
@@ -19,6 +20,7 @@ export class AddTodoListComponent
 
     private readonly fb: FormBuilder,
     private readonly links: TodoListLinks,
+    private readonly navigator: TodoListNavigator,
   ) {
     super();
   }
@@ -36,6 +38,7 @@ export class AddTodoListComponent
 
   public onOkPressed(): void {
     this.vm.add();
+    this.navigator.navigateToUpdateTodoList(this.vm.todoListId);
   }
 
   protected buildForm(): FormGroup {
