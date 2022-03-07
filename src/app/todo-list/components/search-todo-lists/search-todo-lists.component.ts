@@ -23,7 +23,7 @@ export class SearchTodoListsComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-      this.vm.search();
+    this.vm.search();
   }
 
   public get addTodoListLink(): any[] {

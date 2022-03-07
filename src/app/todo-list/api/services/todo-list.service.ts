@@ -41,11 +41,11 @@ export class TodoListService {
 
   public searchTodoList(
     requestDto: SearchTodoListsRequestDto)
-    : SearchTodoListsRecordResponseDto[] {
-    return this.todoLists.map(todoList => new SearchTodoListsRecordResponseDto(
+    : Observable<SearchTodoListsRecordResponseDto[]> {
+    return of(this.todoLists.map(todoList => new SearchTodoListsRecordResponseDto(
       todoList.todoListId,
       todoList.title,
-      todoList.description));
+      todoList.description)));
   }
 
   public addTodoList(
