@@ -2,9 +2,11 @@ import { Component, OnInit,      } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 import { ActivatedRoute,         } from '@angular/router';
 
-import { FormComponentBase, TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER,         } from 'src/app/core';
-import { AddTodoListTaskViewModel,             } from './add-todo-list-task.view-model';
+import { FormComponentBase,
+         TodoListTaskLinks,
+         TodoListTaskNavigator,
+         TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
   templateUrl: './add-todo-list-task.component.html',
@@ -18,9 +20,10 @@ export class AddTodoListTaskComponent
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
 
-    private readonly route: ActivatedRoute,
     private readonly fb: FormBuilder,
-    private readonly todoListTaskLinks: TodoListTaskLinks,
+    private readonly route: ActivatedRoute,
+    private readonly links: TodoListTaskLinks,
+    private readonly navigator: TodoListTaskNavigator,
   ) {
     super();
   }
@@ -42,11 +45,14 @@ export class AddTodoListTaskComponent
   }
 
   public get backLink(): any[] {
-    return this.todoListTaskLinks.searchTodoListTasksLink(this.vm.todoListId);
+    return this.links.searchTodoListTasksLink(this.vm.todoListId);
   }
 
   public onOkPressed(): void {
     this.vm.add();
+    this.navigator.navigateToUpdateTodoListTask(
+      this.vm.todoListId,
+      this.vm.todoListTaskId)
   }
 
   protected buildForm(): FormGroup {
