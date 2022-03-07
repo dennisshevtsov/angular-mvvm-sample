@@ -1,5 +1,7 @@
 import { Injectable, } from '@angular/core';
 
+import { Observable, of, } from 'rxjs';
+
 import { AddTodoListRequestDto,
          AddTodoListResponseDto,
          DeleteTodoListRequestDto,
@@ -48,7 +50,7 @@ export class TodoListService {
 
   public addTodoList(
     requestDto: AddTodoListRequestDto)
-    : AddTodoListResponseDto {
+    : Observable<AddTodoListResponseDto> {
     const todoListId = this.todoLists.length + 1;
 
     this.todoLists.push({
@@ -57,7 +59,7 @@ export class TodoListService {
       description: requestDto.description,
     });
 
-    return new AddTodoListResponseDto(todoListId);
+    return of(new AddTodoListResponseDto(todoListId));
   }
 
   public updateTodoList(

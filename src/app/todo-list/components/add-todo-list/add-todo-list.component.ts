@@ -1,6 +1,8 @@
 import { Component, OnInit,      } from '@angular/core';
 import { FormBuilder, FormGroup, } from '@angular/forms';
 
+import { Subscription, } from 'rxjs';
+
 import { FormComponentBase,
          TodoListLinks,
          TodoListNavigator,    } from 'src/app/core';
@@ -15,6 +17,8 @@ import { AddTodoListViewModel, } from './add-todo-list.view-model';
 export class AddTodoListComponent
   extends FormComponentBase
   implements OnInit {
+  private subscription: Subscription | undefined;
+
   public constructor(
     public readonly vm: AddTodoListViewModel,
 
@@ -37,8 +41,11 @@ export class AddTodoListComponent
   }
 
   public onOkPressed(): void {
-    this.vm.add();
-    this.navigator.navigateToUpdateTodoList(this.vm.todoListId);
+    const observer = {
+      next: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
+    };
+
+    this.subscription = this.vm.add().subscribe(observer);
   }
 
   protected buildForm(): FormGroup {

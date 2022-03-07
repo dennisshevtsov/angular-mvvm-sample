@@ -1,5 +1,7 @@
 import { Injectable, } from '@angular/core';
 
+import { map, Observable, } from 'rxjs';
+
 import { AddTodoListRequestDto,
          TodoListService,       } from 'src/app/todo-list/api';
 
@@ -30,11 +32,12 @@ export class AddTodoListViewModel {
     this.todoListValue = todoList;
   }
 
-  public add(): void {
-    const responseDto = this.service.addTodoList(this.todoList);
-
-    if (responseDto) {
-      this.todoListId = responseDto.todoListId;
-    }
+  public add(): Observable<void> {
+    return this.service.addTodoList(this.todoList)
+                       .pipe(map(responseDto => {
+                         if (responseDto) {
+                           this.todoListId = responseDto.todoListId;
+                         }
+                       }));
   }
 }
