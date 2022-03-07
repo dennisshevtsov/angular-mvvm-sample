@@ -1,5 +1,5 @@
-import { Component, OnInit,      } from '@angular/core';
-import { FormBuilder, FormGroup, } from '@angular/forms';
+import { Component, OnDestroy, OnInit, } from '@angular/core';
+import { FormBuilder, FormGroup,       } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
@@ -16,7 +16,7 @@ import { AddTodoListViewModel, } from './add-todo-list.view-model';
 })
 export class AddTodoListComponent
   extends FormComponentBase
-  implements OnInit {
+  implements OnInit, OnDestroy {
   private subscription: Subscription | undefined;
 
   public constructor(
@@ -29,6 +29,10 @@ export class AddTodoListComponent
     super();
   }
 
+  public get backLink(): any[] {
+    return this.links.searchTodoListsLink();
+  }
+
   public ngOnInit(): void {
     this.form.valueChanges.subscribe(value => {
       this.vm.todoList.title = value.title;
@@ -36,8 +40,10 @@ export class AddTodoListComponent
     });
   }
 
-  public get backLink(): any[] {
-    return this.links.searchTodoListsLink();
+  public ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public onOkPressed(): void {
