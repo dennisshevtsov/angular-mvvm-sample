@@ -1,7 +1,13 @@
 import { NgModule,             } from '@angular/core';
 import { RouterModule, Routes, } from '@angular/router';
 
+import { ErrorComponent, } from './components';
+
 const routes: Routes = [
+  {
+    path: 'error',
+    component: ErrorComponent,
+  },
   {
     path: '',
     pathMatch: 'full',
