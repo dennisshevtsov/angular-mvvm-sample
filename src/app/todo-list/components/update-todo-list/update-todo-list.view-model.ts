@@ -1,3 +1,5 @@
+import { map, Observable, } from 'rxjs';
+
 import { GetTodoListRequestDto,
          TodoListService,
          UpdateTodoListRequestDto, } from 'src/app/todo-list/api';
@@ -17,14 +19,14 @@ export class UpdateTodoListViewModel {
     this.todoListValue = todoList;
   }
 
-  public initialize(): void {
+  public initialize(): Observable<void> {
     const requestDto = new GetTodoListRequestDto(this.todoList.todoListId);
-    const responseDto = this.service.getTodoList(requestDto);
 
-    if (responseDto) {
-      this.todoList.title = responseDto.title;
-      this.todoList.description = responseDto.description;
-    }
+    return this.service.getTodoList(requestDto)
+                       .pipe(map(responseDto => {
+                         this.todoList.title = responseDto.title;
+                         this.todoList.description = responseDto.description;
+                       }));
   }
 
   public update(): void {

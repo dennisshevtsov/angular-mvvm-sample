@@ -1,6 +1,6 @@
 import { Injectable, } from '@angular/core';
 
-import { Observable, of, } from 'rxjs';
+import { Observable, of, throwError, } from 'rxjs';
 
 import { AddTodoListRequestDto,
          AddTodoListResponseDto,
@@ -27,16 +27,16 @@ export class TodoListService {
 
   public getTodoList(
     requestDto: GetTodoListRequestDto)
-    : GetTodoListResponseDto | null {
+    : Observable<GetTodoListResponseDto> {
     const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
 
     if (index > -1) {
       const todoList =  this.todoLists[index];
 
-      return { ...todoList, };
+      return of({ ...todoList, });
     }
 
-    return null;
+    return throwError(() => 'Not Found.');
   }
 
   public searchTodoList(
@@ -64,12 +64,14 @@ export class TodoListService {
 
   public updateTodoList(
     requestDto: UpdateTodoListRequestDto)
-    : void {
+    : Observable<void> {
     const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
     const todoList =  this.todoLists[index];
 
     todoList.title = requestDto.title;
     todoList.description = requestDto.description;
+
+    return of();
   }
 
   public deleteTodoList(
