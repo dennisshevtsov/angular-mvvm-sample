@@ -1,5 +1,6 @@
 import { Injectable, } from '@angular/core';
-import { map, Observable } from 'rxjs';
+
+import { map, Observable, of, } from 'rxjs';
 
 import { DeleteTodoListRequestDto,
          SearchTodoListsRecordResponseDto,
@@ -40,11 +41,13 @@ export class SearchTodoListsViewModel {
                         }));
   }
 
-  public delete() {
+  public delete() : Observable<void> {
     if (this.hasSelection) {
       const request = new DeleteTodoListRequestDto(this.selected.todoListId);
 
-      this.service.deleteTodoList(request);
+      return this.service.deleteTodoList(request);
     }
+
+    return of();
   }
 }

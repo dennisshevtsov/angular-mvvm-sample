@@ -76,11 +76,13 @@ export class TodoListService {
 
   public deleteTodoList(
     requestDto: DeleteTodoListRequestDto)
-    : void {
+    : Observable<void> {
     const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
 
     if (index >= 0) {
       this.todoLists.splice(index, 1);
     }
+
+    return of();
   }
 }
