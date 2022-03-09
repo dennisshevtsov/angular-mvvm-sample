@@ -1,8 +1,11 @@
-import { Component, OnInit,      } from '@angular/core';
-import { FormBuilder, FormGroup, } from '@angular/forms';
-import { ActivatedRoute,         } from '@angular/router';
+import { Component, OnInit,        } from '@angular/core';
+import { FormBuilder, FormGroup,   } from '@angular/forms';
+import { ActivatedRoute, ParamMap, } from '@angular/router';
 
-import { FormComponentBase,
+import { mergeMap, throwError, } from 'rxjs';
+
+import { AppNavigator,
+         FormComponentBase,
          TodoListLinks,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
@@ -22,6 +25,7 @@ export class UpdateTodoListComponent
     private readonly fb: FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly links: TodoListLinks,
+    private readonly navigator: AppNavigator,
   ) {
     super();
   }
@@ -31,14 +35,23 @@ export class UpdateTodoListComponent
   }
 
   public ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    const initializer = (params: ParamMap) => {
       const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
 
       if (todoListId) {
         this.vm.todoList.todoListId = todoListId;
-        this.vm.initialize();
+
+        return this.vm.initialize();
       }
-    });
+
+      return throwError(() => new Error(''));
+    };
+    const observer = {
+      error: () => this.navigator.navigateToError(),
+    };
+
+    this.route.paramMap.pipe(mergeMap(initializer))
+                       .subscribe(observer);
 
     this.form.valueChanges.subscribe(value => {
       this.vm.todoList.title = value.title;
