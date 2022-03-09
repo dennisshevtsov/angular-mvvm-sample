@@ -1,3 +1,4 @@
+export * from './app.navigator';
 export * from './app.routing';
 export * from './convert-to-route';
 export * from './todo-list-task.links';
