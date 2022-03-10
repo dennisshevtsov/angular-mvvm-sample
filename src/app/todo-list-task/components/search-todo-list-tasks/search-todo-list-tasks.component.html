@@ -49,7 +49,7 @@
 </ng-template>
 
 <ng-template #modalBody>
-  <p *ngIf="selected">Are you sure that you want to remove TODO list task <span class="text-nowrap">'{{ selected.title }}'</span>?</p>
+  <p *ngIf="vm.selected">Are you sure that you want to remove TODO list task <span class="text-nowrap">'{{ vm.selected.title }}'</span>?</p>
 </ng-template>
 <app-modal #modal
            [body]="modalBody"
