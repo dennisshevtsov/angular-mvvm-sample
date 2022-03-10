@@ -4,6 +4,7 @@ import { BrowserModule, } from '@angular/platform-browser';
 import { AppRoutingModule,   } from './app-routing.module';
 import { AppComponent,       } from './app.component';
 import { ErrorComponent,     } from './components';
+import { CoreModule,         } from './core';
 import { TodoListTaskModule, } from './todo-list-task';
 import { TodoListModule,     } from './todo-list';
 
@@ -14,6 +15,7 @@ import { TodoListModule,     } from './todo-list';
   ],
   imports: [
     BrowserModule,
+    CoreModule,
     TodoListModule,
     TodoListTaskModule,
     AppRoutingModule,
