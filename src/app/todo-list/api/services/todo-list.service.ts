@@ -28,7 +28,7 @@ export class TodoListService {
   public getTodoList(
     requestDto: GetTodoListRequestDto)
     : Observable<GetTodoListResponseDto> {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
+    const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
 
     if (index > -1) {
       const todoList =  this.todoLists[index];
@@ -54,7 +54,7 @@ export class TodoListService {
     const todoListId = this.todoLists.length + 1;
 
     this.todoLists.push({
-      todoListId: this.todoLists.length + 1,
+      todoListId: todoListId,
       title: requestDto.title,
       description: requestDto.description,
     });
