@@ -1,4 +1,7 @@
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnDestroy,
+         OnInit, ViewChild,    } from '@angular/core';
+
+import { Subscription, } from 'rxjs';
 
 import { ModalComponent, TodoListLinks,
          TodoListTaskLinks,                } from 'src/app/core';
@@ -11,9 +14,11 @@ import { SearchTodoListsViewModel,         } from './search-todo-lists.view-mode
     './search-todo-lists.component.scss',
   ],
 })
-export class SearchTodoListsComponent implements OnInit {
+export class SearchTodoListsComponent implements OnInit, OnDestroy {
   @ViewChild('modal')
   public modelRef!: ModalComponent;
+
+  private subscription: Subscription | undefined;
 
   public constructor(
     public vm: SearchTodoListsViewModel,
@@ -22,12 +27,18 @@ export class SearchTodoListsComponent implements OnInit {
     private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {}
 
-  public ngOnInit(): void {
-    this.vm.search();
-  }
-
   public get addTodoListLink(): any[] {
     return this.todoListLinks.addTodoListLink();
+  }
+
+  public ngOnInit(): void {
+    this.subscription = this.vm.search().subscribe();
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription?.unsubscribe();
+    }
   }
 
   public updateTodoListLink(
