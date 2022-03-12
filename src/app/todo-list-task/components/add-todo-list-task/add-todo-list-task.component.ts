@@ -1,6 +1,8 @@
-import { Component, OnInit,      } from '@angular/core';
-import { FormBuilder, FormGroup, } from '@angular/forms';
-import { ActivatedRoute,         } from '@angular/router';
+import { Component, OnDestroy, OnInit, } from '@angular/core';
+import { FormBuilder, FormGroup,       } from '@angular/forms';
+import { ActivatedRoute, ParamMap,     } from '@angular/router';
+
+import { Subscription, } from 'rxjs';
 
 import { FormComponentBase,
          TodoListTaskLinks,
@@ -16,26 +18,39 @@ import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 })
 export class AddTodoListTaskComponent
   extends FormComponentBase
-  implements OnInit {
+  implements OnInit, OnDestroy {
+  private subsriptions: Subscription[];
+
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
 
-    private readonly fb: FormBuilder,
-    private readonly route: ActivatedRoute,
-    private readonly links: TodoListTaskLinks,
+    private readonly fb       : FormBuilder,
+    private readonly route    : ActivatedRoute,
+    private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
   ) {
     super();
+
+    this.subsriptions = [];
+  }
+
+  public get backLink(): any[] {
+    return this.links.searchTodoListTasksLink(this.vm.todoListId);
   }
 
   public ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
+    const observer = {
+      next: (params: ParamMap) => {
+        const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
 
-      if (todoListId) {
-        this.vm.todoListId = todoListId;
-      }
-    });
+        if (todoListId) {
+          this.vm.todoListId = todoListId;
+        }
+      },
+    };
+
+    this.subsriptions.push(
+      this.route.paramMap.subscribe(observer));
 
     this.form.valueChanges.subscribe(value => {
       this.vm.task.title = value.title;
@@ -44,15 +59,23 @@ export class AddTodoListTaskComponent
     });
   }
 
-  public get backLink(): any[] {
-    return this.links.searchTodoListTasksLink(this.vm.todoListId);
+  public ngOnDestroy(): void {
+    if (this.subsriptions) {
+      this.subsriptions.forEach(subscription => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      });
+    }
   }
 
   public onOkPressed(): void {
-    this.vm.add();
-    this.navigator.navigateToUpdateTodoListTask(
-      this.vm.todoListId,
-      this.vm.todoListTaskId)
+    const observer = {
+      next: () => this.navigator.navigateToUpdateTodoListTask(
+        this.vm.todoListId, this.vm.todoListTaskId),
+    };
+
+    this.subsriptions.push(this.vm.add().subscribe(observer));
   }
 
   protected buildForm(): FormGroup {

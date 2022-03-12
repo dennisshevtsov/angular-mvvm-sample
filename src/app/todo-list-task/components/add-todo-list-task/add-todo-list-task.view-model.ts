@@ -1,10 +1,12 @@
+import { map, Observable, } from 'rxjs';
+
 import { AddTodoListTaskRequestDto,
          TodoListTaskService,       } from 'src/app/todo-list-task/api';
 
 export class AddTodoListTaskViewModel {
-  private todoListIdValue: number | string | undefined;
-  private todoListTaskIdValue: number | string | undefined;
-  private taskValue: AddTodoListTaskRequestDto | undefined;
+  private todoListIdValue    : undefined | number | string;
+  private todoListTaskIdValue: undefined | number | string;
+  private taskValue          : undefined | AddTodoListTaskRequestDto;
 
   public constructor(
     private readonly service: TodoListTaskService,
@@ -35,11 +37,10 @@ export class AddTodoListTaskViewModel {
     this.taskValue = task;
   }
 
-  public add(): void {
-    const responseDto = this.service.addTodoListTask(this.task);
-
-    if (responseDto) {
-      this.todoListTaskId = responseDto.todoListTaskId;
-    }
+  public add(): Observable<void> {
+    return this.service.addTodoListTask(this.task)
+                       .pipe(map(responseDto => {
+                         this.todoListTaskId = responseDto.todoListTaskId;
+                       }));
   }
 }

@@ -1,4 +1,5 @@
 import { Injectable, } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 import { AddTodoListTaskRequestDto,
          AddTodoListTaskResponseDto,
@@ -69,7 +70,7 @@ export class TodoListTaskService {
 
   public addTodoListTask(
     command: AddTodoListTaskRequestDto)
-    : AddTodoListTaskResponseDto {
+    : Observable<AddTodoListTaskResponseDto> {
     if (!this.todoListTasksMap.has(command.todoListId)) {
       this.todoListTasksMap.set(command.todoListId, []);
     }
@@ -85,7 +86,7 @@ export class TodoListTaskService {
       date: { ...command.date, },
     });
 
-    return new AddTodoListTaskResponseDto(todoListTaskId)
+    return of(new AddTodoListTaskResponseDto(todoListTaskId));
   }
 
   public updateTodoListTask(
