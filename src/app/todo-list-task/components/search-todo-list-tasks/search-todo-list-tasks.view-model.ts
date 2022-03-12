@@ -48,13 +48,13 @@ export class SearchTodoListTasksViewModel {
                        }));
   }
 
-  public complete(): void {
+  public complete(): Observable<void> {
     const requestDto = new CompleteTodoListTaskRequestDto(
       this.todoListId,
       this.selected.todoListTaskId,
     );
 
-    this.service.completeTodoListTask(requestDto);
+    return this.service.completeTodoListTask(requestDto);
   }
 
   public delete() {

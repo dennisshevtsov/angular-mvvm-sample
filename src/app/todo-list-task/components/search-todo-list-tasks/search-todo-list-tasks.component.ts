@@ -73,7 +73,7 @@ export class SearchTodoListTasksComponent
 
   public onCompletedChanged(
     record: SearchTodoListTasksRecordResponseDto): void {
-    this.vm.complete();
+    this.subscriptions.push(this.vm.complete().subscribe());
   }
 
   public onDeletePressed(

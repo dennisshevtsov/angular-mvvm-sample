@@ -1,5 +1,6 @@
 import { Injectable, } from '@angular/core';
-import { Observable, of } from 'rxjs';
+
+import { Observable, of, throwError, } from 'rxjs';
 
 import { AddTodoListTaskRequestDto,
          AddTodoListTaskResponseDto,
@@ -106,7 +107,7 @@ export class TodoListTaskService {
 
   public completeTodoListTask(
     command: CompleteTodoListTaskRequestDto)
-    : void {
+    : Observable<void> {
     const todoListTasks = this.todoListTasksMap.get(
       command.todoListId)!;
 
@@ -118,8 +119,15 @@ export class TodoListTaskService {
         const todoListTask = todoListTasks[todoListTaskIndex];
 
         todoListTask.completed = true;
+
+        return throwError(() => new Error('There is no TODO list task with such ID.'));
       }
     }
+    else {
+      return throwError(() => new Error('There is no TODO list with such ID.'));
+    }
+
+    return of();
   }
 
   public uncompleteTodoListTask(
