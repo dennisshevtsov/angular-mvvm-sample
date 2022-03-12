@@ -1,3 +1,5 @@
+import { map, Observable, } from 'rxjs';
+
 import { CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
          SearchTodoListTasksRecordResponseDto,
@@ -5,9 +7,9 @@ import { CompleteTodoListTaskRequestDto,
          TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 
 export class SearchTodoListTasksViewModel {
-  private todoListIdValue: number | string | undefined;
-  private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
-  private tasksValue: SearchTodoListTasksRecordResponseDto[] | undefined;
+  private todoListIdValue: undefined | number | string;
+  private recordValue    : undefined | SearchTodoListTasksRecordResponseDto;
+  private tasksValue     : undefined | SearchTodoListTasksRecordResponseDto[];
 
   public constructor(
     private readonly service: TodoListTaskService,
@@ -37,11 +39,13 @@ export class SearchTodoListTasksViewModel {
     this.tasksValue = tasks;
   }
 
-  public search(): void {
+  public search(): Observable<void> {
     const requestDto = new SearchTodoListTasksRequestDto(this.todoListId);
-    const responseDtos = this.service.searchTodoListTasks(requestDto);
 
-    this.tasks = responseDtos;
+    return this.service.searchTodoListTasks(requestDto)
+                       .pipe(map(responseDtos => {
+                         this.tasks = responseDtos;
+                       }));
   }
 
   public complete(): void {

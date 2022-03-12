@@ -52,20 +52,20 @@ export class TodoListTaskService {
 
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
-    : SearchTodoListTasksRecordResponseDto[] {
+    : Observable<SearchTodoListTasksRecordResponseDto[]> {
     const todoListTasks = this.todoListTasksMap.get(query.todoListId);
 
     if (todoListTasks) {
-      return todoListTasks.map(todoListTask => new SearchTodoListTasksRecordResponseDto(
+      return of(todoListTasks.map(todoListTask => new SearchTodoListTasksRecordResponseDto(
         todoListTask.todoListTaskId,
         todoListTask.completed,
         todoListTask.title,
         todoListTask.description,
         { ...todoListTask.date, },
-      ));
+      )));
     }
 
-    return [];
+    return of([]);
   }
 
   public addTodoListTask(

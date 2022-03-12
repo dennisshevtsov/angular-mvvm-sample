@@ -1,5 +1,8 @@
-import { Component, OnInit, ViewChild, } from '@angular/core';
-import { ActivatedRoute,               } from '@angular/router';
+import { Component, OnDestroy,
+         OnInit, ViewChild,    } from '@angular/core';
+import { ActivatedRoute, ParamMap,       } from '@angular/router';
+
+import { mergeMap, Subscription, throwError, } from 'rxjs';
 
 import { ModalComponent,
          TodoListLinks, TodoListTaskLinks,
@@ -13,29 +16,21 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
     './search-todo-list-tasks.component.scss',
   ],
 })
-export class SearchTodoListTasksComponent implements OnInit {
+export class SearchTodoListTasksComponent
+  implements OnInit, OnDestroy {
   @ViewChild('modal')
   private modalRef!: ModalComponent;
 
-  private recordValue: SearchTodoListTasksRecordResponseDto | undefined;
+  private subscriptions: Subscription[];
 
   public constructor(
     public readonly vm: SearchTodoListTasksViewModel,
 
-    private readonly route: ActivatedRoute,
-    private readonly todoListLinks: TodoListLinks,
+    private readonly route            : ActivatedRoute,
+    private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
-  ) {}
-
-  public ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
-
-      if (todoListId) {
-        this.vm.todoListId = todoListId;
-        this.vm.search();
-      }
-    });
+  ) {
+    this.subscriptions = [];
   }
 
   public get backLink(): any[] {
@@ -44,6 +39,31 @@ export class SearchTodoListTasksComponent implements OnInit {
 
   public get addTodoListTaskLink(): any[] {
     return this.todoListTaskLinks.addTodoListTaskLink(this.vm.todoListId);
+  }
+
+  public ngOnInit(): void {
+    const project = (params: ParamMap) => {
+      const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
+
+      if (todoListId) {
+        this.vm.todoListId = todoListId;
+        return this.vm.search();
+      }
+
+      return throwError(() => new Error('There is no TODO list ID parameter in the URL.'));
+    };
+
+    this.subscriptions.push(this.route.paramMap.pipe(mergeMap(project)).subscribe());
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.forEach(subscription => {
+        if (subscription) {
+          subscription.unsubscribe();
+        }
+      });
+    }
   }
 
   public updateTodoListTaskLink(
