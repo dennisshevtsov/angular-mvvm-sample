@@ -34,21 +34,21 @@ export class TodoListTaskService {
 
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
-    : GetTodoListTaskResponseDto | null {
+    : Observable<GetTodoListTaskResponseDto | null> {
     const todoListTasks = this.todoListTasksMap.get(query.todoListId);
 
     if (todoListTasks) {
       const todoListTaskIndex = todoListTasks.findIndex(
-        todoListTask => todoListTask.todoListTaskId === query.todoListTaskId);
+        todoListTask => todoListTask.todoListTaskId == query.todoListTaskId);
 
       if (todoListTaskIndex > -1) {
         const todoListTask = todoListTasks[todoListTaskIndex];
 
-        return { ...todoListTask };
+        return of({ ...todoListTask });
       }
     }
 
-    return null;
+    return of(null);
   }
 
   public searchTodoListTasks(

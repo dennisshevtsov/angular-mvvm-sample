@@ -1,4 +1,7 @@
+import { map, Observable, } from 'rxjs';
+
 import { GetTodoListTaskRequestDto,
+         GetTodoListTaskResponseDto,
          TodoListTaskService,
          UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 
@@ -35,23 +38,25 @@ export class UpdateTodoListTaskViewModel {
     this.taskValue = task;
   }
 
-  public initialize(): void {
+  public initialize(): Observable<void> {
     const requestDto = new GetTodoListTaskRequestDto(
       this.todoListId,
       this.todoListTaskId,
     );
+    const project = (responseDto: GetTodoListTaskResponseDto | null) => {
+      if (responseDto) {
+        this.task = new UpdateTodoListTaskRequestDto(
+          this.todoListId,
+          this.todoListTaskId,
+          responseDto.title,
+          responseDto.description,
+          responseDto.date,
+        );
+      }
+    };
 
-    const responseDto = this.service.getTodoListTask(requestDto);
-
-    if (responseDto) {
-      this.task = new UpdateTodoListTaskRequestDto(
-        this.todoListId,
-        this.todoListTaskId,
-        responseDto.title,
-        responseDto.description,
-        responseDto.date,
-      );
-    }
+    return this.service.getTodoListTask(requestDto)
+                       .pipe(map(project));
   }
 
   public update(): void {
