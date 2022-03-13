@@ -1,4 +1,4 @@
-import { map, Observable, } from 'rxjs';
+import { map, mergeMap, Observable, switchMap, } from 'rxjs';
 
 import { CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
@@ -57,13 +57,13 @@ export class SearchTodoListTasksViewModel {
     return this.service.completeTodoListTask(requestDto);
   }
 
-  public delete() {
+  public delete() : Observable<void> {
     const requestDto = new DeleteTodoListTaskRequestDto(
       this.todoListId,
       this.selected.todoListTaskId,
     );
 
-    this.service.deleteTodoListTask(requestDto);
-    this.search();
+    return this.service.deleteTodoListTask(requestDto)
+                       .pipe(mergeMap(() => this.search()));
   }
 }

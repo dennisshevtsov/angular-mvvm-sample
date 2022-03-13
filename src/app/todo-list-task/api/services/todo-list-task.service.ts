@@ -132,7 +132,7 @@ export class TodoListTaskService {
 
   public uncompleteTodoListTask(
     command: UncompleteTodoListTaskRequestDto)
-    : void {
+    : Observable<void> {
     const todoListTasks = this.todoListTasksMap.get(
       command.todoListId)!;
 
@@ -146,11 +146,13 @@ export class TodoListTaskService {
         todoListTask.completed = false;
       }
     }
+
+    return of();
   }
 
   public deleteTodoListTask(
     command: DeleteTodoListTaskRequestDto)
-    : void {
+    : Observable<void> {
       const todoListTasks = this.todoListTasksMap.get(
         command.todoListId)!;
 
@@ -162,5 +164,7 @@ export class TodoListTaskService {
           todoListTasks.splice(todoListTaskIndex, 1);
         }
       }
+
+      return of();
   }
 }

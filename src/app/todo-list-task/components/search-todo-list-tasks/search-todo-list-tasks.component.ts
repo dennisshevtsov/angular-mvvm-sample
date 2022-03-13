@@ -1,6 +1,6 @@
 import { Component, OnDestroy,
-         OnInit, ViewChild,    } from '@angular/core';
-import { ActivatedRoute, ParamMap,       } from '@angular/router';
+         OnInit, ViewChild,        } from '@angular/core';
+import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
@@ -83,7 +83,6 @@ export class SearchTodoListTasksComponent
   }
 
   public onDeleteOkPressed(): void {
-    this.vm.delete();
-    this.vm.search();
+    this.subscriptions.push(this.vm.delete().subscribe());
   }
 }
