@@ -83,7 +83,7 @@ export class UpdateTodoListTaskComponent
   }
 
   public onOkPressed(): void {
-    this.vm.update();
+    this.subscriptions.push(this.vm.update().subscribe());
   }
 
   protected buildForm(): FormGroup {

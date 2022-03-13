@@ -92,7 +92,7 @@ export class TodoListTaskService {
 
   public updateTodoListTask(
     command: UpdateTodoListTaskRequestDto)
-    : void {
+    : Observable<void> {
     const todoListTasks = this.todoListTasksMap.get(command.todoListId)!;
     const todoListTaskIndex = todoListTasks.findIndex(todoListTask => todoListTask.todoListTaskId === command.todoListTaskId);
 
@@ -103,6 +103,8 @@ export class TodoListTaskService {
       todoListTask.description = command.description;
       todoListTask.date = { ...command.date, };
     }
+
+    return of();
   }
 
   public completeTodoListTask(

@@ -59,7 +59,7 @@ export class UpdateTodoListTaskViewModel {
                        .pipe(map(project));
   }
 
-  public update(): void {
-    this.service.updateTodoListTask(this.task);
+  public update(): Observable<void> {
+    return this.service.updateTodoListTask(this.task);
   }
 }
