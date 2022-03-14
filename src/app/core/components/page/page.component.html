@@ -12,6 +12,11 @@
     </div>
   </div>
 </header>
-<main class="d-flex">
+<main class="d-flex flex-column">
+  <div class="alert alert-danger alert-dismissible w-100"
+       *ngIf="hasError">
+    <h5 class="m-0"><span>{{ error }}</span></h5>
+    <a class="btn btn-close"></a>
+  </div>
   <ng-container *ngTemplateOutlet="body"></ng-container>
 </main>
