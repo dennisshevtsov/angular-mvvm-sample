@@ -1,11 +1,11 @@
-import { Component, OnInit,        } from '@angular/core';
-import { FormBuilder, FormGroup,   } from '@angular/forms';
-import { ActivatedRoute, ParamMap, } from '@angular/router';
+import { Component, OnInit, ViewChild, } from '@angular/core';
+import { FormBuilder, FormGroup,       } from '@angular/forms';
+import { ActivatedRoute, ParamMap,     } from '@angular/router';
 
 import { mergeMap, throwError, } from 'rxjs';
 
-import { AppNavigator,
-         FormComponentBase,
+import { FormComponentBase,
+         PageComponent,
          TodoListLinks,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
@@ -19,13 +19,15 @@ import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 export class UpdateTodoListComponent
   extends FormComponentBase
   implements OnInit {
+  @ViewChild('page')
+  public page!: PageComponent;
+
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
 
-    private readonly fb: FormBuilder,
+    private readonly fb   : FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly links: TodoListLinks,
-    private readonly navigator: AppNavigator,
   ) {
     super();
   }
@@ -47,7 +49,7 @@ export class UpdateTodoListComponent
       return throwError(() => new Error(''));
     };
     const observer = {
-      error: () => this.navigator.navigateToError(),
+      error: () => this.page.showError('An error occured.'),
     };
 
     this.route.paramMap.pipe(mergeMap(initializer))
