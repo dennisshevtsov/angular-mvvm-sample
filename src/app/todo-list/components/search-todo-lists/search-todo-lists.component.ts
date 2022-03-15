@@ -3,7 +3,7 @@ import { Component, OnDestroy,
 
 import { Subscription, } from 'rxjs';
 
-import { ModalComponent, TodoListLinks,
+import { ModalComponent, PageComponent, TodoListLinks,
          TodoListTaskLinks,                } from 'src/app/core';
 import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list/api';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
@@ -15,8 +15,11 @@ import { SearchTodoListsViewModel,         } from './search-todo-lists.view-mode
   ],
 })
 export class SearchTodoListsComponent implements OnInit, OnDestroy {
+  @ViewChild('page')
+  public page!: PageComponent;
+
   @ViewChild('modal')
-  public modelRef!: ModalComponent;
+  public model!: ModalComponent;
 
   private subscription: Subscription | undefined;
 
@@ -32,7 +35,11 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.subscription = this.vm.search().subscribe();
+    const observer = {
+      error: () => this.page.showError('An error occured.'),
+    };
+
+    this.subscription = this.vm.search().subscribe(observer);
   }
 
   public ngOnDestroy(): void {
@@ -57,7 +64,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
     record: SearchTodoListsRecordResponseDto)
     : void {
     this.vm.selected = record;
-    this.modelRef.show();
+    this.model.show();
   }
 
   public onDeleteOkPressed(): void {
