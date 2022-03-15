@@ -49,6 +49,15 @@ export class UpdateTodoListComponent
       return throwError(() => new Error(''));
     };
     const observer = {
+      next: () => {
+        this.vm.initialize()
+               .subscribe(() => {
+                  this.form.setValue({
+                    'title': this.vm.todoList.title,
+                    'deacription': this.vm.todoList.description,
+                  });
+               });
+      },
       error: () => this.page.showError('An error occured.'),
     };
 
