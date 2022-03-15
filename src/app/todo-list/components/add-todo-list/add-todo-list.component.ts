@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit, } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup,       } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
 import { FormComponentBase,
+         PageComponent,
          TodoListLinks,
          TodoListNavigator,    } from 'src/app/core';
 import { AddTodoListViewModel, } from './add-todo-list.view-model';
@@ -17,6 +18,9 @@ import { AddTodoListViewModel, } from './add-todo-list.view-model';
 export class AddTodoListComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
+  @ViewChild('page')
+  public page!: PageComponent;
+
   private subscription: Subscription | undefined;
 
   public constructor(
@@ -49,6 +53,7 @@ export class AddTodoListComponent
   public onOkPressed(): void {
     const observer = {
       next: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
+      error: () => this.page.showError('An error occured.'),
     };
 
     this.subscription = this.vm.add().subscribe(observer);
