@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit, } from '@angular/core';
-import { FormBuilder, FormGroup,       } from '@angular/forms';
-import { ActivatedRoute,               } from '@angular/router';
+import { Component, OnDestroy,
+         OnInit, ViewChild,      } from '@angular/core';
+import { FormBuilder, FormGroup, } from '@angular/forms';
+import { ActivatedRoute,         } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
 import { FormComponentBase,
+         PageComponent,
          TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
@@ -20,6 +22,9 @@ import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view
 export class UpdateTodoListTaskComponent
   extends  FormComponentBase
   implements OnInit, OnDestroy {
+  @ViewChild('page')
+  private page!: PageComponent;
+
   private subscriptions: Subscription[];
 
   public constructor(
@@ -47,20 +52,23 @@ export class UpdateTodoListTaskComponent
         this.vm.todoListId = todoListId;
         this.vm.todoListTaskId = todoListTaskId;
 
-        this.subscriptions.push(
-          this.vm.initialize()
-                 .subscribe(() => {
-                   this.form.setValue({
-                     'title': this.vm.task.title,
-                     'deacription': this.vm.task.description,
-                     'date': {
-                       'day': this.vm.task.date.day,
-                       'fullDay': this.vm.task.date.fullDay,
-                       'start': this.vm.task.date.start,
-                       'end': this.vm.task.date.end
-                     },
-                   });
-                 }));
+        const observer = {
+          next: () => {
+            this.form.setValue({
+              'title': this.vm.task.title,
+              'deacription': this.vm.task.description,
+              'date': {
+                'day': this.vm.task.date.day,
+                'fullDay': this.vm.task.date.fullDay,
+                'start': this.vm.task.date.start,
+                'end': this.vm.task.date.end
+              },
+            });
+          },
+          error: () => this.page.showError('An error occured.'),
+        };
+
+        this.subscriptions.push(this.vm.initialize().subscribe(observer));
 
         this.form.valueChanges.subscribe(value => {
           this.vm.task = new UpdateTodoListTaskRequestDto(
@@ -83,7 +91,11 @@ export class UpdateTodoListTaskComponent
   }
 
   public onOkPressed(): void {
-    this.subscriptions.push(this.vm.update().subscribe());
+    const observer = {
+      error: () => this.page.showError('An error occured.'),
+    };
+
+    this.subscriptions.push(this.vm.update().subscribe(observer));
   }
 
   protected buildForm(): FormGroup {
