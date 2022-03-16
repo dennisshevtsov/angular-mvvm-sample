@@ -1,10 +1,12 @@
-import { Component, OnDestroy, OnInit, } from '@angular/core';
-import { FormBuilder, FormGroup,       } from '@angular/forms';
-import { ActivatedRoute, ParamMap,     } from '@angular/router';
+import { Component, OnDestroy,
+         OnInit, ViewChild,        } from '@angular/core';
+import { FormBuilder, FormGroup,   } from '@angular/forms';
+import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
 import { FormComponentBase,
+         PageComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
@@ -19,6 +21,9 @@ import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 export class AddTodoListTaskComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
+  @ViewChild('page')
+  public page!: PageComponent;
+
   private subsriptions: Subscription[];
 
   public constructor(
@@ -47,6 +52,7 @@ export class AddTodoListTaskComponent
           this.vm.todoListId = todoListId;
         }
       },
+      error: () => this.page.showError('An error occured.'),
     };
 
     this.subsriptions.push(
@@ -73,6 +79,7 @@ export class AddTodoListTaskComponent
     const observer = {
       next: () => this.navigator.navigateToUpdateTodoListTask(
         this.vm.todoListId, this.vm.todoListTaskId),
+      error: () => this.page.showError('An error occured.'),
     };
 
     this.subsriptions.push(this.vm.add().subscribe(observer));
