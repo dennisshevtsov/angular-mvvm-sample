@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
 import { ModalComponent,
+         PageComponent,
          TodoListLinks, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,         } from 'src/app/core';
 import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
@@ -18,8 +19,11 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
 })
 export class SearchTodoListTasksComponent
   implements OnInit, OnDestroy {
+  @ViewChild('page')
+  private page!: PageComponent;
+
   @ViewChild('modal')
-  private modalRef!: ModalComponent;
+  private modal!: ModalComponent;
 
   private subscriptions: Subscription[];
 
@@ -52,8 +56,13 @@ export class SearchTodoListTasksComponent
 
       return throwError(() => new Error('There is no TODO list ID parameter in the URL.'));
     };
+    const observer = {
+      error: () => this.page.showError('An error occured.'),
+    };
 
-    this.subscriptions.push(this.route.paramMap.pipe(mergeMap(project)).subscribe());
+    this.subscriptions.push(
+      this.route.paramMap.pipe(mergeMap(project))
+                         .subscribe(observer));
   }
 
   public ngOnDestroy(): void {
@@ -73,16 +82,24 @@ export class SearchTodoListTasksComponent
 
   public onCompletedChanged(
     record: SearchTodoListTasksRecordResponseDto): void {
-    this.subscriptions.push(this.vm.complete().subscribe());
+    const observer = {
+      error: () => this.page.showError('An error occured.'),
+    };
+
+    this.subscriptions.push(this.vm.complete().subscribe(observer));
   }
 
   public onDeletePressed(
     record: SearchTodoListTasksRecordResponseDto): void {
     this.vm.selected = record;
-    this.modalRef.show();
+    this.modal.show();
   }
 
   public onDeleteOkPressed(): void {
-    this.subscriptions.push(this.vm.delete().subscribe());
+    const observer = {
+      error: () => this.page.showError('An error occured.'),
+    };
+
+    this.subscriptions.push(this.vm.delete().subscribe(observer));
   }
 }
