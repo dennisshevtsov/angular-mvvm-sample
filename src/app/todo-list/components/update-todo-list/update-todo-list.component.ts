@@ -37,7 +37,7 @@ export class UpdateTodoListComponent
   }
 
   public ngOnInit(): void {
-    const initializer = (params: ParamMap) => {
+    const project = (params: ParamMap) => {
       const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
 
       if (todoListId) {
@@ -48,20 +48,21 @@ export class UpdateTodoListComponent
 
       return throwError(() => new Error(''));
     };
+
     const observer = {
       next: () => {
         this.vm.initialize()
                .subscribe(() => {
-                  this.form.setValue({
-                    'title': this.vm.todoList.title,
-                    'deacription': this.vm.todoList.description,
-                  });
+                 this.form.setValue({
+                   'title': this.vm.todoList.title,
+                   'description': this.vm.todoList.description,
+                 });
                });
       },
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.route.paramMap.pipe(mergeMap(initializer))
+    this.route.paramMap.pipe(mergeMap(project))
                        .subscribe(observer);
 
     this.form.valueChanges.subscribe(value => {
