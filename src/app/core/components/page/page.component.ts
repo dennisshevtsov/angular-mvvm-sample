@@ -16,7 +16,8 @@ export class PageComponent {
   @Input()
   public body: TemplateRef<any> | null = null;
 
-  private errorValue: undefined | string;
+  private errorValue  : undefined | string;
+  private messageValue: undefined | string;
 
   public constructor(
     private readonly links: TodoListLinks,
@@ -34,11 +35,32 @@ export class PageComponent {
     return this.errorValue ?? '';
   }
 
+  public get hasMessage(): boolean {
+    return !!this.messageValue;
+  }
+
+  public get message(): string {
+    return this.messageValue ?? '';
+  }
+
   public showError(error: string): void {
     this.errorValue = error;
   }
 
+  public showMessage(message: string): void {
+    this.messageValue = message;
+  }
+
   public clearError(): void {
     this.errorValue = '';
+  }
+
+  public clearMessage(): void {
+    this.messageValue = '';
+  }
+
+  public clear(): void {
+    this.clearError();
+    this.clearMessage();
   }
 }
