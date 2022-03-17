@@ -34,7 +34,7 @@ export class UpdateTodoListViewModel {
                        }));
   }
 
-  public update(): void {
-    this.service.updateTodoList(this.todoList);
+  public update(): Observable<void> {
+    return this.service.updateTodoList(this.todoList);
   }
 }

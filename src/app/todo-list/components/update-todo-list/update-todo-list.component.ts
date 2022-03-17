@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { FormBuilder, FormGroup,       } from '@angular/forms';
 import { ActivatedRoute, ParamMap,     } from '@angular/router';
 
-import { mergeMap, throwError, } from 'rxjs';
+import { mergeMap, Subscription, throwError, } from 'rxjs';
 
 import { FormComponentBase,
          PageComponent,
@@ -18,9 +18,11 @@ import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 })
 export class UpdateTodoListComponent
   extends FormComponentBase
-  implements OnInit {
+  implements OnInit, OnDestroy {
   @ViewChild('page')
   public page!: PageComponent;
+
+  private readonly subscription: Subscription;
 
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
@@ -30,6 +32,8 @@ export class UpdateTodoListComponent
     private readonly links: TodoListLinks,
   ) {
     super();
+
+    this.subscription = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -51,19 +55,21 @@ export class UpdateTodoListComponent
 
     const observer = {
       next: () => {
-        this.vm.initialize()
-               .subscribe(() => {
-                 this.form.setValue({
-                   'title': this.vm.todoList.title,
-                   'description': this.vm.todoList.description,
-                 });
-               });
+        this.subscription.add(
+          this.vm.initialize()
+                 .subscribe(() => {
+                   this.form.setValue({
+                     'title': this.vm.todoList.title,
+                     'description': this.vm.todoList.description,
+                   });
+                 }));
       },
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.route.paramMap.pipe(mergeMap(project))
-                       .subscribe(observer);
+    this.subscription.add(
+      this.route.paramMap.pipe(mergeMap(project))
+                         .subscribe(observer));
 
     this.form.valueChanges.subscribe(value => {
       this.vm.todoList.title = value.title;
@@ -71,8 +77,12 @@ export class UpdateTodoListComponent
     });
   }
 
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   public onOkPressed(): void {
-    this.vm.update();
+    this.subscription.add(this.vm.update().subscribe());
   }
 
   protected buildForm(): FormGroup {

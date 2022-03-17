@@ -65,11 +65,14 @@ export class TodoListService {
   public updateTodoList(
     requestDto: UpdateTodoListRequestDto)
     : Observable<void> {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
-    const todoList =  this.todoLists[index];
+    const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
 
-    todoList.title = requestDto.title;
-    todoList.description = requestDto.description;
+    if (index >= 0) {
+      const todoList =  this.todoLists[index];
+
+      todoList.title = requestDto.title;
+      todoList.description = requestDto.description;
+    }
 
     return of();
   }
