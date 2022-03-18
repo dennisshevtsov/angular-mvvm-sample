@@ -11,8 +11,8 @@ import { DeleteTodoListRequestDto,
   providedIn: 'root',
 })
 export class SearchTodoListsViewModel {
-  private selectedValue: SearchTodoListsRecordResponseDto | undefined;
-  private todoListsValue: SearchTodoListsRecordResponseDto[] | undefined;
+  private selectedValue : undefined | SearchTodoListsRecordResponseDto;
+  private todoListsValue: undefined | SearchTodoListsRecordResponseDto[];
 
   public constructor(
     private readonly service: TodoListService,

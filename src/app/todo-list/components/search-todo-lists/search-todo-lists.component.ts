@@ -24,9 +24,9 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   private subscription: Subscription | undefined;
 
   public constructor(
-    public vm: SearchTodoListsViewModel,
+    public readonly vm: SearchTodoListsViewModel,
 
-    private readonly todoListLinks: TodoListLinks,
+    private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {}
 
