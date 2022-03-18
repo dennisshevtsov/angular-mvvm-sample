@@ -24,7 +24,7 @@ export class AddTodoListTaskComponent
   @ViewChild('page')
   public page!: PageComponent;
 
-  private subsriptions: Subscription[];
+  private subsription: Subscription;
 
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
@@ -36,7 +36,7 @@ export class AddTodoListTaskComponent
   ) {
     super();
 
-    this.subsriptions = [];
+    this.subsription = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -55,24 +55,20 @@ export class AddTodoListTaskComponent
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subsriptions.push(
+    this.subsription.add(
       this.route.paramMap.subscribe(observer));
 
-    this.form.valueChanges.subscribe(value => {
-      this.vm.task.title = value.title;
-      this.vm.task.description = value.title;
-      this.vm.task.date = value.date;
-    });
+    this.subsription.add(
+      this.form.valueChanges.subscribe(value => {
+        this.vm.task.title = value.title;
+        this.vm.task.description = value.title;
+        this.vm.task.date = value.date;
+      })
+    );
   }
 
   public ngOnDestroy(): void {
-    if (this.subsriptions) {
-      this.subsriptions.forEach(subscription => {
-        if (subscription) {
-          subscription.unsubscribe();
-        }
-      });
-    }
+    this.subsription.unsubscribe();
   }
 
   public onOkPressed(): void {
@@ -82,7 +78,7 @@ export class AddTodoListTaskComponent
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subsriptions.push(this.vm.add().subscribe(observer));
+    this.subsription.add(this.vm.add().subscribe(observer));
   }
 
   protected buildForm(): FormGroup {

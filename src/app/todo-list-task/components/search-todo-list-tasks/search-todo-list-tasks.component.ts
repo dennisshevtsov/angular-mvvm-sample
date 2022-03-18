@@ -25,7 +25,7 @@ export class SearchTodoListTasksComponent
   @ViewChild('modal')
   private modal!: ModalComponent;
 
-  private subscriptions: Subscription[];
+  private subscription: Subscription;
 
   public constructor(
     public readonly vm: SearchTodoListTasksViewModel,
@@ -34,7 +34,7 @@ export class SearchTodoListTasksComponent
     private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {
-    this.subscriptions = [];
+    this.subscription = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -60,19 +60,13 @@ export class SearchTodoListTasksComponent
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscriptions.push(
+    this.subscription.add(
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
   }
 
   public ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.forEach(subscription => {
-        if (subscription) {
-          subscription.unsubscribe();
-        }
-      });
-    }
+    this.subscription.unsubscribe();
   }
 
   public updateTodoListTaskLink(
@@ -80,13 +74,12 @@ export class SearchTodoListTasksComponent
       return this.todoListTaskLinks.updateTodoListTaskLink(this.vm.todoListId, todoListTaskId);
   }
 
-  public onCompletedChanged(
-    record: SearchTodoListTasksRecordResponseDto): void {
+  public onCompletedChanged(): void {
     const observer = {
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscriptions.push(this.vm.complete().subscribe(observer));
+    this.subscription.add(this.vm.complete().subscribe(observer));
   }
 
   public onDeletePressed(
@@ -96,10 +89,12 @@ export class SearchTodoListTasksComponent
   }
 
   public onDeleteOkPressed(): void {
+    const message = `TODO list task '${this.vm.selected.title}' was deleted.`;
     const observer = {
+      next: () => this.page.showMessage(message),
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscriptions.push(this.vm.delete().subscribe(observer));
+    this.subscription.add(this.vm.delete().subscribe(observer));
   }
 }

@@ -11,9 +11,9 @@ import { GetTodoListTaskRequestDto,
   providedIn: 'root',
 })
 export class UpdateTodoListTaskViewModel {
-  private todoListIdValue    : number | string | undefined;
-  private todoListTaskIdValue: number | string | undefined;
-  private taskValue          : UpdateTodoListTaskRequestDto | undefined;
+  private todoListIdValue    : undefined | number | string;
+  private todoListTaskIdValue: undefined | number | string;
+  private taskValue          : undefined | UpdateTodoListTaskRequestDto;
 
   public constructor(
     private readonly service: TodoListTaskService,

@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
-import { FormBuilder, FormGroup,       } from '@angular/forms';
-import { ActivatedRoute, ParamMap,     } from '@angular/router';
+import { Component, OnDestroy,
+         OnInit, ViewChild,        } from '@angular/core';
+import { FormBuilder, FormGroup,   } from '@angular/forms';
+import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
@@ -71,10 +72,12 @@ export class UpdateTodoListComponent
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
 
-    this.form.valueChanges.subscribe(value => {
-      this.vm.todoList.title = value.title;
-      this.vm.todoList.description = value.description;
-    });
+    this.subscription.add(
+      this.form.valueChanges.subscribe(value => {
+        this.vm.todoList.title = value.title;
+        this.vm.todoList.description = value.description;
+      })
+    );
   }
 
   public ngOnDestroy(): void {

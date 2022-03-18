@@ -21,7 +21,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   @ViewChild('modal')
   public model!: ModalComponent;
 
-  private subscription: Subscription | undefined;
+  private subscription: undefined | Subscription;
 
   public constructor(
     public readonly vm: SearchTodoListsViewModel,
@@ -44,7 +44,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     if (this.subscription) {
-      this.subscription?.unsubscribe();
+      this.subscription.unsubscribe();
     }
   }
 

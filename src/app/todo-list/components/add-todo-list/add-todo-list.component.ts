@@ -22,16 +22,18 @@ export class AddTodoListComponent
   @ViewChild('page')
   public page!: PageComponent;
 
-  private subscription: Subscription | undefined;
+  private subscription: Subscription;
 
   public constructor(
     public readonly vm: AddTodoListViewModel,
 
-    private readonly fb: FormBuilder,
-    private readonly links: TodoListLinks,
+    private readonly fb       : FormBuilder,
+    private readonly links    : TodoListLinks,
     private readonly navigator: TodoListNavigator,
   ) {
     super();
+
+    this.subscription = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -39,16 +41,16 @@ export class AddTodoListComponent
   }
 
   public ngOnInit(): void {
-    this.form.valueChanges.subscribe(value => {
-      this.vm.todoList.title = value.title;
-      this.vm.todoList.description = value.description;
-    });
+    this.subscription.add(
+      this.form.valueChanges.subscribe(value => {
+        this.vm.todoList.title = value.title;
+        this.vm.todoList.description = value.description;
+      })
+    );
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
       this.subscription.unsubscribe();
-    }
   }
 
   public onOkPressed(): void {
@@ -57,7 +59,7 @@ export class AddTodoListComponent
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscription = this.vm.add().subscribe(observer);
+    this.subscription.add(this.vm.add().subscribe(observer));
   }
 
   protected buildForm(): FormGroup {

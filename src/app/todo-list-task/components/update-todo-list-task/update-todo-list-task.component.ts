@@ -25,7 +25,7 @@ export class UpdateTodoListTaskComponent
   @ViewChild('page')
   private page!: PageComponent;
 
-  private subscriptions: Subscription[];
+  private subscription: Subscription;
 
   public constructor(
     public readonly vm: UpdateTodoListTaskViewModel,
@@ -36,7 +36,7 @@ export class UpdateTodoListTaskComponent
   ) {
     super();
 
-    this.subscriptions = [];
+    this.subscription = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -44,50 +44,52 @@ export class UpdateTodoListTaskComponent
   }
 
   public ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
-      const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
-      const todoListTaskId = params.get(TODO_LIST_TASK_ROUTE_ID_PARAMETER);
+    this.subscription.add(
+      this.route.paramMap.subscribe(params => {
+        const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
+        const todoListTaskId = params.get(TODO_LIST_TASK_ROUTE_ID_PARAMETER);
 
-      if (todoListId && todoListTaskId) {
-        this.vm.todoListId = todoListId;
-        this.vm.todoListTaskId = todoListTaskId;
+        if (todoListId && todoListTaskId) {
+          this.vm.todoListId = todoListId;
+          this.vm.todoListTaskId = todoListTaskId;
 
-        const observer = {
-          next: () => {
-            this.form.setValue({
-              'title': this.vm.task.title,
-              'deacription': this.vm.task.description,
-              'date': {
-                'day': this.vm.task.date.day,
-                'fullDay': this.vm.task.date.fullDay,
-                'start': this.vm.task.date.start,
-                'end': this.vm.task.date.end
-              },
-            });
-          },
-          error: () => this.page.showError('An error occured.'),
-        };
+          const observer = {
+            next: () => {
+              this.form.setValue({
+                'title': this.vm.task.title,
+                'deacription': this.vm.task.description,
+                'date': {
+                  'day': this.vm.task.date.day,
+                  'fullDay': this.vm.task.date.fullDay,
+                  'start': this.vm.task.date.start,
+                  'end': this.vm.task.date.end
+                },
+              });
+            },
+            error: () => this.page.showError('An error occured.'),
+          };
 
-        this.subscriptions.push(this.vm.initialize().subscribe(observer));
+          this.subscription.add(
+            this.vm.initialize().subscribe(observer));
 
-        this.form.valueChanges.subscribe(value => {
-          this.vm.task = new UpdateTodoListTaskRequestDto(
-            this.vm.todoListId,
-            this.vm.todoListTaskId,
-            value.title,
-            value.deacription,
-            value.date,
+          this.subscription.add(
+            this.form.valueChanges.subscribe(value => {
+              this.vm.task = new UpdateTodoListTaskRequestDto(
+                this.vm.todoListId,
+                this.vm.todoListTaskId,
+                value.title,
+                value.deacription,
+                value.date,
+              );
+            })
           );
-        });
-      }
-    });
+        }
+      })
+    );
   }
 
   public ngOnDestroy(): void {
-    if (this.subscriptions) {
-      this.subscriptions.filter(subscription => subscription != null)
-                        .forEach(subscription => subscription.unsubscribe());
-    }
+      this.subscription.unsubscribe();
   }
 
   public onOkPressed(): void {
@@ -95,7 +97,7 @@ export class UpdateTodoListTaskComponent
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscriptions.push(this.vm.update().subscribe(observer));
+    this.subscription.add(this.vm.update().subscribe(observer));
   }
 
   protected buildForm(): FormGroup {

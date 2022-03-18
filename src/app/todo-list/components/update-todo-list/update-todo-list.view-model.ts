@@ -10,7 +10,7 @@ import { GetTodoListRequestDto,
   providedIn: 'root',
 })
 export class UpdateTodoListViewModel {
-  private todoListValue: UpdateTodoListRequestDto | undefined;
+  private todoListValue: undefined | UpdateTodoListRequestDto;
 
   public constructor(
     private readonly service: TodoListService,
