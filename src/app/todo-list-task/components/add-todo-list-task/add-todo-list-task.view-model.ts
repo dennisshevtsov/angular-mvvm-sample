@@ -1,8 +1,12 @@
+import { Injectable } from '@angular/core';
 import { map, Observable, } from 'rxjs';
 
 import { AddTodoListTaskRequestDto,
          TodoListTaskService,       } from 'src/app/todo-list-task/api';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class AddTodoListTaskViewModel {
   private todoListIdValue    : undefined | number | string;
   private todoListTaskIdValue: undefined | number | string;
