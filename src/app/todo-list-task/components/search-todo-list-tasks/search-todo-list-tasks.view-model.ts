@@ -1,4 +1,6 @@
-import { map, mergeMap, Observable, switchMap, } from 'rxjs';
+import { Injectable } from '@angular/core';
+
+import { map, mergeMap, Observable, } from 'rxjs';
 
 import { CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
@@ -6,6 +8,9 @@ import { CompleteTodoListTaskRequestDto,
          SearchTodoListTasksRequestDto,
          TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class SearchTodoListTasksViewModel {
   private todoListIdValue: undefined | number | string;
   private recordValue    : undefined | SearchTodoListTasksRecordResponseDto;
