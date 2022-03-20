@@ -57,7 +57,7 @@ export class UpdateTodoListTaskComponent
             next: () => {
               this.form.setValue({
                 'title': this.vm.task.title,
-                'deacription': this.vm.task.description,
+                'description': this.vm.task.description,
                 'date': {
                   'day': this.vm.task.date.day,
                   'fullDay': this.vm.task.date.fullDay,
@@ -103,7 +103,7 @@ export class UpdateTodoListTaskComponent
   protected buildForm(): FormGroup {
     return this.fb.group({
       'title': '',
-      'deacription': '',
+      'description': '',
       'date': this.fb.group({
         'day': Date.now(),
         'fullDay': false,
