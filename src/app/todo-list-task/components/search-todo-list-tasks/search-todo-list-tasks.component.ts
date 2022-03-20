@@ -74,7 +74,8 @@ export class SearchTodoListTasksComponent
       return this.todoListTaskLinks.updateTodoListTaskLink(this.vm.todoListId, todoListTaskId);
   }
 
-  public onCompletedChanged(): void {
+  public onCompletedChanged(
+    record: SearchTodoListTasksRecordResponseDto): void {
     const observer = {
       error: () => this.page.showError('An error occured.'),
     };
