@@ -61,7 +61,7 @@ export class AddTodoListTaskComponent
     this.subsription.add(
       this.form.valueChanges.subscribe(value => {
         this.vm.task.title = value.title;
-        this.vm.task.description = value.title;
+        this.vm.task.description = value.description;
         this.vm.task.date = value.date;
       })
     );
