@@ -1,11 +1,14 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
-import { FormBuilder, FormGroup,   } from '@angular/forms';
+import { FormBuilder, FormGroup,
+         Validators,               } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,
+import { AppClock, Formatter,
+         FormComponentBase,
+         MILLISECONDS_IN_HOUR,
          PageComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
@@ -33,6 +36,8 @@ export class AddTodoListTaskComponent
     private readonly route    : ActivatedRoute,
     private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
+    private readonly formatter: Formatter,
+    private readonly clock    : AppClock,
   ) {
     super();
 
@@ -62,7 +67,11 @@ export class AddTodoListTaskComponent
       this.form.valueChanges.subscribe(value => {
         this.vm.task.title = value.title;
         this.vm.task.description = value.description;
-        this.vm.task.date = value.date;
+
+        this.vm.task.date.day = this.formatter.fromLocalDate(value.date.day);
+        this.vm.task.date.fullDay = value.date.fullDay;
+        this.vm.task.date.start = this.formatter.fromLocalDate(value.date.start);
+        this.vm.task.date.end = this.formatter.fromLocalDate(value.date.end);
       })
     );
   }
@@ -82,15 +91,26 @@ export class AddTodoListTaskComponent
   }
 
   protected buildForm(): FormGroup {
+    const now = this.clock.now();
+
     return this.fb.group({
-      'title': '',
+      'title': this.fb.control('', Validators.required),
       'description': '',
-      'date': this.fb.group({
-        'day': Date.now(),
-        'fullDay': false,
-        'start': Date.now(),
-        'end': ''
-      }),
+      'date': this.buildTimePeriodGroup(now),
     });
+  }
+
+  private buildTimePeriodGroup(now: number): FormGroup {
+    const start = now;
+    const end = start + MILLISECONDS_IN_HOUR;
+
+    const controlConfig = {
+      'day': this.fb.control(this.formatter.toLocalDate(now), Validators.required),
+      'fullDay': false,
+      'start': this.formatter.toLocalTime(start),
+      'end': this.formatter.toLocalTime(end),
+    };
+
+    return this.fb.group(controlConfig);
   }
 }
