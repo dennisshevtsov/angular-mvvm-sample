@@ -1,6 +1,7 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
-import { FormBuilder, FormGroup,
+import { AbstractControlOptions,
+         FormBuilder, FormGroup,
          Validators,               } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
@@ -13,6 +14,7 @@ import { AppClock, Formatter,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { timePeriodValidator,          } from 'src/app/todo-list-task/validators';
 import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
@@ -111,6 +113,12 @@ export class AddTodoListTaskComponent
       'end': this.formatter.toLocalTime(end),
     };
 
-    return this.fb.group(controlConfig);
+    const options: AbstractControlOptions = {
+      validators: [
+        timePeriodValidator,
+      ],
+    };
+
+    return this.fb.group(controlConfig, options);
   }
 }
