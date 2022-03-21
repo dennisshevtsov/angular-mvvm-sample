@@ -1,16 +1,16 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,      } from '@angular/core';
-import { FormBuilder, FormGroup, } from '@angular/forms';
+import { FormBuilder, FormGroup,
+         Validators,             } from '@angular/forms';
 import { ActivatedRoute,         } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,
+import { Formatter, FormComponentBase,
          PageComponent,
          TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { UpdateTodoListTaskRequestDto,      } from 'src/app/todo-list-task/api';
 import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
 
 @Component({
@@ -30,9 +30,10 @@ export class UpdateTodoListTaskComponent
   public constructor(
     public readonly vm: UpdateTodoListTaskViewModel,
 
-    private readonly fb   : FormBuilder,
-    private readonly route: ActivatedRoute,
-    private readonly links: TodoListTaskLinks,
+    private readonly fb       : FormBuilder,
+    private readonly route    : ActivatedRoute,
+    private readonly links    : TodoListTaskLinks,
+    private readonly formatter: Formatter,
   ) {
     super();
 
@@ -59,10 +60,10 @@ export class UpdateTodoListTaskComponent
                 'title': this.vm.task.title,
                 'description': this.vm.task.description,
                 'date': {
-                  'day': this.vm.task.date.day,
+                  'day': this.formatter.toLocalDate(this.vm.task.date.day),
                   'fullDay': this.vm.task.date.fullDay,
-                  'start': this.vm.task.date.start,
-                  'end': this.vm.task.date.end
+                  'start': this.formatter.toLocalTime(this.vm.task.date.start),
+                  'end': this.formatter.toLocalTime(this.vm.task.date.end),
                 },
               });
             },
@@ -74,13 +75,13 @@ export class UpdateTodoListTaskComponent
 
           this.subscription.add(
             this.form.valueChanges.subscribe(value => {
-              this.vm.task = new UpdateTodoListTaskRequestDto(
-                this.vm.todoListId,
-                this.vm.todoListTaskId,
-                value.title,
-                value.deacription,
-                value.date,
-              );
+              this.vm.task.title = value.title;
+              this.vm.task.description = value.deacription;
+
+              this.vm.task.date.day = this.formatter.fromLocalDate(value.date);
+              this.vm.task.date.fullDay = value.fullDay;
+              this.vm.task.date.start = this.formatter.fromLocalTime(value.start);
+              this.vm.task.date.end = this.formatter.fromLocalTime(value.end);
             })
           );
         }
@@ -102,14 +103,20 @@ export class UpdateTodoListTaskComponent
 
   protected buildForm(): FormGroup {
     return this.fb.group({
-      'title': '',
+      'title': this.fb.control('', Validators.required),
       'description': '',
-      'date': this.fb.group({
-        'day': Date.now(),
-        'fullDay': false,
-        'start': Date.now(),
-        'end': ''
-      }),
+      'date': this.buildTimePeriodGroup(),
     });
+  }
+
+  private buildTimePeriodGroup(): FormGroup {
+    const controlConfig = {
+      'day': this.fb.control('', Validators.required),
+      'fullDay': false,
+      'start': '',
+      'end': '',
+    };
+
+    return this.fb.group(controlConfig);
   }
 }
