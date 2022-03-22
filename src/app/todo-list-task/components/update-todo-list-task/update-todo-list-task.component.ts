@@ -97,6 +97,7 @@ export class UpdateTodoListTaskComponent
 
   public onOkPressed(): void {
     const observer = {
+      complete: () => this.page.showMessage('The TODO list task was updated.'),
       error: () => this.page.showError('An error occured.'),
     };
 
