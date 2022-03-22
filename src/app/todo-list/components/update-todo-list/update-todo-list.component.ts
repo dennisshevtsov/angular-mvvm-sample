@@ -21,7 +21,7 @@ export class UpdateTodoListComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
   @ViewChild('page')
-  public page!: PageComponent;
+  private page!: PageComponent;
 
   private readonly subscription: Subscription;
 
@@ -85,7 +85,12 @@ export class UpdateTodoListComponent
   }
 
   public onOkPressed(): void {
-    this.subscription.add(this.vm.update().subscribe());
+    const observer = {
+      complete: () => this.page.showMessage('The TODO list was updated.'),
+      error: () => this.page.showError('An error occured.'),
+    };
+
+    this.subscription.add(this.vm.update().subscribe(observer));
   }
 
   protected buildForm(): FormGroup {
