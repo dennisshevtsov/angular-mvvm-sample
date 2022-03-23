@@ -1,6 +1,7 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
-import { FormBuilder, FormGroup,   } from '@angular/forms';
+import { FormBuilder, FormGroup,
+         Validators,               } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
@@ -85,17 +86,21 @@ export class UpdateTodoListComponent
   }
 
   public onOkPressed(): void {
-    const observer = {
-      complete: () => this.page.showMessage('The TODO list was updated.'),
-      error: () => this.page.showError('An error occured.'),
-    };
+    this.validateForm();
 
-    this.subscription.add(this.vm.update().subscribe(observer));
+    if (this.form.valid) {
+      const observer = {
+        complete: () => this.page.showMessage('The TODO list was updated.'),
+        error: () => this.page.showError('An error occured.'),
+      };
+
+      this.subscription.add(this.vm.update().subscribe(observer));
+    }
   }
 
   protected buildForm(): FormGroup {
     return this.fb.group({
-      'title': '',
+      'title': this.fb.control('', Validators.required),
       'description': ''
     });
   }
