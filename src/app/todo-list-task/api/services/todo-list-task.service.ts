@@ -23,10 +23,10 @@ export class TodoListTaskService {
     title         : string,
     description   : string,
     date: {
-      day     : number,
-      fullDay : boolean,
-      start   : number,
-      end     : number,
+      day    : number,
+      fullDay: boolean,
+      start  : number,
+      end    : number,
     },
   }[]> = new Map();
 
@@ -156,7 +156,7 @@ export class TodoListTaskService {
     command: DeleteTodoListTaskRequestDto)
     : Observable<void> {
       const todoListTasks = this.todoListTasksMap.get(
-        command.todoListId)!;
+        command.todoListId);
 
       if (todoListTasks) {
         const todoListTaskIndex = todoListTasks.findIndex(
