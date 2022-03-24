@@ -83,13 +83,17 @@ export class AddTodoListTaskComponent
   }
 
   public onOkPressed(): void {
-    const observer = {
-      next: () => this.navigator.navigateToUpdateTodoListTask(
-        this.vm.todoListId, this.vm.todoListTaskId),
-      error: () => this.page.showError('An error occured.'),
-    };
+    this.validateForm();
 
-    this.subsription.add(this.vm.add().subscribe(observer));
+    if (this.form.valid) {
+      const observer = {
+        next: () => this.navigator.navigateToUpdateTodoListTask(
+          this.vm.todoListId, this.vm.todoListTaskId),
+        error: () => this.page.showError('An error occured.'),
+      };
+
+      this.subsription.add(this.vm.add().subscribe(observer));
+    }
   }
 
   protected buildForm(): FormGroup {
