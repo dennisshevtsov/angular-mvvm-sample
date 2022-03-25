@@ -72,8 +72,8 @@ export class AddTodoListTaskComponent
 
         this.vm.task.date.day = this.formatter.fromLocalDate(value.date.day);
         this.vm.task.date.fullDay = value.date.fullDay;
-        this.vm.task.date.start = this.formatter.fromLocalDate(value.date.start);
-        this.vm.task.date.end = this.formatter.fromLocalDate(value.date.end);
+        this.vm.task.date.start = this.formatter.fromLocalTime(value.date.start);
+        this.vm.task.date.end = this.formatter.fromLocalTime(value.date.end);
       })
     );
   }
