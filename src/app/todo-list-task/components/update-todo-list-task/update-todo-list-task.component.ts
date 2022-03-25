@@ -80,10 +80,10 @@ export class UpdateTodoListTaskComponent
               this.vm.task.title = value.title;
               this.vm.task.description = value.deacription;
 
-              this.vm.task.date.day = this.formatter.fromLocalDate(value.date);
-              this.vm.task.date.fullDay = value.fullDay;
-              this.vm.task.date.start = this.formatter.fromLocalTime(value.start);
-              this.vm.task.date.end = this.formatter.fromLocalTime(value.end);
+              this.vm.task.date.day = this.formatter.fromLocalDate(value.date.day);
+              this.vm.task.date.fullDay = value.date.fullDay;
+              this.vm.task.date.start = this.formatter.fromLocalTime(value.date.start);
+              this.vm.task.date.end = this.formatter.fromLocalTime(value.date.end);
             })
           );
         }
