@@ -34,7 +34,7 @@ export class TodoListTaskService {
 
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
-    : Observable<GetTodoListTaskResponseDto | null> {
+    : Observable<GetTodoListTaskResponseDto> {
     const todoListTasks = this.todoListTasksMap.get(query.todoListId);
 
     if (todoListTasks) {
@@ -48,7 +48,7 @@ export class TodoListTaskService {
       }
     }
 
-    return of(null);
+    return throwError(() => new Error('The TODO list task is not found.'));
   }
 
   public searchTodoListTasks(
