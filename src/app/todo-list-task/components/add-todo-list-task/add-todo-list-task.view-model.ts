@@ -38,10 +38,6 @@ export class AddTodoListTaskViewModel {
     return this.taskValue ?? (this.taskValue = new AddTodoListTaskRequestDto(this.todoListId));
   }
 
-  public set task(task: AddTodoListTaskRequestDto) {
-    this.taskValue = task;
-  }
-
   public add(): Observable<void> {
     return this.service.addTodoListTask(this.task)
                        .pipe(map(responseDto => {
