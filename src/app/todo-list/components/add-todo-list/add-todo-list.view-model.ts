@@ -3,7 +3,8 @@ import { Injectable, } from '@angular/core';
 import { map, Observable, } from 'rxjs';
 
 import { AddTodoListRequestDto,
-         TodoListService,       } from 'src/app/todo-list/api';
+         AddTodoListResponseDto,
+         TodoListService,        } from 'src/app/todo-list/api';
 
 @Injectable({
   providedIn: 'root',
@@ -28,16 +29,14 @@ export class AddTodoListViewModel {
     return this.todoListValue ?? (this.todoListValue = new AddTodoListRequestDto());
   }
 
-  public set todoList(todoList: AddTodoListRequestDto) {
-    this.todoListValue = todoList;
-  }
-
   public add(): Observable<void> {
+    const projet = (responseDto: AddTodoListResponseDto) => {
+      if (responseDto) {
+        this.todoListId = responseDto.todoListId;
+      }
+    };
+
     return this.service.addTodoList(this.todoList)
-                       .pipe(map(responseDto => {
-                         if (responseDto) {
-                           this.todoListId = responseDto.todoListId;
-                         }
-                       }));
+                       .pipe(map(projet));
   }
 }
