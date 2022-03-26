@@ -39,24 +39,24 @@ export class UpdateTodoListTaskViewModel {
     return this.taskValue ?? new UpdateTodoListTaskRequestDto();
   }
 
-  public set task(task: UpdateTodoListTaskRequestDto) {
-    this.taskValue = task;
-  }
-
   public initialize(): Observable<void> {
     const requestDto = new GetTodoListTaskRequestDto(
       this.todoListId,
       this.todoListTaskId,
     );
-    const project = (responseDto: GetTodoListTaskResponseDto | null) => {
+
+    const project = (responseDto: GetTodoListTaskResponseDto) => {
       if (responseDto) {
-        this.task = new UpdateTodoListTaskRequestDto(
-          this.todoListId,
-          this.todoListTaskId,
-          responseDto.title,
-          responseDto.description,
-          responseDto.date,
-        );
+        this.task.todoListId = this.todoListId;
+        this.task.todoListId = this.todoListTaskId;
+
+        this.task.title = responseDto.title;
+        this.task.description = responseDto.description;
+
+        this.task.date.day = responseDto.date.day;
+        this.task.date.fullDay = responseDto.date.fullDay;
+        this.task.date.start = responseDto.date.start;
+        this.task.date.end = responseDto.date.end;
       }
     };
 
