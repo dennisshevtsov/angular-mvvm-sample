@@ -1,5 +1,7 @@
-import { Component, Input,            } from '@angular/core';
+import { Component, Input,     } from '@angular/core';
 import { ControlValueAccessor,
+         FormBuilder,
+         FormGroup,
          NG_VALUE_ACCESSOR,    } from '@angular/forms';
 
 import { TodoListTaskDateDto, } from 'src/app/todo-list-task/api';
@@ -26,6 +28,16 @@ export class TodoListTaskPeriodComponent implements ControlValueAccessor {
   private onTouched: any;
   private disabled : boolean = false;
 
+  private formValue: undefined | FormGroup;
+
+  public constructor(
+    private readonly fb: FormBuilder,
+  ) {}
+
+  public get form(): FormGroup {
+    return this.formValue ?? (this.formValue = this.buildForm());
+  }
+
   public writeValue(obj: any): void {
     this.period = obj;
   }
@@ -40,5 +52,9 @@ export class TodoListTaskPeriodComponent implements ControlValueAccessor {
 
   public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
+  }
+
+  private buildForm(): FormGroup {
+    return this.fb.group({});
   }
 }
