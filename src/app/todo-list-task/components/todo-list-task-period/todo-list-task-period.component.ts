@@ -1,4 +1,4 @@
-import { Component,            } from '@angular/core';
+import { Component, Input,            } from '@angular/core';
 import { ControlValueAccessor,
          NG_VALUE_ACCESSOR,    } from '@angular/forms';
 
@@ -19,7 +19,9 @@ import { TodoListTaskDateDto, } from 'src/app/todo-list-task/api';
   ],
 })
 export class TodoListTaskPeriodComponent implements ControlValueAccessor {
-  private period   : undefined | TodoListTaskDateDto;
+  @Input()
+  private period!:TodoListTaskDateDto;
+
   private onChange : any;
   private onTouched: any;
   private disabled : boolean = false;
