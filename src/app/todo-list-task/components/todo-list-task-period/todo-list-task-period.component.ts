@@ -1,9 +1,11 @@
-import { Component, Input,       } from '@angular/core';
+import { Component, Input, OnInit, } from '@angular/core';
 import { AbstractControlOptions,
          ControlValueAccessor,
          FormBuilder, FormGroup,
          NG_VALUE_ACCESSOR,
-         Validators,             } from '@angular/forms';
+         Validators,               } from '@angular/forms';
+
+import { Subscription, } from 'rxjs';
 
 import { TodoListTaskDateDto, } from 'src/app/todo-list-task/api';
 import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
@@ -22,22 +24,35 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
     }
   ],
 })
-export class TodoListTaskPeriodComponent implements ControlValueAccessor {
+export class TodoListTaskPeriodComponent
+  implements OnInit, ControlValueAccessor {
   @Input()
   private period!:TodoListTaskDateDto;
 
-  private onChange : any;
-  private onTouched: any;
-  private disabled : boolean = false;
+  private readonly subscription: Subscription;
+
+  private onChange : (period: TodoListTaskDateDto) => void;
+  private onTouched: () => void;
+  private disabled : boolean;
 
   private formValue: undefined | FormGroup;
 
   public constructor(
     private readonly fb: FormBuilder,
-  ) {}
+  ) {
+    this.subscription = new Subscription();
+
+    this.onChange  = (period: TodoListTaskDateDto) => {};
+    this.onTouched = () => {};
+    this.disabled  = false;
+  }
 
   public get form(): FormGroup {
     return this.formValue ?? (this.formValue = this.buildForm());
+  }
+
+  public ngOnInit(): void {
+    this.form.valueChanges.subscribe();
   }
 
   public writeValue(obj: any): void {
