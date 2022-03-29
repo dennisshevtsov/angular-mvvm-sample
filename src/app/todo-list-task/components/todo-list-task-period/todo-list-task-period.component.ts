@@ -1,10 +1,12 @@
-import { Component, Input,     } from '@angular/core';
-import { ControlValueAccessor,
-         FormBuilder,
-         FormGroup,
-         NG_VALUE_ACCESSOR,    } from '@angular/forms';
+import { Component, Input,       } from '@angular/core';
+import { AbstractControlOptions,
+         ControlValueAccessor,
+         FormBuilder, FormGroup,
+         NG_VALUE_ACCESSOR,
+         Validators,             } from '@angular/forms';
 
 import { TodoListTaskDateDto, } from 'src/app/todo-list-task/api';
+import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
 
 @Component({
   selector: 'todo-list-task-period',
@@ -55,6 +57,19 @@ export class TodoListTaskPeriodComponent implements ControlValueAccessor {
   }
 
   private buildForm(): FormGroup {
-    return this.fb.group({});
+    const controlConfig = {
+      'day'    : this.fb.control('', Validators.required),
+      'fullDay': false,
+      'start'  : '',
+      'end'    : '',
+    };
+
+    const options: AbstractControlOptions = {
+      validators: [
+        timePeriodValidator,
+      ],
+    };
+
+    return this.fb.group(controlConfig, options);
   }
 }
