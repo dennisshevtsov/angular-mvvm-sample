@@ -52,7 +52,8 @@ export class TodoListTaskPeriodComponent
   }
 
   public ngOnInit(): void {
-    this.form.valueChanges.subscribe();
+    this.subscription.add(
+      this.form.valueChanges.subscribe(value => this.onChange(value)));
   }
 
   public writeValue(obj: any): void {
