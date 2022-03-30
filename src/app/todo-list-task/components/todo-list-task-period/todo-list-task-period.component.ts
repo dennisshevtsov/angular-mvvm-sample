@@ -1,9 +1,12 @@
-import { Component, OnDestroy,                } from '@angular/core';
-import { AbstractControlOptions,
+import { Component, OnDestroy,    } from '@angular/core';
+import { AbstractControl,
+         AbstractControlOptions,
          ControlValueAccessor,
          FormBuilder, FormGroup,
+         NG_VALIDATORS,
          NG_VALUE_ACCESSOR,
-         Validators,               } from '@angular/forms';
+         ValidationErrors,
+         Validator, Validators,   } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
@@ -20,11 +23,16 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
       provide: NG_VALUE_ACCESSOR,
       multi: true,
       useExisting: TodoListTaskPeriodComponent,
+    },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: TodoListTaskPeriodComponent,
     }
   ],
 })
 export class TodoListTaskPeriodComponent
-  implements OnDestroy, ControlValueAccessor {
+  implements OnDestroy, ControlValueAccessor, Validator {
   private readonly subscription: Subscription;
 
   private onTouched: () => void;
@@ -72,6 +80,11 @@ export class TodoListTaskPeriodComponent
     else {
       this.form.enable();
     }
+  }
+
+  public validate(control: AbstractControl)
+  : ValidationErrors | null {
+    return null;
   }
 
   private buildForm(): FormGroup {
