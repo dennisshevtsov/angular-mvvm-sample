@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, } from '@angular/core';
+import { Component,                } from '@angular/core';
 import { AbstractControlOptions,
          ControlValueAccessor,
          FormBuilder, FormGroup,
@@ -7,7 +7,6 @@ import { AbstractControlOptions,
 
 import { Subscription, } from 'rxjs';
 
-import { TodoListTaskDateDto, } from 'src/app/todo-list-task/api';
 import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
 
 @Component({
@@ -24,16 +23,10 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
     }
   ],
 })
-export class TodoListTaskPeriodComponent
-  implements OnInit, ControlValueAccessor {
-  @Input()
-  private period!:TodoListTaskDateDto;
-
+export class TodoListTaskPeriodComponent implements ControlValueAccessor {
   private readonly subscription: Subscription;
 
-  private onChange : (period: TodoListTaskDateDto) => void;
   private onTouched: () => void;
-  private disabled : boolean;
 
   private formValue: undefined | FormGroup;
 
@@ -42,26 +35,23 @@ export class TodoListTaskPeriodComponent
   ) {
     this.subscription = new Subscription();
 
-    this.onChange  = (period: TodoListTaskDateDto) => {};
     this.onTouched = () => {};
-    this.disabled  = false;
   }
 
   public get form(): FormGroup {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
-  public ngOnInit(): void {
-    this.subscription.add(
-      this.form.valueChanges.subscribe(value => this.onChange(value)));
-  }
-
   public writeValue(obj: any): void {
-    this.period = obj;
+    if (obj) {
+      this.form.setValue(obj);
+    }
   }
 
   public registerOnChange(fn: any): void {
-    this.onChange = fn;
+    if (fn) {
+      this.subscription.add(this.form.valueChanges.subscribe(fn));
+    }
   }
 
   public registerOnTouched(fn: any): void {
@@ -69,7 +59,12 @@ export class TodoListTaskPeriodComponent
   }
 
   public setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
+    if (isDisabled) {
+      this.form.disable();
+    }
+    else {
+      this.form.enable();
+    }
   }
 
   private buildForm(): FormGroup {
