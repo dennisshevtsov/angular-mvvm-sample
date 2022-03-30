@@ -1,4 +1,4 @@
-import { Component,                } from '@angular/core';
+import { Component, OnDestroy,                } from '@angular/core';
 import { AbstractControlOptions,
          ControlValueAccessor,
          FormBuilder, FormGroup,
@@ -23,7 +23,8 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
     }
   ],
 })
-export class TodoListTaskPeriodComponent implements ControlValueAccessor {
+export class TodoListTaskPeriodComponent
+  implements OnDestroy, ControlValueAccessor {
   private readonly subscription: Subscription;
 
   private onTouched: () => void;
@@ -40,6 +41,12 @@ export class TodoListTaskPeriodComponent implements ControlValueAccessor {
 
   public get form(): FormGroup {
     return this.formValue ?? (this.formValue = this.buildForm());
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   public writeValue(obj: any): void {
