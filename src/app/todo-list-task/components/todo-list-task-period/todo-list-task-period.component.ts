@@ -91,7 +91,25 @@ export class TodoListTaskPeriodComponent
 
   public validate(control: AbstractControl)
   : ValidationErrors | null {
-    return null;
+    const errors: ValidationErrors = {};
+
+    if (this.form.controls['day']) {
+      errors['day'] = this.form.controls['day'].errors;
+    }
+
+    if (this.form.controls['fullDay']) {
+      errors['fullDay'] = this.form.controls['fullDay'].errors;
+    }
+
+    if (this.form.controls['start']) {
+      errors['start'] = this.form.controls['start'].errors;
+    }
+
+    if (this.form.controls['end']) {
+      errors['end'] = this.form.controls['end'].errors;
+    }
+
+    return errors;
   }
 
   private buildForm(): FormGroup {
