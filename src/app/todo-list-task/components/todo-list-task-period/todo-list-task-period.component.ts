@@ -35,16 +35,12 @@ export class TodoListTaskPeriodComponent
   implements OnDestroy, ControlValueAccessor, Validator {
   private readonly subscription: Subscription;
 
-  private onTouched: () => void;
-
   private formValue: undefined | FormGroup;
 
   public constructor(
     private readonly fb: FormBuilder,
   ) {
     this.subscription = new Subscription();
-
-    this.onTouched = () => {};
   }
 
   public get form(): FormGroup {
