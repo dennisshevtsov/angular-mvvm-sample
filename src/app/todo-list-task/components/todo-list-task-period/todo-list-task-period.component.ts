@@ -1,4 +1,4 @@
-import { Component, OnDestroy,    } from '@angular/core';
+import { Component, OnDestroy,   } from '@angular/core';
 import { AbstractControl,
          AbstractControlOptions,
          ControlValueAccessor,
@@ -6,7 +6,7 @@ import { AbstractControl,
          NG_VALIDATORS,
          NG_VALUE_ACCESSOR,
          ValidationErrors,
-         Validator, Validators,   } from '@angular/forms';
+         Validator, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
@@ -70,7 +70,14 @@ export class TodoListTaskPeriodComponent
   }
 
   public registerOnTouched(fn: any): void {
-    this.onTouched = fn;
+    if (fn) {
+      const subscription = this.form.valueChanges.subscribe(value => {
+        if (this.form.touched) {
+          fn();
+          subscription.unsubscribe();
+        }
+      });
+    }
   }
 
   public setDisabledState(isDisabled: boolean): void {
