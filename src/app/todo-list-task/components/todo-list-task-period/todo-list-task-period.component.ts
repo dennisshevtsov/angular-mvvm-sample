@@ -89,21 +89,14 @@ export class TodoListTaskPeriodComponent
   : ValidationErrors | null {
     const errors: ValidationErrors = {};
 
-    if (this.form.controls['day']) {
-      errors['day'] = this.form.controls['day'].errors;
-    }
+    Object.keys(this.form.controls)
+          .forEach(controlName => {
+            const control = this.form.controls[controlName];
 
-    if (this.form.controls['fullDay']) {
-      errors['fullDay'] = this.form.controls['fullDay'].errors;
-    }
-
-    if (this.form.controls['start']) {
-      errors['start'] = this.form.controls['start'].errors;
-    }
-
-    if (this.form.controls['end']) {
-      errors['end'] = this.form.controls['end'].errors;
-    }
+            if (control.errors) {
+              errors[controlName] = control.errors;
+            }
+          })
 
     return errors;
   }
