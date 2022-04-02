@@ -1,7 +1,7 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
 import { AbstractControlOptions,
-         FormBuilder, FormGroup,
+         FormBuilder, FormControl, FormGroup,
          Validators,               } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
@@ -106,23 +106,17 @@ export class AddTodoListTaskComponent
     });
   }
 
-  private buildTimePeriodGroup(now: number): FormGroup {
+  private buildTimePeriodGroup(now: number): FormControl {
     const start = now;
     const end = start + MILLISECONDS_IN_HOUR;
 
     const controlConfig = {
-      'day': this.fb.control(this.formatter.toLocalDate(now), Validators.required),
-      'fullDay': false,
+      'day': this.formatter.toLocalDate(now),
+      'fullDay': true,
       'start': this.formatter.toLocalTime(start),
       'end': this.formatter.toLocalTime(end),
     };
 
-    const options: AbstractControlOptions = {
-      validators: [
-        timePeriodValidator,
-      ],
-    };
-
-    return this.fb.group(controlConfig, options);
+    return this.fb.control(controlConfig);
   }
 }
