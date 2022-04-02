@@ -9,6 +9,7 @@ import { AbstractControl,
          Validator, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
+import { FormComponentBase } from 'src/app/core';
 
 import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
 
@@ -32,19 +33,16 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
   ],
 })
 export class TodoListTaskPeriodComponent
+  extends FormComponentBase
   implements OnDestroy, ControlValueAccessor, Validator {
   private readonly subscription: Subscription;
-
-  private formValue: undefined | FormGroup;
 
   public constructor(
     private readonly fb: FormBuilder,
   ) {
-    this.subscription = new Subscription();
-  }
+    super();
 
-  public get form(): FormGroup {
-    return this.formValue ?? (this.formValue = this.buildForm());
+    this.subscription = new Subscription();
   }
 
   public ngOnDestroy(): void {
@@ -101,7 +99,7 @@ export class TodoListTaskPeriodComponent
     return errors;
   }
 
-  private buildForm(): FormGroup {
+  protected buildForm(): FormGroup {
     const controlConfig = {
       'day'    : this.fb.control('', Validators.required),
       'fullDay': false,
