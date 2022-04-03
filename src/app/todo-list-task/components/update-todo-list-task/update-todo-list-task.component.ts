@@ -1,9 +1,8 @@
 import { Component, OnDestroy,
-         OnInit, ViewChild,      } from '@angular/core';
-import { AbstractControlOptions,
-         FormBuilder, FormGroup,
-         Validators,             } from '@angular/forms';
-import { ActivatedRoute,         } from '@angular/router';
+         OnInit, ViewChild,        } from '@angular/core';
+import { FormBuilder, FormControl,
+         FormGroup, Validators,    } from '@angular/forms';
+import { ActivatedRoute,           } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
@@ -12,7 +11,6 @@ import { Formatter, FormComponentBase,
          TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { timePeriodValidator,               } from 'src/app/todo-list-task/validators';
 import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
 
 @Component({
@@ -112,24 +110,18 @@ export class UpdateTodoListTaskComponent
     return this.fb.group({
       'title': this.fb.control('', Validators.required),
       'description': '',
-      'date': this.buildTimePeriodGroup(),
+      'date': this.buildTimePeriodControl(),
     });
   }
 
-  private buildTimePeriodGroup(): FormGroup {
+  private buildTimePeriodControl(): FormControl {
     const controlConfig = {
-      'day': this.fb.control('', Validators.required),
+      'day': '',
       'fullDay': false,
       'start': '',
       'end': '',
     };
 
-    const options: AbstractControlOptions = {
-      validators: [
-        timePeriodValidator,
-      ],
-    };
-
-    return this.fb.group(controlConfig, options);
+    return this.fb.control(controlConfig);
   }
 }
