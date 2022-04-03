@@ -1,8 +1,7 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
-import { AbstractControlOptions,
-         FormBuilder, FormControl, FormGroup,
-         Validators,               } from '@angular/forms';
+import { FormBuilder, FormControl,
+         FormGroup, Validators,    } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
@@ -102,11 +101,11 @@ export class AddTodoListTaskComponent
     return this.fb.group({
       'title': this.fb.control('', Validators.required),
       'description': '',
-      'date': this.buildTimePeriodGroup(now),
+      'date': this.buildTimePeriodControl(now),
     });
   }
 
-  private buildTimePeriodGroup(now: number): FormControl {
+  private buildTimePeriodControl(now: number): FormControl {
     const start = now;
     const end = start + MILLISECONDS_IN_HOUR;
 
