@@ -6,14 +6,12 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { AppClock, Formatter,
-         FormComponentBase,
+import { AppClock, FormComponentBase,
          MILLISECONDS_IN_HOUR,
          PageComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { timePeriodValidator,          } from 'src/app/todo-list-task/validators';
 import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
@@ -37,7 +35,6 @@ export class AddTodoListTaskComponent
     private readonly route    : ActivatedRoute,
     private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
-    private readonly formatter: Formatter,
     private readonly clock    : AppClock,
   ) {
     super();
@@ -69,10 +66,10 @@ export class AddTodoListTaskComponent
         this.vm.task.title = value.title;
         this.vm.task.description = value.description;
 
-        this.vm.task.date.day = this.formatter.fromLocalDate(value.date.day);
+        this.vm.task.date.day = value.date.day;
         this.vm.task.date.fullDay = value.date.fullDay;
-        this.vm.task.date.start = this.formatter.fromLocalTime(value.date.start);
-        this.vm.task.date.end = this.formatter.fromLocalTime(value.date.end);
+        this.vm.task.date.start = value.date.start;
+        this.vm.task.date.end = value.date.end;
       })
     );
   }
@@ -110,10 +107,10 @@ export class AddTodoListTaskComponent
     const end = start + MILLISECONDS_IN_HOUR;
 
     const controlConfig = {
-      'day': this.formatter.toLocalDate(now),
-      'fullDay': true,
-      'start': this.formatter.toLocalTime(start),
-      'end': this.formatter.toLocalTime(end),
+      'day': now,
+      'fullDay': false,
+      'start': start,
+      'end': end,
     };
 
     return this.fb.control(controlConfig);
