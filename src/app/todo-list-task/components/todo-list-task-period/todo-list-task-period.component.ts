@@ -9,9 +9,10 @@ import { AbstractControl,
          Validator, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
-import { FormComponentBase } from 'src/app/core';
 
-import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
+import { Formatter, FormComponentBase } from 'src/app/core';
+import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
+import { timePeriodValidator,         } from 'src/app/todo-list-task/validators';
 
 @Component({
   selector: 'todo-list-task-period',
@@ -38,7 +39,8 @@ export class TodoListTaskPeriodComponent
   private readonly subscription: Subscription;
 
   public constructor(
-    private readonly fb: FormBuilder,
+    private readonly fb       : FormBuilder,
+    private readonly formatter: Formatter,
   ) {
     super();
 
@@ -51,9 +53,14 @@ export class TodoListTaskPeriodComponent
     }
   }
 
-  public writeValue(obj: any): void {
-    if (obj) {
-      this.form.setValue(obj);
+  public writeValue(period: TodoListTaskDateDto): void {
+    if (period) {
+      this.form.setValue({
+        'day': this.formatter.toLocalDate(period.day),
+        'fullDay': period.fullDay,
+        'start': this.formatter.toLocalTime(period.start),
+        'end': this.formatter.toLocalTime(period.end),
+      });
     }
   }
 
