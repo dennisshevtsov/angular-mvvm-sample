@@ -36,7 +36,7 @@ export class UpdateTodoListTaskViewModel {
   }
 
   public get task(): UpdateTodoListTaskRequestDto {
-    return this.taskValue ?? new UpdateTodoListTaskRequestDto();
+    return this.taskValue ?? (this.taskValue = new UpdateTodoListTaskRequestDto());
   }
 
   public initialize(): Observable<void> {

@@ -55,7 +55,7 @@ export class UpdateTodoListTaskComponent
           this.vm.todoListTaskId = todoListTaskId;
 
           const observer = {
-            next: () => {
+            complete: () => {
               this.form.setValue({
                 'title': this.vm.task.title,
                 'description': this.vm.task.description,
