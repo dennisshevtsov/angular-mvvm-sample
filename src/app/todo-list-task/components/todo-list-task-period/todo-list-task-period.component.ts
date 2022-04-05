@@ -64,10 +64,19 @@ export class TodoListTaskPeriodComponent
     }
   }
 
-  public registerOnChange(fn: any): void {
-    if (fn) {
-      this.subscription.add(this.form.valueChanges.subscribe(fn));
-    }
+  public registerOnChange(fn: (value: any) => void): void {
+    const onChange = (value: any) => {
+      const period = new TodoListTaskDateDto(
+        this.formatter.fromLocalDate(value.day),
+        value.fullDay,
+        this.formatter.fromLocalTime(value.start),
+        this.formatter.fromLocalTime(value.end));
+
+      fn(period);
+    };
+    const subscription = this.form.valueChanges.subscribe(onChange);
+
+    this.subscription.add(subscription);
   }
 
   public registerOnTouched(fn: any): void {

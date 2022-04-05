@@ -66,11 +66,7 @@ export class AddTodoListTaskComponent
       this.form.valueChanges.subscribe(value => {
         this.vm.task.title = value.title;
         this.vm.task.description = value.description;
-
-        this.vm.task.date.day = value.date.day;
-        this.vm.task.date.fullDay = value.date.fullDay;
-        this.vm.task.date.start = value.date.start;
-        this.vm.task.date.end = value.date.end;
+        this.vm.task.date = value.date;
       })
     );
   }

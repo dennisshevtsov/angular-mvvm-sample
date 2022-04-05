@@ -66,12 +66,8 @@ export class UpdateTodoListTaskComponent
           this.subscription.add(
             this.form.valueChanges.subscribe(value => {
               this.vm.task.title = value.title;
-              this.vm.task.description = value.deacription;
-
-              this.vm.task.date.day = this.formatter.fromLocalDate(value.date.day);
-              this.vm.task.date.fullDay = value.date.fullDay;
-              this.vm.task.date.start = this.formatter.fromLocalTime(value.date.start);
-              this.vm.task.date.end = this.formatter.fromLocalTime(value.date.end);
+              this.vm.task.description = value.description;
+              this.vm.task.date.day = value.date;
             })
           );
         }
@@ -89,7 +85,7 @@ export class UpdateTodoListTaskComponent
     if (this.form.valid) {
       const observer = {
         complete: () => this.page.showMessage('The TODO list task was updated.'),
-        error: () => this.page.showError('An error occured.'),
+        error   : () => this.page.showError('An error occured.'),
       };
 
       this.subscription.add(this.vm.update().subscribe(observer));
