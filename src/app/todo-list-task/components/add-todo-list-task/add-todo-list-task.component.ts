@@ -1,7 +1,7 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
-import { FormBuilder, FormControl,
-         FormGroup, Validators,    } from '@angular/forms';
+import { FormBuilder, FormGroup,
+         Validators,               } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
@@ -12,6 +12,7 @@ import { AppClock, FormComponentBase,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { TodoListTaskDateDto,          } from 'src/app/todo-list-task/api';
 import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
@@ -98,21 +99,14 @@ export class AddTodoListTaskComponent
     return this.fb.group({
       'title': this.fb.control('', Validators.required),
       'description': '',
-      'date': this.buildTimePeriodControl(now),
+      'date': this.buildDefaultTimePeriod(now),
     });
   }
 
-  private buildTimePeriodControl(now: number): FormControl {
+  private buildDefaultTimePeriod(now: number): TodoListTaskDateDto {
     const start = now;
     const end = start + MILLISECONDS_IN_HOUR;
 
-    const controlConfig = {
-      'day': now,
-      'fullDay': false,
-      'start': start,
-      'end': end,
-    };
-
-    return this.fb.control(controlConfig);
+    return new TodoListTaskDateDto(now, false, start, end);
   }
 }
