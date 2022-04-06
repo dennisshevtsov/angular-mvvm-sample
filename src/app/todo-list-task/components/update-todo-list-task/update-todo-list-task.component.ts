@@ -56,7 +56,11 @@ export class UpdateTodoListTaskComponent
           this.vm.todoListTaskId = todoListTaskId;
 
           const observer = {
-            complete: () => this.form.setValue(this.vm.task),
+            complete: () => this.form.setValue({
+              title: this.vm.task.title,
+              description: this.vm.task.description,
+              date: this.vm.task.date,
+            }),
             error   : () => this.page.showError('An error occured.'),
           };
 
