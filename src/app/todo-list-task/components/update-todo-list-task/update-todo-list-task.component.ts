@@ -6,8 +6,7 @@ import { ActivatedRoute,           } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { Formatter, FormComponentBase,
-         PageComponent,
+import { FormComponentBase, PageComponent,
          TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
@@ -34,7 +33,6 @@ export class UpdateTodoListTaskComponent
     private readonly fb       : FormBuilder,
     private readonly route    : ActivatedRoute,
     private readonly links    : TodoListTaskLinks,
-    private readonly formatter: Formatter,
   ) {
     super();
 
