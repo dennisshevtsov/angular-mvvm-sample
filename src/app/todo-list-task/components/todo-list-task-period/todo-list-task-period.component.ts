@@ -84,6 +84,17 @@ export class TodoListTaskPeriodComponent
       const subscription = this.form.valueChanges.subscribe(value => {
         if (this.form.touched) {
           fn();
+
+          Object.keys(this.form.controls)
+                .forEach(controlName => {
+                  const control = this.form.controls[controlName];
+
+                  control.markAsTouched({
+                    onlySelf: true,
+                  });
+                  control.updateValueAndValidity();
+                });
+
           subscription.unsubscribe();
         }
       });
