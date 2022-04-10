@@ -1,4 +1,4 @@
-import { Component,              } from '@angular/core';
+import { Component, OnDestroy,   } from '@angular/core';
 import { FormBuilder, FormGroup,
          Validators,             } from '@angular/forms';
 
@@ -16,7 +16,8 @@ import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
   ],
 })
 export class TodoListTaskComponent
-  extends FormComponentBase {
+  extends FormComponentBase
+  implements OnDestroy {
   private readonly subscription: Subscription;
 
   public constructor(
@@ -26,6 +27,12 @@ export class TodoListTaskComponent
     super();
 
     this.subscription = new Subscription();
+  }
+
+  public ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   protected buildForm(): FormGroup {
