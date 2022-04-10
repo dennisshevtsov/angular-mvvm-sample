@@ -2,6 +2,8 @@ import { Component,              } from '@angular/core';
 import { FormBuilder, FormGroup,
          Validators,             } from '@angular/forms';
 
+import { Subscription, } from 'rxjs';
+
 import { AppClock, FormComponentBase,
          MILLISECONDS_IN_HOUR,        } from 'src/app/core';
 import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
@@ -15,20 +17,24 @@ import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
 })
 export class TodoListTaskComponent
   extends FormComponentBase {
+  private readonly subscription: Subscription;
+
   public constructor(
     private readonly fb   : FormBuilder,
     private readonly clock: AppClock,
   ) {
     super();
+
+    this.subscription = new Subscription();
   }
 
   protected buildForm(): FormGroup {
     const now = this.clock.now();
 
     return this.fb.group({
-      'title': this.fb.control('', Validators.required),
+      'title'      : this.fb.control('', Validators.required),
       'description': '',
-      'date': this.buildDefaultTimePeriod(now),
+      'date'       : this.buildDefaultTimePeriod(now),
     });
   }
 
