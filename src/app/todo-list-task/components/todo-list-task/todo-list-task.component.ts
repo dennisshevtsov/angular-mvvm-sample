@@ -1,12 +1,14 @@
-import { Component,              } from '@angular/core';
+import { Component, Input,              } from '@angular/core';
 import { FormBuilder, FormGroup,
          Validators,             } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
 import { AppClock, FormComponentBase,
-         MILLISECONDS_IN_HOUR,        } from 'src/app/core';
-import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
+         MILLISECONDS_IN_HOUR,         } from 'src/app/core';
+import { AddTodoListTaskRequestDto,
+         TodoListTaskDateDto,
+         UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 
 @Component({
   selector: 'todo-list-task',
@@ -16,6 +18,9 @@ import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
   ],
 })
 export class TodoListTaskComponent extends FormComponentBase {
+  @Input()
+  public task!: AddTodoListTaskRequestDto | UpdateTodoListTaskRequestDto;
+
   private readonly subscription: Subscription;
 
   public constructor(
