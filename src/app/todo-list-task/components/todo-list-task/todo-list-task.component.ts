@@ -1,4 +1,5 @@
-import { Component, Input,              } from '@angular/core';
+import { Component, Input,
+         OnDestroy, OnInit,      } from '@angular/core';
 import { FormBuilder, FormGroup,
          Validators,             } from '@angular/forms';
 
@@ -17,7 +18,9 @@ import { AddTodoListTaskRequestDto,
     './todo-list-task.component.scss',
   ],
 })
-export class TodoListTaskComponent extends FormComponentBase {
+export class TodoListTaskComponent
+  extends FormComponentBase
+  implements OnInit, OnDestroy {
   @Input()
   public task!: AddTodoListTaskRequestDto | UpdateTodoListTaskRequestDto;
 
@@ -30,6 +33,22 @@ export class TodoListTaskComponent extends FormComponentBase {
     super();
 
     this.subscription = new Subscription();
+  }
+
+  public ngOnInit(): void {
+    this.form.setValue({
+      'title'      : this.task.title,
+      'description': this.task.description,
+      'date'       : this.task.date,
+    });
+
+    this.subscription.add(
+      this.form.valueChanges.subscribe(value => {
+        this.task.title       = value.title;
+        this.task.description = value.description;
+        this.task.date        = value.date;
+      })
+    );
   }
 
   public ngOnDestroy(): void {
