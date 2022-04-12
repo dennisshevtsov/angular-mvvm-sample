@@ -6,7 +6,7 @@
 <ng-template #pageActions>
   <a class="btn btn-light"
      style="width: 100px"
-    [routerLink]="backLink">
+     [routerLink]="backLink">
     <i class="bi bi-chevron-left"></i>
     <span>Back</span>
   </a>
@@ -19,30 +19,5 @@
 </ng-template>
 
 <ng-template #pageBody>
-  <form class="w-100 p-3"
-        [formGroup]="form">
-    <div class="form-group mb-3"
-         [ngClass]="{ 'has-error': !isValid('title')}">
-      <label for="txtTitle" class="form-label">Title</label>
-      <input id="txtTitle"
-             class="form-control"
-             type="text"
-             placeholder="Title"
-             formControlName="title">
-      <span class="invalid-feedback"
-            *ngIf="hasErrors('title')">
-        <span *ngIf="hasError('title', 'required')">Please enter a title.</span>
-      </span>
-    </div>
-    <todo-list-task-period formControlName="date">
-    </todo-list-task-period>
-    <div class="form-group">
-      <label for="txtDescription" class="form-label">Description</label>
-      <textarea id="txtDescription"
-                class="form-control"
-                type="text"
-                placeholder="Description"
-                formControlName="description"></textarea>
-    </div>
-  </form>
+  <todo-list-task [task]="vm.task"></todo-list-task>
 </ng-template>
