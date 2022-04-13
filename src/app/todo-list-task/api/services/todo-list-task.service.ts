@@ -94,7 +94,7 @@ export class TodoListTaskService {
     command: UpdateTodoListTaskRequestDto)
     : Observable<void> {
     const todoListTasks = this.todoListTasksMap.get(command.todoListId)!;
-    const todoListTaskIndex = todoListTasks.findIndex(todoListTask => todoListTask.todoListTaskId === command.todoListTaskId);
+    const todoListTaskIndex = todoListTasks.findIndex(todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
 
     if (todoListTaskIndex > -1) {
       const todoListTask = todoListTasks[todoListTaskIndex];
