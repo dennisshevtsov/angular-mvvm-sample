@@ -31,7 +31,7 @@ export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
   }
 
   public get backLink(): any[] {
-    return this.links.searchTodoListTasksLink(this.vm.todoListId);
+    return this.links.searchTodoListTasksLink(this.vm.task.todoListId);
   }
 
   public ngOnInit(): void {
@@ -41,8 +41,8 @@ export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
         const todoListTaskId = params.get(TODO_LIST_TASK_ROUTE_ID_PARAMETER);
 
         if (todoListId && todoListTaskId) {
-          this.vm.todoListId = todoListId;
-          this.vm.todoListTaskId = todoListTaskId;
+          this.vm.task.todoListId = todoListId;
+          this.vm.task.todoListTaskId = todoListTaskId;
 
           const observer = {
             error: () => this.page.showError('An error occured.'),

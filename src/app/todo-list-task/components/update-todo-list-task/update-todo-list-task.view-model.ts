@@ -11,29 +11,11 @@ import { GetTodoListTaskRequestDto,
   providedIn: 'root',
 })
 export class UpdateTodoListTaskViewModel {
-  private todoListIdValue    : undefined | number | string;
-  private todoListTaskIdValue: undefined | number | string;
   private taskValue          : undefined | UpdateTodoListTaskRequestDto;
 
   public constructor(
     private readonly service: TodoListTaskService,
   ) {}
-
-  public get todoListId(): number | string {
-    return this.todoListIdValue ?? 0;
-  }
-
-  public set todoListId(todoListId: number | string) {
-    this.todoListIdValue = todoListId;
-  }
-
-  public get todoListTaskId(): number | string {
-    return this.todoListTaskIdValue ?? 0;
-  }
-
-  public set todoListTaskId(todoListTaskId: number | string) {
-    this.todoListTaskIdValue = todoListTaskId;
-  }
 
   public get task(): UpdateTodoListTaskRequestDto {
     return this.taskValue ?? (this.taskValue = new UpdateTodoListTaskRequestDto());
@@ -41,15 +23,12 @@ export class UpdateTodoListTaskViewModel {
 
   public initialize(): Observable<void> {
     const requestDto = new GetTodoListTaskRequestDto(
-      this.todoListId,
-      this.todoListTaskId,
+      this.task.todoListId,
+      this.task.todoListTaskId,
     );
 
     const project = (responseDto: GetTodoListTaskResponseDto) => {
       if (responseDto) {
-        this.task.todoListId = this.todoListId;
-        this.task.todoListId = this.todoListTaskId;
-
         this.task.title = responseDto.title;
         this.task.description = responseDto.description;
 
