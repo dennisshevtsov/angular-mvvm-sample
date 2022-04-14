@@ -7,9 +7,7 @@ import { DeleteTodoListRequestDto,
          SearchTodoListsRequestDto,
          TodoListService,                  } from 'src/app/todo-list/api';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SearchTodoListsViewModel {
   private selectedValue : undefined | SearchTodoListsRecordResponseDto;
   private todoListsValue: undefined | SearchTodoListsRecordResponseDto[];

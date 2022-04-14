@@ -16,6 +16,9 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
   styleUrls: [
     './search-todo-list-tasks.component.scss',
   ],
+  providers: [
+    SearchTodoListTasksViewModel,
+  ],
 })
 export class SearchTodoListTasksComponent
   implements OnInit, OnDestroy {

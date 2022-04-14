@@ -16,6 +16,9 @@ import { AddTodoListViewModel, } from './add-todo-list.view-model';
   styleUrls: [
     './add-todo-list.component.scss',
   ],
+  providers: [
+    AddTodoListViewModel,
+  ],
 })
 export class AddTodoListComponent
   extends FormComponentBase

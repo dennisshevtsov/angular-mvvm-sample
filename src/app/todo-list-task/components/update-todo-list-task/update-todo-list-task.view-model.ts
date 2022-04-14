@@ -7,11 +7,9 @@ import { GetTodoListTaskRequestDto,
          TodoListTaskService,
          UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class UpdateTodoListTaskViewModel {
-  private taskValue          : undefined | UpdateTodoListTaskRequestDto;
+  private taskValue: undefined | UpdateTodoListTaskRequestDto;
 
   public constructor(
     private readonly service: TodoListTaskService,

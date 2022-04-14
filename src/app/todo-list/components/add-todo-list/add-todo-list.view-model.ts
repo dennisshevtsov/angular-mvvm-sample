@@ -6,9 +6,7 @@ import { AddTodoListRequestDto,
          AddTodoListResponseDto,
          TodoListService,        } from 'src/app/todo-list/api';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class AddTodoListViewModel {
   private todoListIdValue: number | string | undefined;
   private todoListValue: AddTodoListRequestDto | undefined;

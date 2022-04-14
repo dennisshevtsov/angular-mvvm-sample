@@ -17,6 +17,9 @@ import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
   styleUrls: [
     './update-todo-list.component.scss',
   ],
+  providers: [
+    UpdateTodoListViewModel,
+  ],
 })
 export class UpdateTodoListComponent
   extends FormComponentBase

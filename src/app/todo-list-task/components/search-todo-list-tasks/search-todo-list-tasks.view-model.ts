@@ -8,9 +8,7 @@ import { CompleteTodoListTaskRequestDto,
          SearchTodoListTasksRequestDto,
          TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SearchTodoListTasksViewModel {
   private todoListIdValue: undefined | number | string;
   private recordValue    : undefined | SearchTodoListTasksRecordResponseDto;

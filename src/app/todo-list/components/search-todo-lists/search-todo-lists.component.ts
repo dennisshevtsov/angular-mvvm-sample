@@ -13,6 +13,9 @@ import { SearchTodoListsViewModel,         } from './search-todo-lists.view-mode
   styleUrls: [
     './search-todo-lists.component.scss',
   ],
+  providers: [
+    SearchTodoListsViewModel,
+  ],
 })
 export class SearchTodoListsComponent implements OnInit, OnDestroy {
   @ViewChild('page')

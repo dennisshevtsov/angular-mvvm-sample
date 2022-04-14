@@ -14,6 +14,9 @@ import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view
   styleUrls: [
     './update-todo-list-task.component.scss',
   ],
+  providers: [
+    UpdateTodoListTaskViewModel,
+  ],
 })
 export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
   @ViewChild('page')
