@@ -1,6 +1,6 @@
 import { Injectable, } from '@angular/core';
 
-import { map, Observable, of, } from 'rxjs';
+import { map, Observable, of, switchMap, } from 'rxjs';
 
 import { DeleteTodoListRequestDto,
          SearchTodoListsRecordResponseDto,
@@ -36,14 +36,15 @@ export class SearchTodoListsViewModel {
     return this.service.searchTodoList(new SearchTodoListsRequestDto())
                        .pipe(map(responseDtos => {
                          this.todoListsValue = responseDtos;
-                        }));
+                       }));
   }
 
   public delete() : Observable<void> {
     if (this.hasSelection) {
       const request = new DeleteTodoListRequestDto(this.selected.todoListId);
 
-      return this.service.deleteTodoList(request);
+      return this.service.deleteTodoList(request)
+                         .pipe(switchMap(() => this.search()));
     }
 
     return of();

@@ -74,7 +74,7 @@ export class TodoListService {
       todoList.description = requestDto.description;
     }
 
-    return of();
+    return of(void 0);
   }
 
   public deleteTodoList(
@@ -86,6 +86,6 @@ export class TodoListService {
       this.todoLists.splice(index, 1);
     }
 
-    return of();
+    return of(void 0);
   }
 }

@@ -71,6 +71,10 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   }
 
   public onDeleteOkPressed(): void {
-    this.vm.delete();
+    const observer = {
+      error: () => this.page.showError('An error occured.'),
+    };
+
+    this.vm.delete().subscribe(observer);
   }
 }
