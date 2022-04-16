@@ -3,8 +3,8 @@ import { Component, OnDestroy,
 
 import { Subscription, } from 'rxjs';
 
-import { ModalComponent, PageComponent, TodoListLinks,
-         TodoListTaskLinks,                } from 'src/app/core';
+import { ModalComponent, PageComponent,
+         TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
 import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list/api';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
 
@@ -24,14 +24,16 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   @ViewChild('modal')
   public model!: ModalComponent;
 
-  private subscription: undefined | Subscription;
+  private subscription: Subscription;
 
   public constructor(
     public readonly vm: SearchTodoListsViewModel,
 
     private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
-  ) {}
+  ) {
+    this.subscription = new Subscription();
+  }
 
   public get addTodoListLink(): any[] {
     return this.todoListLinks.addTodoListLink();
@@ -42,7 +44,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscription = this.vm.search().subscribe(observer);
+    this.subscription.add(this.vm.search().subscribe(observer));
   }
 
   public ngOnDestroy(): void {
@@ -75,6 +77,6 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.vm.delete().subscribe(observer);
+    this.subscription.add(this.vm.delete().subscribe(observer));
   }
 }
