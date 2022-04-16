@@ -160,13 +160,13 @@ export class TodoListTaskService {
 
       if (todoListTasks) {
         const todoListTaskIndex = todoListTasks.findIndex(
-          todoListTask => todoListTask.todoListTaskId === command.todoListTaskId);
+          todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
 
         if (todoListTaskIndex > -1) {
           todoListTasks.splice(todoListTaskIndex, 1);
         }
       }
 
-      return of();
+      return of(void 0);
   }
 }

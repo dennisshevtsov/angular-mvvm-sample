@@ -102,7 +102,7 @@ export class SearchTodoListTasksComponent
   public onDeleteOkPressed(): void {
     const message = `TODO list task '${this.vm.selected.title}' was deleted.`;
     const observer = {
-      next: () => this.page.showMessage(message),
+      complete: () => this.page.showMessage(message),
       error: () => this.page.showError('An error occured.'),
     };
 
