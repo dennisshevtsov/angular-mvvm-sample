@@ -6,7 +6,8 @@ import { CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
          SearchTodoListTasksRecordResponseDto,
          SearchTodoListTasksRequestDto,
-         TodoListTaskService,                  } from 'src/app/todo-list-task/api';
+         TodoListTaskService,
+         UncompleteTodoListTaskRequestDto,                  } from 'src/app/todo-list-task/api';
 
 @Injectable()
 export class SearchTodoListTasksViewModel {
@@ -58,6 +59,15 @@ export class SearchTodoListTasksViewModel {
     );
 
     return this.service.completeTodoListTask(requestDto);
+  }
+
+  public uncomplete(): Observable<void> {
+    const requestDto = new UncompleteTodoListTaskRequestDto(
+      this.todoListId,
+      this.selected.todoListTaskId,
+    );
+
+    return this.service.uncompleteTodoListTask(requestDto);
   }
 
   public delete() : Observable<void> {

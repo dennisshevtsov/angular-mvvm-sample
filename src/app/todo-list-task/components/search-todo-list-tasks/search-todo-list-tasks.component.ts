@@ -83,7 +83,14 @@ export class SearchTodoListTasksComponent
       error: () => this.page.showError('An error occured.'),
     };
 
-    this.subscription.add(this.vm.complete().subscribe(observer));
+    this.vm.selected = record;
+
+    if (this.vm.selected.completed) {
+      this.subscription.add(this.vm.uncomplete().subscribe(observer));
+    }
+    else {
+      this.subscription.add(this.vm.complete().subscribe(observer));
+    }
   }
 
   public onDeletePressed(
