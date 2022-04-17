@@ -7,6 +7,7 @@ import { Subscription, } from 'rxjs';
 import { PageComponent, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { TodoListTaskComponent,             } from '../todo-list-task/todo-list-task.component';
 import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
 
 @Component({
@@ -21,6 +22,9 @@ import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view
 export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
   @ViewChild('page')
   private page!: PageComponent;
+
+  @ViewChild('task')
+  private task!: TodoListTaskComponent;
 
   private subscription: Subscription;
 
@@ -63,11 +67,15 @@ export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
   }
 
   public onOkPressed(): void {
-    const observer = {
-      complete: () => this.page.showMessage('The TODO list task was updated.'),
-      error   : () => this.page.showError('An error occured.'),
-    };
+    this.task.validateForm();
 
-    this.subscription.add(this.vm.update().subscribe(observer));
+    if (this.task.form.valid) {
+      const observer = {
+        complete: () => this.page.showMessage('The TODO list task was updated.'),
+        error   : () => this.page.showError('An error occured.'),
+      };
+
+      this.subscription.add(this.vm.update().subscribe(observer));
+    }
   }
 }

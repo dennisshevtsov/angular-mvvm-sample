@@ -22,10 +22,10 @@ import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 })
 export class AddTodoListTaskComponent implements OnInit, OnDestroy {
   @ViewChild('page')
-  public page!: PageComponent;
+  private page!: PageComponent;
 
   @ViewChild('task')
-  public task!: TodoListTaskComponent;
+  private task!: TodoListTaskComponent;
 
   private subsription: Subscription;
 
