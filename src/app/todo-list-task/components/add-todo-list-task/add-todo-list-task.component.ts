@@ -8,6 +8,7 @@ import { PageComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { TodoListTaskComponent,        } from '../todo-list-task/todo-list-task.component';
 import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
@@ -22,6 +23,9 @@ import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 export class AddTodoListTaskComponent implements OnInit, OnDestroy {
   @ViewChild('page')
   public page!: PageComponent;
+
+  @ViewChild('task')
+  public task!: TodoListTaskComponent;
 
   private subsription: Subscription;
 
@@ -60,12 +64,16 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
   }
 
   public onOkPressed(): void {
-    const observer = {
-      next: () => this.navigator.navigateToUpdateTodoListTask(
-        this.vm.todoListId, this.vm.todoListTaskId),
-      error: () => this.page.showError('An error occured.'),
-    };
+    this.task.validateForm();
 
-    this.subsription.add(this.vm.add().subscribe(observer));
+    if (this.task.form.valid) {
+      const observer = {
+        next: () => this.navigator.navigateToUpdateTodoListTask(
+          this.vm.todoListId, this.vm.todoListTaskId),
+        error: () => this.page.showError('An error occured.'),
+      };
+
+      this.subsription.add(this.vm.add().subscribe(observer));
+    }
   }
 }

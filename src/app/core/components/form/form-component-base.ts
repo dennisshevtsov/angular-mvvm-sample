@@ -9,7 +9,7 @@ export abstract class FormComponentBase {
 
   protected abstract buildForm(): FormGroup;
 
-  protected validateForm(): void {
+  public validateForm(): void {
     this.validateFormGroup(this.form);
   }
 
