@@ -5,6 +5,7 @@ import { ReactiveFormsModule, } from '@angular/forms';
 import { CoreModule,               } from '../core';
 import { AddTodoListComponent,
          SearchTodoListsComponent,
+         TodoListComponent,
          UpdateTodoListComponent,  } from './components';
 import { TodoListRoutingModule,    } from './todo-list-routing.module';
 
@@ -13,6 +14,7 @@ import { TodoListRoutingModule,    } from './todo-list-routing.module';
     AddTodoListComponent,
     SearchTodoListsComponent,
     UpdateTodoListComponent,
+    TodoListComponent,
   ],
   imports: [
     CommonModule,
