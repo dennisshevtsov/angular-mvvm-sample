@@ -8,7 +8,7 @@ import { PageComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { TodoListTaskComponent,        } from '../todo-list-task/todo-list-task.component';
+import { TodoListTaskComponent,        } from 'src/app/todo-list-task/components/todo-list-task';
 import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({

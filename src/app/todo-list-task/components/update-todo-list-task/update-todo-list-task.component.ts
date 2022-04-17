@@ -7,7 +7,7 @@ import { Subscription, } from 'rxjs';
 import { PageComponent, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { TodoListTaskComponent,             } from '../todo-list-task/todo-list-task.component';
+import { TodoListTaskComponent,             } from 'src/app/todo-list-task/components/todo-list-task';
 import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
 
 @Component({
