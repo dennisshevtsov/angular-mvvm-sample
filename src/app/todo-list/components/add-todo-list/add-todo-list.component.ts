@@ -1,14 +1,12 @@
-import { Component, OnDestroy,
-         OnInit, ViewChild,      } from '@angular/core';
-import { FormBuilder, FormGroup,
-         Validators,             } from '@angular/forms';
+import { Component, OnDestroy, ViewChild, } from '@angular/core';
+import { FormBuilder,                     } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,
-         PageComponent,
+import { PageComponent,
          TodoListLinks,
          TodoListNavigator,    } from 'src/app/core';
+import { TodoListComponent,    } from '../todo-list/todo-list.component';
 import { AddTodoListViewModel, } from './add-todo-list.view-model';
 
 @Component({
@@ -20,13 +18,14 @@ import { AddTodoListViewModel, } from './add-todo-list.view-model';
     AddTodoListViewModel,
   ],
 })
-export class AddTodoListComponent
-  extends FormComponentBase
-  implements OnInit, OnDestroy {
+export class AddTodoListComponent implements OnDestroy {
   @ViewChild('page')
-  public page!: PageComponent;
+  private page!: PageComponent;
 
-  private subscription: Subscription;
+  @ViewChild('todoList')
+  private todoList!: TodoListComponent;
+
+  private readonly subscription: Subscription;
 
   public constructor(
     public readonly vm: AddTodoListViewModel,
@@ -35,8 +34,6 @@ export class AddTodoListComponent
     private readonly links    : TodoListLinks,
     private readonly navigator: TodoListNavigator,
   ) {
-    super();
-
     this.subscription = new Subscription();
   }
 
@@ -44,23 +41,16 @@ export class AddTodoListComponent
     return this.links.searchTodoListsLink();
   }
 
-  public ngOnInit(): void {
-    this.subscription.add(
-      this.form.valueChanges.subscribe(value => {
-        this.vm.todoList.title = value.title;
-        this.vm.todoList.description = value.description;
-      })
-    );
-  }
-
   public ngOnDestroy(): void {
+    if (this.subscription) {
       this.subscription.unsubscribe();
+    }
   }
 
   public onOkPressed(): void {
-    this.validateForm();
+    this.todoList.validateForm();
 
-    if (this.form.valid) {
+    if (this.todoList.form.valid) {
       const observer = {
         next: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
         error: () => this.page.showError('An error occured.'),
@@ -68,12 +58,5 @@ export class AddTodoListComponent
 
       this.subscription.add(this.vm.add().subscribe(observer));
     }
-  }
-
-  protected buildForm(): FormGroup {
-    return this.fb.group({
-      'title': this.fb.control('', Validators.required),
-      'description': ''
-    });
   }
 }
