@@ -1,15 +1,13 @@
 import { Component, OnDestroy,
          OnInit, ViewChild,        } from '@angular/core';
-import { FormBuilder, FormGroup,
-         Validators,               } from '@angular/forms';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
-import { FormComponentBase,
-         PageComponent,
+import { PageComponent,
          TodoListLinks,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { TodoListComponent,            } from '../todo-list/todo-list.component';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 
 @Component({
@@ -21,23 +19,21 @@ import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
     UpdateTodoListViewModel,
   ],
 })
-export class UpdateTodoListComponent
-  extends FormComponentBase
-  implements OnInit, OnDestroy {
+export class UpdateTodoListComponent implements OnInit, OnDestroy {
   @ViewChild('page')
   private page!: PageComponent;
+
+  @ViewChild('todoList')
+  private todoList!: TodoListComponent;
 
   private readonly subscription: Subscription;
 
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
 
-    private readonly fb   : FormBuilder,
     private readonly route: ActivatedRoute,
     private readonly links: TodoListLinks,
   ) {
-    super();
-
     this.subscription = new Subscription();
   }
 
@@ -60,14 +56,7 @@ export class UpdateTodoListComponent
 
     const observer = {
       next: () => {
-        this.subscription.add(
-          this.vm.initialize()
-                 .subscribe(() => {
-                   this.form.setValue({
-                     'title': this.vm.todoList.title,
-                     'description': this.vm.todoList.description,
-                   });
-                 }));
+        this.subscription.add(this.vm.initialize().subscribe());
       },
       error: () => this.page.showError('An error occured.'),
     };
@@ -75,13 +64,6 @@ export class UpdateTodoListComponent
     this.subscription.add(
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
-
-    this.subscription.add(
-      this.form.valueChanges.subscribe(value => {
-        this.vm.todoList.title = value.title;
-        this.vm.todoList.description = value.description;
-      })
-    );
   }
 
   public ngOnDestroy(): void {
@@ -89,9 +71,9 @@ export class UpdateTodoListComponent
   }
 
   public onOkPressed(): void {
-    this.validateForm();
+    this.todoList.validateForm();
 
-    if (this.form.valid) {
+    if (this.todoList.form.valid) {
       const observer = {
         complete: () => this.page.showMessage('The TODO list was updated.'),
         error: () => this.page.showError('An error occured.'),
@@ -99,12 +81,5 @@ export class UpdateTodoListComponent
 
       this.subscription.add(this.vm.update().subscribe(observer));
     }
-  }
-
-  protected buildForm(): FormGroup {
-    return this.fb.group({
-      'title': this.fb.control('', Validators.required),
-      'description': ''
-    });
   }
 }
