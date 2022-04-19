@@ -1,9 +1,11 @@
-import { Component, OnDestroy,               } from '@angular/core';
+import { Component, Input, OnDestroy,        } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase, } from 'src/app/core';
+import { FormComponentBase,        } from 'src/app/core';
+import { AddTodoListRequestDto,
+         UpdateTodoListRequestDto, } from 'src/app/todo-list/api';
 
 @Component({
   selector: 'todo-list',
@@ -15,6 +17,9 @@ import { FormComponentBase, } from 'src/app/core';
 export class TodoListComponent
   extends FormComponentBase
   implements OnDestroy {
+  @Input()
+  public todoList!: AddTodoListRequestDto | UpdateTodoListRequestDto;
+
   private readonly subscription: Subscription;
 
   public constructor(private readonly fb: FormBuilder) {
