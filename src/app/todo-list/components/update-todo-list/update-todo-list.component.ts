@@ -1,6 +1,6 @@
-import { Component, OnDestroy,
-         OnInit, ViewChild,        } from '@angular/core';
-import { ActivatedRoute, ParamMap, } from '@angular/router';
+import { AfterViewInit, Component,
+         OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import { ActivatedRoute, ParamMap,     } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
@@ -19,7 +19,8 @@ import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
     UpdateTodoListViewModel,
   ],
 })
-export class UpdateTodoListComponent implements OnInit, OnDestroy {
+export class UpdateTodoListComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('page')
   private page!: PageComponent;
 
@@ -55,7 +56,7 @@ export class UpdateTodoListComponent implements OnInit, OnDestroy {
     };
 
     const observer = {
-      next: () => {
+      complete: () => {
         this.subscription.add(this.vm.initialize().subscribe());
       },
       error: () => this.page.showError('An error occured.'),
@@ -64,6 +65,17 @@ export class UpdateTodoListComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
+  }
+
+  public ngAfterViewInit(): void {
+    this.subscription.add(
+      this.route.fragment.subscribe(
+        fragment => {
+          if (fragment === 'added') {
+            Promise.resolve(null)
+                   .then(() => this.page.showMessage(`The TODO list is added.`));
+          }
+        }));
   }
 
   public ngOnDestroy(): void {

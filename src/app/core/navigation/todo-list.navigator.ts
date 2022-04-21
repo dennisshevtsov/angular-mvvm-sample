@@ -15,6 +15,11 @@ export class TodoListNavigator {
   public navigateToUpdateTodoList(
     todoListId: number | string)
     : void {
-    this.router.navigate(this.links.updateTodoListLink(todoListId));
+    const command = this.links.updateTodoListLink(todoListId);
+    const extras = {
+      fragment: 'added'
+    };
+
+    this.router.navigate(command, extras);
   }
 }
