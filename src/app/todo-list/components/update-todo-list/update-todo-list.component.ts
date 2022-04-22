@@ -2,7 +2,7 @@ import { AfterViewInit, Component,
          OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { ActivatedRoute, ParamMap,     } from '@angular/router';
 
-import { mergeMap, Subscription, throwError, } from 'rxjs';
+import { mergeMap, Subscription, takeWhile, throwError, } from 'rxjs';
 
 import { PageComponent,
          TodoListLinks,
@@ -69,13 +69,8 @@ export class UpdateTodoListComponent
 
   public ngAfterViewInit(): void {
     this.subscription.add(
-      this.route.fragment.subscribe(
-        fragment => {
-          if (fragment === 'added') {
-            Promise.resolve(null)
-                   .then(() => this.page.showMessage(`The TODO list is added.`));
-          }
-        }));
+      this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
+                         .subscribe(() => this.page.showMessage('The TODO list is added.')));
   }
 
   public ngOnDestroy(): void {

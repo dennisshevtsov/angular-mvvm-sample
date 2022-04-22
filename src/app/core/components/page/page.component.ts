@@ -1,4 +1,5 @@
 import { Component, Input, TemplateRef, } from '@angular/core';
+import { Observable, of } from 'rxjs';
 
 import { TodoListLinks, } from 'src/app/core/navigation';
 
@@ -47,8 +48,11 @@ export class PageComponent {
     this.errorValue = error;
   }
 
-  public showMessage(message: string): void {
-    this.messageValue = message;
+  public showMessage(message: string): Promise<void> {
+    return Promise.resolve(null)
+                  .then(() => {
+                    this.messageValue = message;
+                  });
   }
 
   public clearError(): void {
