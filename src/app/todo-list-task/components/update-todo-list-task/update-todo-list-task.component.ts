@@ -1,8 +1,8 @@
-import { Component, OnDestroy,
-         OnInit, ViewChild,        } from '@angular/core';
-import { ActivatedRoute,           } from '@angular/router';
+import { AfterViewInit, Component,
+         OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import { ActivatedRoute,               } from '@angular/router';
 
-import { Subscription, } from 'rxjs';
+import { Subscription, takeWhile, } from 'rxjs';
 
 import { PageComponent, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
@@ -19,7 +19,8 @@ import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view
     UpdateTodoListTaskViewModel,
   ],
 })
-export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
+export class UpdateTodoListTaskComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('page')
   private page!: PageComponent;
 
@@ -60,6 +61,12 @@ export class UpdateTodoListTaskComponent implements OnInit, OnDestroy {
         }
       })
     );
+  }
+
+  public ngAfterViewInit(): void {
+    this.subscription.add(
+      this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
+                         .subscribe(() => this.page.showMessage('The TODO list task is added.')));
   }
 
   public ngOnDestroy(): void {
