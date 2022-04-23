@@ -58,7 +58,10 @@ export class SearchTodoListTasksViewModel {
       this.selected.todoListTaskId,
     );
 
-    return this.service.completeTodoListTask(requestDto);
+    return this.service.completeTodoListTask(requestDto)
+                       .pipe(map(() => {
+                         this.selected.completed = true;
+                       }));
   }
 
   public uncomplete(): Observable<void> {
@@ -67,7 +70,10 @@ export class SearchTodoListTasksViewModel {
       this.selected.todoListTaskId,
     );
 
-    return this.service.uncompleteTodoListTask(requestDto);
+    return this.service.uncompleteTodoListTask(requestDto)
+                       .pipe(map(() => {
+                         this.selected.completed = false;
+                       }));
   }
 
   public delete() : Observable<void> {

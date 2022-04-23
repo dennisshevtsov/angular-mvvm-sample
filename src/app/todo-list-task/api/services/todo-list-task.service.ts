@@ -130,7 +130,7 @@ export class TodoListTaskService {
       return throwError(() => new Error('There is no TODO list with such ID.'));
     }
 
-    return of();
+    return of(void 0);
   }
 
   public uncompleteTodoListTask(
@@ -150,7 +150,7 @@ export class TodoListTaskService {
       }
     }
 
-    return of();
+    return of(void 0);
   }
 
   public deleteTodoListTask(
