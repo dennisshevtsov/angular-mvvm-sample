@@ -79,11 +79,21 @@ export class SearchTodoListTasksComponent
 
   public onCompletedChanged(
     record: SearchTodoListTasksRecordResponseDto): void {
-    const observer = {
-      error: () => this.page.showError('An error occured.'),
-    };
-
     this.vm.selected = record;
+
+    let message: string;
+
+    if (this.vm.selected.completed) {
+      message = `TODO list task '${this.vm.selected.title}' was uncompleted.`;
+    }
+    else {
+      message = `TODO list task '${this.vm.selected.title}' was completed.`;
+    }
+
+    const observer = {
+      complete: () => this.page.showMessage(message),
+      error   : () => this.page.showError('An error occured.'),
+    };
 
     if (this.vm.selected.completed) {
       this.subscription.add(this.vm.uncomplete().subscribe(observer));

@@ -115,13 +115,14 @@ export class TodoListTaskService {
 
     if (todoListTasks) {
       const todoListTaskIndex = todoListTasks.findIndex(
-        todoListTask => todoListTask.todoListTaskId === command.todoListTaskId);
+        todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
 
       if (todoListTaskIndex > -1) {
         const todoListTask = todoListTasks[todoListTaskIndex];
 
         todoListTask.completed = true;
-
+      }
+      else {
         return throwError(() => new Error('There is no TODO list task with such ID.'));
       }
     }
