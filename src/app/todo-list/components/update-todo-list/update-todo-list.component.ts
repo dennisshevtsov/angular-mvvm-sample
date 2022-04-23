@@ -6,6 +6,7 @@ import { mergeMap, Subscription, takeWhile, throwError, } from 'rxjs';
 
 import { PageComponent,
          TodoListLinks,
+         TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { TodoListComponent,            } from '../todo-list/todo-list.component';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
@@ -32,14 +33,20 @@ export class UpdateTodoListComponent
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
 
-    private readonly route: ActivatedRoute,
-    private readonly links: TodoListLinks,
+    private readonly route            : ActivatedRoute,
+    private readonly todoListLinks    : TodoListLinks,
+    private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {
     this.subscription = new Subscription();
   }
 
   public get backLink(): any[] {
-    return this.links.searchTodoListsLink();
+    return this.todoListLinks.searchTodoListsLink();
+  }
+
+  public get addTodoListTaskLink(): any[] {
+    return this.todoListTaskLinks.addTodoListTaskLink(
+      this.vm.todoList.todoListId);
   }
 
   public ngOnInit(): void {
