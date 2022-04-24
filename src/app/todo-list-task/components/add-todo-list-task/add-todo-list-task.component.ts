@@ -68,9 +68,9 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
 
     if (this.task.form.valid) {
       const observer = {
-        next: () => this.navigator.navigateToUpdateTodoListTask(
+        complete: () => this.navigator.navigateToUpdateTodoListTask(
           this.vm.todoListId, this.vm.todoListTaskId),
-        error: () => this.page.showError('An error occured.'),
+        error   : () => this.page.showError('An error occured.'),
       };
 
       this.subsription.add(this.vm.add().subscribe(observer));

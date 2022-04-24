@@ -28,13 +28,13 @@ export class AddTodoListViewModel {
   }
 
   public add(): Observable<void> {
-    const projet = (responseDto: AddTodoListResponseDto) => {
+    const project = (responseDto: AddTodoListResponseDto) => {
       if (responseDto) {
         this.todoListId = responseDto.todoListId;
       }
     };
 
     return this.service.addTodoList(this.todoList)
-                       .pipe(map(projet));
+                       .pipe(map(project));
   }
 }

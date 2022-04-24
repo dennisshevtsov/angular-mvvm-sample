@@ -113,7 +113,7 @@ export class SearchTodoListTasksComponent
     const message = `TODO list task '${this.vm.selected.title}' was deleted.`;
     const observer = {
       complete: () => this.page.showMessage(message),
-      error: () => this.page.showError('An error occured.'),
+      error   : () => this.page.showError('An error occured.'),
     };
 
     this.subscription.add(this.vm.delete().subscribe(observer));
