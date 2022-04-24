@@ -1,15 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component,
+         TemplateRef, ViewChild,   } from '@angular/core';
+
+declare var bootstrap: any;
+
+const TOAST_DELAY   = 10000;
+const TOAST_OPTIONS = {
+  animation: true,
+  autohide : true,
+  delay    : TOAST_DELAY,
+};
+const TOAST_SHOW    = 'show';
 
 @Component({
-  selector: 'app-toast',
+  selector: 'toast',
   templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss']
+  styleUrls: [
+    './toast.component.scss',
+  ],
 })
-export class ToastComponent implements OnInit {
+export class ToastComponent implements AfterViewInit {
+  private titleValue  : undefined | string;
+  private messageValue: undefined | string;
 
-  constructor() { }
+  @ViewChild('toast')
+  private toastElement: undefined | TemplateRef<any>;
+  private toast       : any;
 
-  ngOnInit(): void {
+  public get title(): string {
+    return this.titleValue ?? '';
   }
 
+  public get message(): string {
+    return this.messageValue ?? '';
+  }
+
+  public ngAfterViewInit(): void {
+    this.toast = bootstrap.Toast(this.messageValue, TOAST_OPTIONS);
+  }
+
+  public show(): void {
+    this.toast.toast(TOAST_SHOW);
+  }
 }
