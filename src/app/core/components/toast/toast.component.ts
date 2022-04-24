@@ -35,7 +35,7 @@ export class ToastComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.toast = bootstrap.Toast(this.messageValue, TOAST_OPTIONS);
+    this.toast = bootstrap.Toast(this.toastElement, TOAST_OPTIONS);
   }
 
   public show(): void {
