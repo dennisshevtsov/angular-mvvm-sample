@@ -2,8 +2,7 @@ import { CommonModule, } from '@angular/common';
 import { NgModule,     } from '@angular/core';
 import { RouterModule, } from '@angular/router';
 
-import { ModalComponent, PageComponent, } from '.';
-import { ToastComponent } from './components/toast/toast.component';
+import { ModalComponent, PageComponent, ToastComponent, } from '.';
 
 @NgModule({
   declarations: [
