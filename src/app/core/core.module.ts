@@ -3,11 +3,13 @@ import { NgModule,     } from '@angular/core';
 import { RouterModule, } from '@angular/router';
 
 import { ModalComponent, PageComponent, } from '.';
+import { ToastComponent } from './components/toast/toast.component';
 
 @NgModule({
   declarations: [
     ModalComponent,
     PageComponent,
+    ToastComponent,
   ],
   imports: [
     CommonModule,
