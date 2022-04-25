@@ -17,6 +17,7 @@ import { ModalComponent, PageComponent, ToastComponent, } from '.';
   exports: [
     ModalComponent,
     PageComponent,
+    ToastComponent,
   ],
 })
 export class CoreModule { }
