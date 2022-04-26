@@ -1,16 +1,15 @@
 import { AfterViewInit, Component,
-         Input,
-         TemplateRef, ViewChild,   } from '@angular/core';
+         ElementRef, Input, ViewChild, } from '@angular/core';
 
 declare var bootstrap: any;
 
 const TOAST_DELAY   = 10000;
+
 const TOAST_OPTIONS = {
   animation: true,
   autohide : true,
   delay    : TOAST_DELAY,
 };
-const TOAST_SHOW    = 'show';
 
 @Component({
   selector: 'app-toast',
@@ -24,7 +23,7 @@ export class ToastComponent implements AfterViewInit {
   private messageValue: undefined | string;
 
   @ViewChild('toast')
-  private toastElement!: TemplateRef<any>;
+  private toastElement!: ElementRef<HTMLDivElement>;
   private toast        : any;
 
   public get title(): string {
@@ -47,7 +46,7 @@ export class ToastComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.toast = new bootstrap.Toast(
-      this.toastElement.elementRef, TOAST_OPTIONS);
+      this.toastElement.nativeElement);
   }
 
   public show(): void {
