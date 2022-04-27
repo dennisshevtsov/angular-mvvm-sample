@@ -1,10 +1,7 @@
 <div #toast class="toast" role="alert" aria-live="assertive" aria-atomic="false">
   <div class="toast-header">
-    <img src="" alt="" class="rounded mr2">
-    <strong class="mr-auto">{{ title }}</strong>
-    <button class="button" class="ml-3 mb-1 close" data-dismiss="toast" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
+    <span style="margin-right: auto; font-weight: bold;">{{ title }}</span>
+    <button type="button" class="ml-2 btn btn-close" data-dismiss="toast" aria-label="Close"></button>
   </div>
   <div class="toast-body">
     <p>{{ message }}</p>
