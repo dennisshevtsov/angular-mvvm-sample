@@ -22,6 +22,11 @@ export class ToastComponent implements AfterViewInit {
   private titleValue  : undefined | string;
   private messageValue: undefined | string;
 
+  private recordsValue: { title: string, message: string }[] = [];
+
+  @ViewChild('container')
+  private containerElement!: ElementRef<HTMLDivElement>;
+
   @ViewChild('toast')
   private toastElement!: ElementRef<HTMLDivElement>;
   private toast        : any;
@@ -42,6 +47,10 @@ export class ToastComponent implements AfterViewInit {
   @Input()
   public set message(value: string) {
     this.messageValue = value;
+  }
+
+  public get records(): { title: string, message: string }[] {
+    return this.recordsValue;
   }
 
   public ngAfterViewInit(): void {

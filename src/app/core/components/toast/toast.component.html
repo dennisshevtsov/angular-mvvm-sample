@@ -1,16 +1,21 @@
-<div #toast class="toast"
-     role="alert"
-     aria-live="assertive"
-     aria-atomic="false">
-  <div class="toast-header">
-    <i class="bi bi-info-circle-fill me-2"></i>
-    <strong class="me-auto">{{ title }}</strong>
-    <button type="button"
-            class="btn-close"
-            data-bs-dismiss="toast"
-            aria-label="Close"></button>
-  </div>
-  <div class="toast-body">
-    <p>{{ message }}</p>
+<div #container
+     class="toast-container position-fixed top-0 end-0 p-3"
+     style="z-index: 11">
+  <div #toast
+       class="toast"
+       role="alert"
+       aria-live="assertive"
+       aria-atomic="false">
+    <div class="toast-header">
+      <i class="bi bi-info-circle-fill me-2"></i>
+      <strong class="me-auto">{{ title }}</strong>
+      <button type="button"
+              class="btn-close"
+              data-bs-dismiss="toast"
+              aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      <p>{{ message }}</p>
+    </div>
   </div>
 </div>
