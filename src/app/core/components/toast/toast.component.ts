@@ -1,5 +1,4 @@
-import { AfterViewInit, Component,
-         ElementRef, Input, ViewChild, } from '@angular/core';
+import { Component, ElementRef, ViewChild, } from '@angular/core';
 
 declare var bootstrap: any;
 
@@ -18,47 +17,32 @@ const TOAST_OPTIONS = {
     './toast.component.scss',
   ],
 })
-export class ToastComponent implements AfterViewInit {
-  private titleValue  : undefined | string;
-  private messageValue: undefined | string;
-
+export class ToastComponent {
   private recordsValue: { title: string, message: string }[] = [];
 
   @ViewChild('container')
   private containerElement!: ElementRef<HTMLDivElement>;
 
-  @ViewChild('toast')
-  private toastElement!: ElementRef<HTMLDivElement>;
-  private toast        : any;
-
-  public get title(): string {
-    return this.titleValue ?? '';
-  }
-
-  @Input()
-  public set title(value: string) {
-    this.titleValue = value;
-  }
-
-  public get message(): string {
-    return this.messageValue ?? '';
-  }
-
-  @Input()
-  public set message(value: string) {
-    this.messageValue = value;
-  }
-
   public get records(): { title: string, message: string }[] {
     return this.recordsValue;
   }
 
-  public ngAfterViewInit(): void {
-    this.toast = new bootstrap.Toast(
-      this.toastElement.nativeElement, TOAST_OPTIONS);
-  }
+  public show(title: string, message: string): void {
+    const index = this.records.push({
+      title  : title,
+      message: message,
+    });
 
-  public show(): void {
-    this.toast.show();
+    const toastElements = this.containerElement.nativeElement.children;
+    const toastElement = toastElements[0];
+
+    console.log(this.containerElement.nativeElement);
+    console.log(toastElements);
+    console.log(toastElement);
+
+    const toast = bootstrap.Toast.getOrCreateInstance(
+      toastElement, TOAST_OPTIONS);
+
+    toast.show();
   }
 }
