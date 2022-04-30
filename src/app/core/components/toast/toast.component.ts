@@ -1,4 +1,5 @@
-import { Component, ElementRef, ViewChild, } from '@angular/core';
+import { AfterViewInit, Component, ElementRef,
+         Input, OnDestroy, ViewChild,          } from '@angular/core';
 
 declare var bootstrap: any;
 
@@ -11,38 +12,45 @@ const TOAST_OPTIONS = {
 };
 
 @Component({
-  selector: 'app-toast',
   templateUrl: './toast.component.html',
   styleUrls: [
     './toast.component.scss',
   ],
 })
-export class ToastComponent {
-  private recordsValue: { title: string, message: string }[] = [];
+export class ToastComponent implements AfterViewInit, OnDestroy {
+  private titleValue  : undefined | string;
+  private messageValue: undefined | string;
 
-  @ViewChild('container')
-  private containerElement!: ElementRef<HTMLDivElement>;
+  @ViewChild('toast')
+  private toastElement!: ElementRef<HTMLDivElement>;
+  private toast        : any;
 
-  public get records(): { title: string, message: string }[] {
-    return this.recordsValue;
+  public get title(): string {
+    return this.titleValue ?? '';
   }
 
-  public show(title: string, message: string): void {
-    const index = this.records.push({
-      title  : title,
-      message: message,
-    });
+  @Input()
+  public set title(value: string) {
+    this.titleValue = value;
+  }
 
-    const toastElements = this.containerElement.nativeElement.children;
-    const toastElement = toastElements[0];
+  public get message(): string {
+    return this.messageValue ?? '';
+  }
 
-    console.log(this.containerElement.nativeElement);
-    console.log(toastElements);
-    console.log(toastElement);
+  @Input()
+  public set message(value: string) {
+    this.messageValue = value;
+  }
 
-    const toast = bootstrap.Toast.getOrCreateInstance(
-      toastElement, TOAST_OPTIONS);
+  public ngAfterViewInit(): void {
+    this.toast = bootstrap.Toast.getOrCreateInstance(
+      this.toastElement.nativeElement, TOAST_OPTIONS);
 
-    toast.show();
+    this.toast.show();
+  }
+
+  public ngOnDestroy(): void {
+    this.toast.destroy();
   }
 }
