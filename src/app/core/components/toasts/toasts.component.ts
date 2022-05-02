@@ -24,5 +24,7 @@ export class ToastsComponent {
 
     component.instance.title = title;
     component.instance.message = message;
+
+    component.instance.show();
   }
 }

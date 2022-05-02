@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, ElementRef,
-         Input, OnDestroy, ViewChild,          } from '@angular/core';
+import { AfterViewInit, Component,
+         ElementRef, OnDestroy, ViewChild, } from '@angular/core';
 
 declare var bootstrap: any;
 
@@ -29,7 +29,6 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
     return this.titleValue ?? '';
   }
 
-  @Input()
   public set title(value: string) {
     this.titleValue = value;
   }
@@ -38,7 +37,6 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
     return this.messageValue ?? '';
   }
 
-  @Input()
   public set message(value: string) {
     this.messageValue = value;
   }
@@ -52,5 +50,9 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.toast.destroy();
+  }
+
+  public show(): void {
+    this.toast.show();
   }
 }
