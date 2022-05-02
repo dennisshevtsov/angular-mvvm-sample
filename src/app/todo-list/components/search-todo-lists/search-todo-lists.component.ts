@@ -4,6 +4,7 @@ import { Component, OnDestroy,
 import { Subscription, } from 'rxjs';
 
 import { ModalComponent, PageComponent,
+         ToastsComponent,
          TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
 import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list/api';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
@@ -18,11 +19,11 @@ import { SearchTodoListsViewModel,         } from './search-todo-lists.view-mode
   ],
 })
 export class SearchTodoListsComponent implements OnInit, OnDestroy {
-  @ViewChild('page')
-  public page!: PageComponent;
-
   @ViewChild('modal')
-  public model!: ModalComponent;
+  public modal!: ModalComponent;
+
+  @ViewChild('toasts')
+  public toasts!: ToastsComponent;
 
   private subscription: Subscription;
 
@@ -41,7 +42,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     const observer = {
-      error: () => this.page.showError('An error occured.'),
+      error: () => this.toasts.push('Error', 'An error occured.'),
     };
 
     this.subscription.add(this.vm.search().subscribe(observer));
@@ -69,14 +70,14 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
     record: SearchTodoListsRecordResponseDto)
     : void {
     this.vm.selected = record;
-    this.model.show();
+    this.modal.show();
   }
 
   public onDeleteOkPressed(): void {
     const message = `TODO list '${this.vm.selected.title}' was deleted.`;
     const observer = {
-      complete: () => this.page.showMessage(message),
-      error   : () => this.page.showError('An error occured.'),
+      complete: () => this.toasts.push('Info', message),
+      error   : () => this.toasts.push('Error', 'An error occured.'),
     };
 
     this.subscription.add(this.vm.delete().subscribe(observer));
