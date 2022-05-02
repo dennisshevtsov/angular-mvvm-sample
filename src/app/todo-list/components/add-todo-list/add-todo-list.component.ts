@@ -2,7 +2,7 @@ import { Component, OnDestroy, ViewChild, } from '@angular/core';
 
 import { Subscription, } from 'rxjs';
 
-import { PageComponent,
+import { ToastsComponent,
          TodoListLinks,
          TodoListNavigator,    } from 'src/app/core';
 import { TodoListComponent,    } from '../todo-list/todo-list.component';
@@ -18,11 +18,11 @@ import { AddTodoListViewModel, } from './add-todo-list.view-model';
   ],
 })
 export class AddTodoListComponent implements OnDestroy {
-  @ViewChild('page')
-  private page!: PageComponent;
-
   @ViewChild('todoList')
   private todoList!: TodoListComponent;
+
+  @ViewChild('toasts')
+  private toasts!: ToastsComponent;
 
   private readonly subscription: Subscription;
 
@@ -51,7 +51,7 @@ export class AddTodoListComponent implements OnDestroy {
     if (this.todoList.form.valid) {
       const observer = {
         complete: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
-        error   : () => this.page.showError('An error occured.'),
+        error   : () => this.toasts.push('Error', 'An error occured.'),
       };
 
       this.subscription.add(this.vm.add().subscribe(observer));
