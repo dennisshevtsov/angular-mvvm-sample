@@ -1,5 +1,8 @@
 import { AfterViewInit, Component,
-         ElementRef, OnDestroy, ViewChild, } from '@angular/core';
+         ElementRef, EventEmitter,
+         OnDestroy, Output, ViewChild, } from '@angular/core';
+
+import { fromEvent, Subscription } from 'rxjs';
 
 declare var bootstrap: any;
 
@@ -18,12 +21,21 @@ const TOAST_OPTIONS = {
   ],
 })
 export class ToastComponent implements AfterViewInit, OnDestroy {
+  @Output()
+  public readonly hidden: EventEmitter<void>;
+
+  private subscription: undefined | Subscription;
+
   private titleValue  : undefined | string;
   private messageValue: undefined | string;
 
   @ViewChild('toast')
   private toastElement!: ElementRef<HTMLDivElement>;
   private toast        : any;
+
+  public constructor() {
+    this.hidden = new EventEmitter<void>();
+  }
 
   public get title(): string {
     return this.titleValue ?? '';
@@ -42,17 +54,19 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
+    const element = this.toastElement.nativeElement;
+
     this.toast = bootstrap.Toast.getOrCreateInstance(
-      this.toastElement.nativeElement, TOAST_OPTIONS);
+      element, TOAST_OPTIONS);
+
+    this.subscription = fromEvent(element, 'hidden.bs.toast').subscribe(
+      () => this.hidden.emit());
 
     this.toast.show();
   }
 
   public ngOnDestroy(): void {
-    this.toast.destroy();
-  }
-
-  public show(): void {
-    this.toast.show();
+    this.toast.dispose();
+    this.subscription?.unsubscribe();
   }
 }

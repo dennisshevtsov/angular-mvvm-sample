@@ -1,4 +1,8 @@
-import { Component, ViewChild, ViewContainerRef, } from '@angular/core';
+import { Component, ComponentRef,
+         OnDestroy,
+         ViewChild, ViewContainerRef, } from '@angular/core';
+
+import { Subscription, } from 'rxjs';
 
 import { ToastComponent, } from '../toast/toast.component';
 
@@ -9,7 +13,10 @@ import { ToastComponent, } from '../toast/toast.component';
     './toasts.component.scss',
   ],
 })
-export class ToastsComponent {
+export class ToastsComponent implements OnDestroy {
+  private readonly subscription: Subscription;
+  private readonly components  : ComponentRef<ToastComponent>[];
+
   @ViewChild(
     'container',
     {
@@ -18,6 +25,18 @@ export class ToastsComponent {
   )
   private viewContainerRef!: ViewContainerRef;
 
+  public constructor() {
+    this.subscription = new Subscription();
+    this.components = [];
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+
+    this.components.forEach(component => component.instance.ngOnDestroy());
+    this.viewContainerRef.clear();
+  }
+
   public push(title: string, message: string) {
     const component = this.viewContainerRef.createComponent(
       ToastComponent);
@@ -25,6 +44,14 @@ export class ToastsComponent {
     component.instance.title = title;
     component.instance.message = message;
 
-    component.instance.show();
+    this.subscription.add(component.instance.hidden.subscribe(
+      () => {
+        const index = this.components.indexOf(component);
+
+        this.viewContainerRef.remove(index);
+        this.components.splice(index, 1);
+      }));
+
+    this.components.push(component);
   }
 }
