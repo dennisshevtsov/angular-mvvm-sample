@@ -45,14 +45,20 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
     return this.messageValue ?? '';
   }
 
-  public info(message: string): void {
-    this.isErrorValue = false;
-    this.messageValue = message;
+  public info(message: string): Promise<void> {
+    return Promise.resolve(null)
+                  .then(() => {
+                    this.isErrorValue = false;
+                    this.messageValue = message;
+                  });
   }
 
-  public error(message: string): void {
-    this.isErrorValue = true;
-    this.messageValue = message;
+  public error(message: string): Promise<void> {
+    return Promise.resolve(null)
+                  .then(() => {
+                    this.isErrorValue = true;
+                    this.messageValue = message;
+                  });
   }
 
   public ngAfterViewInit(): void {
