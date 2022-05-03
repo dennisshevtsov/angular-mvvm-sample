@@ -2,7 +2,7 @@ import { AfterViewInit, Component,
          ElementRef, EventEmitter,
          OnDestroy, Output, ViewChild, } from '@angular/core';
 
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subscription, } from 'rxjs';
 
 declare var bootstrap: any;
 
