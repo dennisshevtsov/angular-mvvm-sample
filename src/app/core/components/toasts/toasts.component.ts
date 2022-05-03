@@ -1,6 +1,7 @@
 import { Component, ComponentRef,
-         OnDestroy,
-         ViewChild, ViewContainerRef, } from '@angular/core';
+         OnDestroy, ViewChild,
+         ViewContainerRef,
+         ViewEncapsulation,        } from '@angular/core';
 
 import { Subscription, } from 'rxjs';
 
@@ -12,6 +13,7 @@ import { ToastComponent, } from '../toast/toast.component';
   styleUrls: [
     './toasts.component.scss',
   ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class ToastsComponent implements OnDestroy {
   private readonly subscription: Subscription;
@@ -37,12 +39,17 @@ export class ToastsComponent implements OnDestroy {
     this.viewContainerRef.clear();
   }
 
-  public push(title: string, message: string) {
+  public error(message: string): void {
+    this.push().instance.error(message);
+  }
+
+  public info(message: string): void {
+    this.push().instance.info(message);
+  }
+
+  private push(): ComponentRef<ToastComponent>{
     const component = this.viewContainerRef.createComponent(
       ToastComponent);
-
-    component.instance.title = title;
-    component.instance.message = message;
 
     this.subscription.add(component.instance.hidden.subscribe(
       () => {
@@ -53,5 +60,7 @@ export class ToastsComponent implements OnDestroy {
       }));
 
     this.components.push(component);
+
+    return component;
   }
 }

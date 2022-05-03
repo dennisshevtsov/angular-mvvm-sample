@@ -66,7 +66,7 @@ export class UpdateTodoListComponent
       complete: () => {
         this.subscription.add(this.vm.initialize().subscribe());
       },
-      error: () => this.toasts.push('Error', 'An error occured.'),
+      error: () => this.toasts.error('An error occured.'),
     };
 
     this.subscription.add(
@@ -77,7 +77,7 @@ export class UpdateTodoListComponent
   public ngAfterViewInit(): void {
     this.subscription.add(
       this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
-                         .subscribe(() => this.toasts.push('Info', 'The TODO list is added.')));
+                         .subscribe(() => this.toasts.info('The TODO list is added.')));
   }
 
   public ngOnDestroy(): void {
@@ -89,8 +89,8 @@ export class UpdateTodoListComponent
 
     if (this.todoList.form.valid) {
       const observer = {
-        complete: () => this.toasts.push('Info', 'The TODO list was updated.'),
-        error   : () => this.toasts.push('Error', 'An error occured.'),
+        complete: () => this.toasts.info('The TODO list was updated.'),
+        error   : () => this.toasts.error('An error occured.'),
       };
 
       this.subscription.add(this.vm.update().subscribe(observer));

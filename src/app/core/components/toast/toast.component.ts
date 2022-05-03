@@ -26,7 +26,7 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
 
   private subscription: undefined | Subscription;
 
-  private titleValue  : undefined | string;
+  private isErrorValue: undefined | boolean;
   private messageValue: undefined | string;
 
   @ViewChild('toast')
@@ -37,20 +37,22 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
     this.hidden = new EventEmitter<void>();
   }
 
-  public get title(): string {
-    return this.titleValue ?? '';
-  }
-
-  public set title(value: string) {
-    this.titleValue = value;
+  public get isError(): boolean {
+    return this.isErrorValue ?? false;
   }
 
   public get message(): string {
     return this.messageValue ?? '';
   }
 
-  public set message(value: string) {
-    this.messageValue = value;
+  public info(message: string): void {
+    this.isErrorValue = false;
+    this.messageValue = message;
+  }
+
+  public error(message: string): void {
+    this.isErrorValue = true;
+    this.messageValue = message;
   }
 
   public ngAfterViewInit(): void {

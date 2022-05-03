@@ -42,7 +42,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     const observer = {
-      error: () => this.toasts.push('Error', 'An error occured.'),
+      error: () => this.toasts.error('An error occured.'),
     };
 
     this.subscription.add(this.vm.search().subscribe(observer));
@@ -76,8 +76,8 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   public onDeleteOkPressed(): void {
     const message = `TODO list '${this.vm.selected.title}' was deleted.`;
     const observer = {
-      complete: () => this.toasts.push('Info', message),
-      error   : () => this.toasts.push('Error', 'An error occured.'),
+      complete: () => this.toasts.info(message),
+      error   : () => this.toasts.error('An error occured.'),
     };
 
     this.subscription.add(this.vm.delete().subscribe(observer));

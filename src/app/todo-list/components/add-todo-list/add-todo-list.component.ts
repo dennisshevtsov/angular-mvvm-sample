@@ -51,7 +51,7 @@ export class AddTodoListComponent implements OnDestroy {
     if (this.todoList.form.valid) {
       const observer = {
         complete: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
-        error   : () => this.toasts.push('Error', 'An error occured.'),
+        error   : () => this.toasts.error('An error occured.'),
       };
 
       this.subscription.add(this.vm.add().subscribe(observer));

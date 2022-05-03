@@ -1,17 +1,15 @@
 <div #toast
-     class="toast"
+     [class.bg-success]="!isError"
+     [class.bg-danger]="isError"
+     class="toast text-white border-0"
      role="alert"
      aria-live="assertive"
      aria-atomic="false">
-  <div class="toast-header">
-    <i class="bi bi-info-circle-fill me-2"></i>
-    <strong class="me-auto">{{ title }}</strong>
+  <div class="d-flex">
+    <div class="toast-body"><span>{{ message }}</span></div>
     <button type="button"
-            class="btn-close"
+            class="btn-close btn-close-white me-2 m-auto"
             data-bs-dismiss="toast"
-            aria-label="Close"></button>
-  </div>
-  <div class="toast-body">
-    <p>{{ message }}</p>
+            aria-level="Close"></button>
   </div>
 </div>
