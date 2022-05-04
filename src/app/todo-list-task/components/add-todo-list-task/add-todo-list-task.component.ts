@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { PageComponent,
+import { ToastsComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
@@ -21,11 +21,11 @@ import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
   ],
 })
 export class AddTodoListTaskComponent implements OnInit, OnDestroy {
-  @ViewChild('page')
-  private page!: PageComponent;
-
   @ViewChild('task')
   private task!: TodoListTaskComponent;
+
+  @ViewChild('toasts')
+  private toasts!: ToastsComponent;
 
   private subsription: Subscription;
 
@@ -52,7 +52,7 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
           this.vm.todoListId = todoListId;
         }
       },
-      error: () => this.page.showError('An error occured.'),
+      error: () => this.toasts.error('An error occured.'),
     };
 
     this.subsription.add(
@@ -70,7 +70,7 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
       const observer = {
         complete: () => this.navigator.navigateToUpdateTodoListTask(
           this.vm.todoListId, this.vm.todoListTaskId),
-        error   : () => this.page.showError('An error occured.'),
+        error   : () => this.toasts.error('An error occured.'),
       };
 
       this.subsription.add(this.vm.add().subscribe(observer));
