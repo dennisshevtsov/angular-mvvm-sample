@@ -4,7 +4,8 @@ import { ActivatedRoute,               } from '@angular/router';
 
 import { Subscription, takeWhile, } from 'rxjs';
 
-import { PageComponent, TodoListTaskLinks,
+import { ToastsComponent,
+         TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { TodoListTaskComponent,             } from 'src/app/todo-list-task/components/todo-list-task';
@@ -21,11 +22,11 @@ import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view
 })
 export class UpdateTodoListTaskComponent
   implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('page')
-  private page!: PageComponent;
-
   @ViewChild('task')
   private task!: TodoListTaskComponent;
+
+  @ViewChild('toasts')
+  private toasts!: ToastsComponent;
 
   private subscription: Subscription;
 
@@ -53,7 +54,7 @@ export class UpdateTodoListTaskComponent
           this.vm.task.todoListTaskId = todoListTaskId;
 
           const observer = {
-            error: () => this.page.showError('An error occured.'),
+            error: () => this.toasts.error('An error occured.'),
           };
 
           this.subscription.add(
@@ -66,7 +67,7 @@ export class UpdateTodoListTaskComponent
   public ngAfterViewInit(): void {
     this.subscription.add(
       this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
-                         .subscribe(() => this.page.showMessage('The TODO list task is added.')));
+                         .subscribe(() => this.toasts.info('The TODO list task is added.')));
   }
 
   public ngOnDestroy(): void {
@@ -78,8 +79,8 @@ export class UpdateTodoListTaskComponent
 
     if (this.task.form.valid) {
       const observer = {
-        complete: () => this.page.showMessage('The TODO list task was updated.'),
-        error   : () => this.page.showError('An error occured.'),
+        complete: () => this.toasts.info('The TODO list task was updated.'),
+        error   : () => this.toasts.error('An error occured.'),
       };
 
       this.subscription.add(this.vm.update().subscribe(observer));
