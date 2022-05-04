@@ -13,15 +13,5 @@
   </div>
 </header>
 <main class="d-flex flex-column">
-  <div class="alert alert-danger alert-dismissible w-100"
-       *ngIf="hasError">
-    <p class="m-0">{{ error }}</p>
-    <a class="btn btn-close"></a>
-  </div>
-  <div class="alert alert-success alert-dismissible w-100"
-       *ngIf="hasMessage">
-    <p class="m-0">{{ message }}</p>
-    <a class="btn btn-close"></a>
-  </div>
   <ng-container *ngTemplateOutlet="body"></ng-container>
 </main>
