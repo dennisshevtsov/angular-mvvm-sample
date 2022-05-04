@@ -4,8 +4,7 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
-import { ModalComponent,
-         PageComponent,
+import { ModalComponent, ToastsComponent,
          TodoListLinks, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,         } from 'src/app/core';
 import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
@@ -20,13 +19,12 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
     SearchTodoListTasksViewModel,
   ],
 })
-export class SearchTodoListTasksComponent
-  implements OnInit, OnDestroy {
-  @ViewChild('page')
-  private page!: PageComponent;
-
+export class SearchTodoListTasksComponent implements OnInit, OnDestroy {
   @ViewChild('modal')
   private modal!: ModalComponent;
+
+  @ViewChild('toasts')
+  private toasts!: ToastsComponent;
 
   private subscription: Subscription;
 
@@ -60,7 +58,7 @@ export class SearchTodoListTasksComponent
       return throwError(() => new Error('There is no TODO list ID parameter in the URL.'));
     };
     const observer = {
-      error: () => this.page.showError('An error occured.'),
+      error: () => this.toasts.error('An error occured.'),
     };
 
     this.subscription.add(
@@ -91,8 +89,8 @@ export class SearchTodoListTasksComponent
     }
 
     const observer = {
-      complete: () => this.page.showMessage(message),
-      error   : () => this.page.showError('An error occured.'),
+      complete: () => this.toasts.info(message),
+      error   : () => this.toasts.error('An error occured.'),
     };
 
     if (this.vm.selected.completed) {
@@ -112,8 +110,8 @@ export class SearchTodoListTasksComponent
   public onDeleteOkPressed(): void {
     const message = `TODO list task '${this.vm.selected.title}' was deleted.`;
     const observer = {
-      complete: () => this.page.showMessage(message),
-      error   : () => this.page.showError('An error occured.'),
+      complete: () => this.toasts.info(message),
+      error   : () => this.toasts.error('An error occured.'),
     };
 
     this.subscription.add(this.vm.delete().subscribe(observer));

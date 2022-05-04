@@ -1,5 +1,4 @@
-<app-page #page
-          [actions]="pageActions"
+<app-page [actions]="pageActions"
           [body]="pageBody">
 </app-page>
 
@@ -57,3 +56,5 @@
 <ng-template #modalBody>
   <p *ngIf="vm.selected">Are you sure that you want to remove TODO list task <span class="text-nowrap">'{{ vm.selected.title }}'</span>?</p>
 </ng-template>
+
+<app-toasts #toasts></app-toasts>
