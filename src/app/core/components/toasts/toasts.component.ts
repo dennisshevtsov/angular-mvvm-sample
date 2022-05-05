@@ -34,8 +34,6 @@ export class ToastsComponent implements OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
-
-    this.components.forEach(component => component.instance.ngOnDestroy());
     this.viewContainerRef.clear();
   }
 
