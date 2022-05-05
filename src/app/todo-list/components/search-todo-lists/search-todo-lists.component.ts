@@ -3,8 +3,7 @@ import { Component, OnDestroy,
 
 import { Subscription, } from 'rxjs';
 
-import { ModalComponent, PageComponent,
-         ToastsComponent,
+import { ModalComponent, ToastsComponent,
          TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
 import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list/api';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
@@ -49,9 +48,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription?.unsubscribe();
   }
 
   public updateTodoListLink(
