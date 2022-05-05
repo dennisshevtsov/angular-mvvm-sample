@@ -1,6 +1,7 @@
-import { AfterViewInit, Component,
-         ElementRef, EventEmitter,
-         OnDestroy, Output, ViewChild, } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef,
+         Component, ElementRef,
+         EventEmitter, OnDestroy, Output,
+         ViewChild,                        } from '@angular/core';
 
 import { fromEvent, Subscription, } from 'rxjs';
 
@@ -33,7 +34,10 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
   private toastElement!: ElementRef<HTMLDivElement>;
   private toast        : any;
 
-  public constructor() {
+  public constructor(
+    private readonly changeDetectorRef: ChangeDetectorRef,
+  ) {
+    this.changeDetectorRef.detach();
     this.hidden = new EventEmitter<void>();
   }
 
@@ -45,20 +49,18 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
     return this.messageValue ?? '';
   }
 
-  public info(message: string): Promise<void> {
-    return Promise.resolve(null)
-                  .then(() => {
-                    this.isErrorValue = false;
-                    this.messageValue = message;
-                  });
+  public info(message: string): void {
+    this.isErrorValue = false;
+    this.messageValue = message;
+
+    this.changeDetectorRef.detectChanges();
   }
 
-  public error(message: string): Promise<void> {
-    return Promise.resolve(null)
-                  .then(() => {
-                    this.isErrorValue = true;
-                    this.messageValue = message;
-                  });
+  public error(message: string): void {
+    this.isErrorValue = true;
+    this.messageValue = message;
+
+    this.changeDetectorRef.detectChanges();
   }
 
   public ngAfterViewInit(): void {
