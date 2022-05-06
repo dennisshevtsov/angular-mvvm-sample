@@ -7,3 +7,7 @@
 .ng-touched.ng-invalid, .ng-dirty.ng-invalid {
   @extend .is-invalid;
 }
+
+.ng-dirty.ng-valid {
+  @extend .is-valid;
+}
