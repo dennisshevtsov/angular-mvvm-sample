@@ -38,11 +38,17 @@ export class ToastsComponent implements OnDestroy {
   }
 
   public error(message: string): void {
-    this.push().instance.error(message);
+    const component = this.push();
+
+    component.instance.error(message);
+    component.changeDetectorRef.detectChanges();
   }
 
   public info(message: string): void {
-    this.push().instance.info(message);
+    const component = this.push();
+
+    component.instance.info(message);
+    component.changeDetectorRef.detectChanges();
   }
 
   private push(): ComponentRef<ToastComponent>{
