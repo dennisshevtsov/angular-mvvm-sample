@@ -8,6 +8,10 @@
   @extend .is-invalid;
 }
 
-.ng-dirty.ng-valid {
+.ng-dirty.ng-valid input[type=time] {
+  @extend .is-valid;
+}
+
+input[type=date].ng-dirty.ng-valid {
   @extend .is-valid;
 }
