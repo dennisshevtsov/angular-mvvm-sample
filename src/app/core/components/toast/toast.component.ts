@@ -1,7 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef,
-         Component, ElementRef,
-         EventEmitter, OnDestroy, Output,
-         ViewChild,                        } from '@angular/core';
+import { AfterViewInit, Component,
+         ElementRef, EventEmitter,
+         OnDestroy, Output, ViewChild, } from '@angular/core';
 
 import { fromEvent, Subscription, } from 'rxjs';
 
@@ -34,11 +33,12 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
   private toastElement!: ElementRef<HTMLDivElement>;
   private toast        : any;
 
-  public constructor(
-    private readonly changeDetectorRef: ChangeDetectorRef,
-  ) {
-    this.changeDetectorRef.detach();
+  public constructor() {
     this.hidden = new EventEmitter<void>();
+  }
+
+  public get isInfo(): boolean {
+    return this.isErrorValue === false;
   }
 
   public get isError(): boolean {
@@ -47,20 +47,6 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
 
   public get message(): string {
     return this.messageValue ?? '';
-  }
-
-  public info(message: string): void {
-    this.isErrorValue = false;
-    this.messageValue = message;
-
-    this.changeDetectorRef.detectChanges();
-  }
-
-  public error(message: string): void {
-    this.isErrorValue = true;
-    this.messageValue = message;
-
-    this.changeDetectorRef.detectChanges();
   }
 
   public ngAfterViewInit(): void {
@@ -78,5 +64,15 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.toast.dispose();
     this.subscription?.unsubscribe();
+  }
+
+  public info(message: string): void {
+    this.isErrorValue = false;
+    this.messageValue = message;
+  }
+
+  public error(message: string): void {
+    this.isErrorValue = true;
+    this.messageValue = message;
   }
 }

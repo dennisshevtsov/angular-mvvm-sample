@@ -55,6 +55,8 @@ export class ToastsComponent implements OnDestroy {
     const component = this.viewContainerRef.createComponent(
       ToastComponent);
 
+    component.changeDetectorRef.detach();
+
     this.subscription.add(component.instance.hidden.subscribe(
       () => {
         const index = this.components.indexOf(component);
