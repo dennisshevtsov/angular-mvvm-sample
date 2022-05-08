@@ -51,8 +51,7 @@ export class TodoListService {
   public addTodoList(
     requestDto: AddTodoListRequestDto)
     : Observable<AddTodoListResponseDto> {
-    const lastTodoList = this.todoLists[this.todoLists.length - 1];
-    const newTodoListId = lastTodoList.todoListId + 1;
+    const newTodoListId = this.getTodoListId(this.todoLists);
 
     this.todoLists.push({
       todoListId: newTodoListId,
@@ -88,5 +87,22 @@ export class TodoListService {
     }
 
     return of(void 0);
+  }
+
+  private getTodoListId(
+    todoLists: {
+      todoListId: number,
+      title: string,
+      description: string,
+    }[]) {
+    let todoListId = 0;
+
+    if (todoLists.length) {
+      const lastTodoList = todoLists[todoLists.length -1];
+
+      todoListId = lastTodoList.todoListId + 1;
+    }
+
+    return todoListId;
   }
 }
