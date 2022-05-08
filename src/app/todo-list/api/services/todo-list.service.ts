@@ -51,15 +51,16 @@ export class TodoListService {
   public addTodoList(
     requestDto: AddTodoListRequestDto)
     : Observable<AddTodoListResponseDto> {
-    const todoListId = this.todoLists.length + 1;
+    const lastTodoList = this.todoLists[this.todoLists.length - 1];
+    const newTodoListId = lastTodoList.todoListId + 1;
 
     this.todoLists.push({
-      todoListId: todoListId,
+      todoListId: newTodoListId,
       title: requestDto.title,
       description: requestDto.description,
     });
 
-    return of(new AddTodoListResponseDto(todoListId));
+    return of(new AddTodoListResponseDto(newTodoListId));
   }
 
   public updateTodoList(
@@ -80,10 +81,10 @@ export class TodoListService {
   public deleteTodoList(
     requestDto: DeleteTodoListRequestDto)
     : Observable<void> {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId === requestDto.todoListId);
+    const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
 
     if (index >= 0) {
-      this.todoLists.splice(index, 1);
+      this.todoLists = this.todoLists.splice(index, 1);
     }
 
     return of(void 0);
