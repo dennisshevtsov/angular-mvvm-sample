@@ -77,17 +77,17 @@ export class TodoListTaskService {
     }
 
     const todoListTasks = this.todoListTasksMap.get(command.todoListId)!;
-    const todoListTaskId = todoListTasks.length + 1;
+    const newTodoListTaskId = this.getNewTodoListTaskId(todoListTasks);
 
     todoListTasks.push({
-      todoListTaskId: todoListTaskId,
+      todoListTaskId: newTodoListTaskId,
       completed: false,
       title: command.title,
       description: command.description,
       date: { ...command.date, },
     });
 
-    return of(new AddTodoListTaskResponseDto(todoListTaskId));
+    return of(new AddTodoListTaskResponseDto(newTodoListTaskId));
   }
 
   public updateTodoListTask(
@@ -164,10 +164,36 @@ export class TodoListTaskService {
           todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
 
         if (todoListTaskIndex > -1) {
-          todoListTasks.splice(todoListTaskIndex, 1);
+          const newTodoListTasks = todoListTasks.splice(todoListTaskIndex, 1);
+
+          this.todoListTasksMap.set(command.todoListId, newTodoListTasks);
         }
       }
 
       return of(void 0);
+  }
+
+  private getNewTodoListTaskId(
+    todoListTasks: {
+      todoListTaskId: number | string,
+      completed     : boolean,
+      title         : string,
+      description   : string,
+      date: {
+        day    : number,
+        fullDay: boolean,
+        start  : number,
+        end    : number,
+      },
+    }[]) {
+    let todoListTaskId = 0;
+
+    if (todoListTasks.length > 0) {
+      const lastTodoListTask = todoListTasks[todoListTasks.length - 1];
+
+      todoListTaskId = +lastTodoListTask.todoListTaskId + 1;
+    }
+
+    return todoListTaskId;
   }
 }
