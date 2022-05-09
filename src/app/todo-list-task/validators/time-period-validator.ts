@@ -2,13 +2,15 @@ import { AbstractControl, ValidationErrors, } from '@angular/forms';
 
 export function timePeriodValidator(timePeriodControl: AbstractControl)
   : ValidationErrors | null {
-  const fullDayControl = timePeriodControl.get('fullDay');
+  const errors: ValidationErrors = {};
+  const fullDayControl = timePeriodControl.get('fullDay')!;
 
-  if (fullDayControl && !fullDayControl.value) {
-    const errors: ValidationErrors = {};
-
+  if (!fullDayControl.value &&
+      (!timePeriodControl.pristine ||
+        timePeriodControl.touched ||
+        timePeriodControl.dirty)) {
     const startControl = timePeriodControl.get('start')!;
-    const startControlValue = getControlValue(startControl);
+    const startControlValue = startControl.value;
     const startControlError = getControlError(startControlValue);
 
     startControl.setErrors(startControlError);
@@ -18,7 +20,7 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
     }
 
     const endControl = timePeriodControl.get('end')!;
-    const endControlValue = getControlValue(endControl);
+    const endControlValue = endControl.value;
     const endControlError = getControlError(startControlValue);
 
     if (endControlError) {
@@ -26,6 +28,7 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
     }
 
     endControl.setErrors(endControlError);
+
     if (startControlValue && endControlValue) {
       const startParts = startControlValue.split(':');
       const endParts = endControlValue.split(':');
@@ -36,25 +39,23 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
         startControl.setErrors({
           startBeforeEnd: true,
         });
+        startControl.markAsTouched({
+          onlySelf: true,
+        });
+
         endControl.setErrors({
           startBeforeEnd: true,
         });
+        endControl.markAsTouched({
+          onlySelf: true,
+        });
+
         errors['startBeforeEnd'] = true;
       }
     }
   }
 
-  return null;
-}
-
-function getControlValue(control: AbstractControl) {
-  let controlValue;
-
-  if (!control.pristine || control.touched || control.dirty) {
-    controlValue = control.value;
-  }
-
-  return controlValue;
+  return errors;
 }
 
 function getControlError(controlValue: string)

@@ -32,13 +32,13 @@ export abstract class FormComponentBase {
   public isValid(controlName: string): boolean {
     const control = this.form.get(controlName);
 
-    return control == null || !(control.touched || control.dirty) || control.valid;
+    return control == null || (control.pristine && !control.touched && !control.dirty) || control.valid;
   }
 
   public hasErrors(controlName: string): boolean {
     const control = this.form.get(controlName);
 
-    return control != null && (control.touched || control.dirty) && control.errors != null;
+    return control != null && (!control.pristine || control.touched || control.dirty) && control.errors != null;
   }
 
   public hasError(controlName: string, errorCode: string): boolean {
