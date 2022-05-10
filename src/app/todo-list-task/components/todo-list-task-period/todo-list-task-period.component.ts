@@ -56,10 +56,10 @@ export class TodoListTaskPeriodComponent
   public writeValue(period: TodoListTaskDateDto): void {
     if (period) {
       this.form.setValue({
-        'day': this.formatter.toLocalDate(period.day),
+        'day'    : this.formatter.toLocalDate(period.day),
         'fullDay': period.fullDay,
-        'start': this.formatter.toLocalTime(period.start),
-        'end': this.formatter.toLocalTime(period.end),
+        'start'  : this.formatter.toLocalTime(period.start),
+        'end'    : this.formatter.toLocalTime(period.end),
       });
     }
   }
@@ -111,7 +111,7 @@ export class TodoListTaskPeriodComponent
             if (control.errors) {
               errors[controlName] = control.errors;
             }
-          })
+          });
 
     return errors;
   }

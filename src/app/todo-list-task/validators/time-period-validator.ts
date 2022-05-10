@@ -4,12 +4,13 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
   : ValidationErrors | null {
   const errors: ValidationErrors = {};
   const fullDayControl = timePeriodControl.get('fullDay')!;
+  const startControl = timePeriodControl.get('start')!;
+  const endControl = timePeriodControl.get('end')!;
 
   if (!fullDayControl.value &&
       (!timePeriodControl.pristine ||
         timePeriodControl.touched ||
         timePeriodControl.dirty)) {
-    const startControl = timePeriodControl.get('start')!;
     const startControlValue = startControl.value;
     const startControlError = getControlError(startControlValue);
 
@@ -19,7 +20,6 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
       errors['startRequired'] = true;
     }
 
-    const endControl = timePeriodControl.get('end')!;
     const endControlValue = endControl.value;
     const endControlError = getControlError(startControlValue);
 
@@ -53,6 +53,10 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
         errors['startBeforeEnd'] = true;
       }
     }
+  }
+  else {
+    startControl.setErrors(null);
+    endControl.setErrors(null);
   }
 
   return errors;
