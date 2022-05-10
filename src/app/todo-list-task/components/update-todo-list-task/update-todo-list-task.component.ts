@@ -43,6 +43,11 @@ export class UpdateTodoListTaskComponent
     return this.links.searchTodoListTasksLink(this.vm.task.todoListId);
   }
 
+  public get addTodoListTaskLink(): any[] {
+    return this.links.addTodoListTaskLink(
+      this.vm.task.todoListId);
+  }
+
   public ngOnInit(): void {
     this.subscription.add(
       this.route.paramMap.subscribe(params => {
