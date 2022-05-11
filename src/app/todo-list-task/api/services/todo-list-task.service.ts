@@ -164,9 +164,7 @@ export class TodoListTaskService {
           todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
 
         if (todoListTaskIndex > -1) {
-          const newTodoListTasks = todoListTasks.splice(todoListTaskIndex, 1);
-
-          this.todoListTasksMap.set(command.todoListId, newTodoListTasks);
+          todoListTasks.splice(todoListTaskIndex, 1);
         }
       }
 

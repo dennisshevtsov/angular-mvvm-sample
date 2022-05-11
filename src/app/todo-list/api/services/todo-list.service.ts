@@ -83,7 +83,7 @@ export class TodoListService {
     const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
 
     if (index >= 0) {
-      this.todoLists = this.todoLists.splice(index, 1);
+      this.todoLists.splice(index, 1);
     }
 
     return of(void 0);
