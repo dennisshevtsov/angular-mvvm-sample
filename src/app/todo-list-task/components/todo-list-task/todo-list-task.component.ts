@@ -5,8 +5,7 @@ import { FormBuilder, FormGroup,
 
 import { Subscription, } from 'rxjs';
 
-import { AppClock, FormComponentBase,
-         MILLISECONDS_IN_HOUR,         } from 'src/app/core';
+import { FormComponentBase,            } from 'src/app/core';
 import { AddTodoListTaskRequestDto,
          TodoListTaskDateDto,
          UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
@@ -28,7 +27,6 @@ export class TodoListTaskComponent
 
   public constructor(
     private readonly fb   : FormBuilder,
-    private readonly clock: AppClock,
   ) {
     super();
 
@@ -58,19 +56,10 @@ export class TodoListTaskComponent
   }
 
   protected buildForm(): FormGroup {
-    const now = this.clock.now();
-
     return this.fb.group({
       'title'      : this.fb.control('', Validators.required),
       'description': '',
-      'date'       : this.buildDefaultTimePeriod(now),
+      'date'       : new TodoListTaskDateDto(),
     });
-  }
-
-  private buildDefaultTimePeriod(now: number): TodoListTaskDateDto {
-    const start = now;
-    const end = start + MILLISECONDS_IN_HOUR;
-
-    return new TodoListTaskDateDto(now, false, start, end);
   }
 }

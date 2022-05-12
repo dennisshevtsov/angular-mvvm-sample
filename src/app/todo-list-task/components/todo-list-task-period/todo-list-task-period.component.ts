@@ -55,6 +55,7 @@ export class TodoListTaskPeriodComponent
 
   public writeValue(period: TodoListTaskDateDto): void {
     if (period) {
+      console.log(period);
       this.form.setValue({
         'day'    : this.formatter.toLocalDate(period.day),
         'fullDay': period.fullDay,
