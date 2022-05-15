@@ -23,11 +23,18 @@
         [ngClass]="{ 'has-error': !isValid('start')}"
         *ngIf="!form.value.fullDay">
     <label for="dpStartTime" class="form-label">Start Time</label>
-    <input id="dpStartTime"
-           class="form-control"
-           type="time"
-           placeholder="Start time"
-           formControlName="start">
+    <div class="row">
+      <div class="input-group col-sm-6">
+        <button class="btn" type="button"><span>&lt;</span></button>
+        <span class="form-control">10</span>
+        <button class="btn" type="button"><span>&gt;</span></button>
+      </div>
+      <div class="input-group col-sm-6">
+        <button class="btn" type="button"><span>&lt;</span></button>
+        <span class="form-control">30</span>
+        <button class="btn" type="button"><span>&gt;</span></button>
+      </div>
+    </div>
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
@@ -38,11 +45,18 @@
         [ngClass]="{ 'has-error': !isValid('end')}"
         *ngIf="!form.value.fullDay">
     <label for="dpEndTime" class="form-label">End Time</label>
-    <input id="dpEndTime"
-           class="form-control"
-           type="time"
-           placeholder="End time"
-           formControlName="end">
+    <div class="row">
+      <div class="input-group col-sm-6">
+        <button class="btn" type="button"><span>&lt;</span></button>
+        <span class="form-control">11</span>
+        <button class="btn" type="button"><span>&gt;</span></button>
+      </div>
+      <div class="input-group col-sm-6">
+        <button class="btn" type="button"><span>&lt;</span></button>
+        <span class="form-control">30</span>
+        <button class="btn" type="button"><span>&gt;</span></button>
+      </div>
+    </div>
     <span class="invalid-feedback"
           *ngIf="hasErrors('end')">
       <span *ngIf="hasError('end', 'required')">Please enter an end.</span>
