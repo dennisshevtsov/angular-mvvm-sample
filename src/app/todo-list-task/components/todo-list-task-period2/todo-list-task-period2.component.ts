@@ -16,9 +16,9 @@ import { timePeriodValidator,         } from 'src/app/todo-list-task/validators'
 
 @Component({
   selector: 'todo-list-task-period2',
-  templateUrl: './todo-list-task-period.component.html',
+  templateUrl: './todo-list-task-period2.component.html',
   styleUrls: [
-    './todo-list-task-period.component.scss',
+    './todo-list-task-period2.component.scss',
   ],
   providers: [
     {
