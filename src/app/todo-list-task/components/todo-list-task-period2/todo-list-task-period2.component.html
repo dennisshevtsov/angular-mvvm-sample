@@ -23,16 +23,23 @@
         [ngClass]="{ 'has-error': !isValid('start')}"
         *ngIf="!form.value.fullDay">
     <label for="dpStartTime" class="form-label">Start Time</label>
-    <div class="row">
-      <div class="input-group col-sm-6">
-        <button class="btn" type="button"><span>&lt;</span></button>
-        <span class="form-control">10</span>
-        <button class="btn" type="button"><span>&gt;</span></button>
+    <div class="d-flex flex-row">
+      <div class="input-group">
+        <span class="form-control text-center">10</span>
+        <span class="input-group-text">h</span>
+        <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
+          <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
+          <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
+        </div>
       </div>
-      <div class="input-group col-sm-6">
-        <button class="btn" type="button"><span>&lt;</span></button>
-        <span class="form-control">30</span>
-        <button class="btn" type="button"><span>&gt;</span></button>
+      <span class="form-control-plaintext text-center" style="width: 30px;">:</span>
+      <div class="input-group">
+        <span class="form-control text-center">15</span>
+        <span class="input-group-text">m</span>
+        <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
+          <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
+          <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
+        </div>
       </div>
     </div>
     <span class="invalid-feedback"
@@ -41,22 +48,34 @@
       <span *ngIf="hasError('start', 'startBeforeEnd')">Please enter a start before an end.</span>
     </span>
   </div>
-  <div class="form-group mb-3"
+  <div class="form-group"
         [ngClass]="{ 'has-error': !isValid('end')}"
         *ngIf="!form.value.fullDay">
     <label for="dpEndTime" class="form-label">End Time</label>
-    <div class="row">
-      <div class="input-group col-sm-6">
-        <button class="btn" type="button"><span>&lt;</span></button>
-        <span class="form-control">11</span>
-        <button class="btn" type="button"><span>&gt;</span></button>
+    <div class="d-flex flex-row">
+      <div class="input-group">
+        <span class="form-control text-center">11</span>
+        <span class="input-group-text">h</span>
+        <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
+          <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
+          <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
+        </div>
       </div>
-      <div class="input-group col-sm-6">
-        <button class="btn" type="button"><span>&lt;</span></button>
-        <span class="form-control">30</span>
-        <button class="btn" type="button"><span>&gt;</span></button>
+      <span class="form-control-plaintext text-center" style="width: 30px;">:</span>
+      <div class="input-group">
+        <span class="form-control text-center">15</span>
+        <span class="input-group-text">m</span>
+        <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
+          <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
+          <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
+        </div>
       </div>
     </div>
+    <span class="invalid-feedback"
+          *ngIf="hasErrors('start')">
+      <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
+      <span *ngIf="hasError('start', 'startBeforeEnd')">Please enter a start before an end.</span>
+    </span>
     <span class="invalid-feedback"
           *ngIf="hasErrors('end')">
       <span *ngIf="hasError('end', 'required')">Please enter an end.</span>
