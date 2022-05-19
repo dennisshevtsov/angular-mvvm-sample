@@ -4,6 +4,7 @@ import { RouterModule, } from '@angular/router';
 
 import { ModalComponent, PageComponent,
          ToastComponent, ToastsComponent, } from '.';
+import { TimeComponent } from './components/time/time.component';
 
 @NgModule({
   declarations: [
@@ -11,6 +12,7 @@ import { ModalComponent, PageComponent,
     PageComponent,
     ToastComponent,
     ToastsComponent,
+    TimeComponent,
   ],
   imports: [
     CommonModule,
