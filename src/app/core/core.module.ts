@@ -3,16 +3,16 @@ import { NgModule,     } from '@angular/core';
 import { RouterModule, } from '@angular/router';
 
 import { ModalComponent, PageComponent,
-         ToastComponent, ToastsComponent, } from '.';
-import { TimeComponent } from './components/time/time.component';
+         TimeComponent, ToastComponent,
+         ToastsComponent,               } from '.';
 
 @NgModule({
   declarations: [
     ModalComponent,
     PageComponent,
+    TimeComponent,
     ToastComponent,
     ToastsComponent,
-    TimeComponent,
   ],
   imports: [
     CommonModule,
@@ -21,6 +21,7 @@ import { TimeComponent } from './components/time/time.component';
   exports: [
     ModalComponent,
     PageComponent,
+    TimeComponent,
     ToastComponent,
     ToastsComponent,
   ],
