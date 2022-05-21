@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div class="form-group mb-3"
-        [ngClass]="{ 'has-error': !isValid('day')}">
+       [ngClass]="{ 'has-error': !isValid('day')}">
     <label for="dpDate" class="form-label">Date</label>
     <input id="dpDate"
            class="form-control"
@@ -20,23 +20,10 @@
     <label for="chbIsFullDay" class="form-check-label">Full Day</label>
   </div>
   <div class="form-group mb-3"
-        [ngClass]="{ 'has-error': !isValid('start')}"
-        *ngIf="!form.value.fullDay">
+       [ngClass]="{ 'has-error': !isValid('start')}"
+       *ngIf="!form.value.fullDay">
     <label for="dpStartTime" class="form-label">Start Time</label>
-    <div class="input-group">
-      <span class="form-control text-center">10</span>
-      <span class="input-group-text">h</span>
-      <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
-        <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
-        <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
-      </div>
-      <span class="form-control text-center">15</span>
-      <span class="input-group-text">m</span>
-      <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
-        <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
-        <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
-      </div>
-    </div>
+    <time [value]="start"></time>
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
@@ -44,23 +31,10 @@
     </span>
   </div>
   <div class="form-group mb-3"
-        [ngClass]="{ 'has-error': !isValid('end')}"
-        *ngIf="!form.value.fullDay">
+       [ngClass]="{ 'has-error': !isValid('end')}"
+       *ngIf="!form.value.fullDay">
     <label for="dpEndTime" class="form-label">End Time</label>
-    <div class="input-group">
-      <span class="form-control text-center">11</span>
-      <span class="input-group-text">h</span>
-      <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
-        <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
-        <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
-      </div>
-      <span class="form-control text-center">15</span>
-      <span class="input-group-text">m</span>
-      <div class="d-flex flex-column input-group-text" style="padding-top: 0; padding-bottom: 0;">
-        <i class="bi bi-chevron-compact-up" style="line-height: 1; cursor: pointer;"></i>
-        <i class="bi bi-chevron-compact-down" style="line-height: 1; cursor: pointer;"></i>
-      </div>
-    </div>
+    <time [value]="end"></time>
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
