@@ -23,7 +23,7 @@
        [ngClass]="{ 'has-error': !isValid('start')}"
        *ngIf="!form.value.fullDay">
     <label for="dpStartTime" class="form-label">Start Time</label>
-    <time [value]="start"></time>
+    <time formControlName="start"></time>
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
@@ -34,7 +34,7 @@
        [ngClass]="{ 'has-error': !isValid('end')}"
        *ngIf="!form.value.fullDay">
     <label for="dpEndTime" class="form-label">End Time</label>
-    <time [value]="end"></time>
+    <time formControlName="end"></time>
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'required')">Please enter a start.</span>

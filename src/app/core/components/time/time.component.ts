@@ -14,71 +14,68 @@ export const DEFAULT_MENUTES_STEP = 15;
   ],
 })
 export class TimeComponent {
-  private menutesStep: number;
-  private time       : number;
+  private hourStepValue   : number;
+  private menutesStepValue: number;
+  private value           : number;
 
   public constructor() {
-    this.menutesStep = DEFAULT_MENUTES_STEP;
-    this.time = 0;
+    this.hourStepValue = 1;
+    this.menutesStepValue = DEFAULT_MENUTES_STEP;
+    this.value = 0;
   }
 
   @Input()
-  public set step(value: number) {
-    this.menutesStep = value;
-  }
-
-  @Input()
-  public set value(value: number) {
-    this.time = value;
+  public set menutesStep(value: number) {
+    this.menutesStepValue = value;
   }
 
   public get hours(): number {
-    return this.time / MILLISECONDS_IN_HOUR >> 0;
+    return (this.value / MILLISECONDS_IN_HOUR) >> 0;
   }
 
   public get minutes(): number {
-    return this.time % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE >> 0;
+    return (this.value % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE) >> 0;
   }
 
   public increaseHours() {
-    let value = this.time;
+    let value = this.value;
 
-    value = value + 1;
+    value = value + MILLISECONDS_IN_HOUR * this.hourStepValue;
     value = value % HOURS_IN_DAY;
 
-    this.time = value;
+    this.value = value;
   }
 
   public decreaseHours() {
-    let value = this.time;
+    let value = this.value;
 
-    value = value - 1;
+    value = value - this.hourStepValue;
 
     if (value < 0) {
       value = value + HOURS_IN_DAY;
     }
 
-    this.time = value;
+    this.value = value;
   }
 
   public increaseMenutes() {
-    let value = this.time;
+    let value = this.value;
 
-    value = value + MILLISECONDS_IN_MENUTE * this.menutesStep;
+    value = value + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
     value = value % MILLISECONDS_IN_HOUR;
 
-    this.time = value;
+    this.value = value;
   }
 
   public decreaseMenutes() {
-    let value = this.time;
+    let value = this.value;
 
-    value = value - MILLISECONDS_IN_MENUTE * this.menutesStep;
+    value = value - MILLISECONDS_IN_MENUTE * this.menutesStepValue;
 
     if (value < 0) {
       value = value + MILLISECONDS_IN_HOUR;
     }
 
-    this.time = value;
+    this.value = value;
   }
 }
