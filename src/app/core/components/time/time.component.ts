@@ -41,7 +41,7 @@ export class TimeComponent {
     let value = this.value;
 
     value = value + MILLISECONDS_IN_HOUR * this.hourStepValue;
-    value = value % HOURS_IN_DAY;
+    value = value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
 
     this.value = value;
   }
@@ -49,33 +49,44 @@ export class TimeComponent {
   public decreaseHours() {
     let value = this.value;
 
-    value = value - this.hourStepValue;
+    value = value - MILLISECONDS_IN_HOUR * this.hourStepValue;
 
     if (value < 0) {
-      value = value + HOURS_IN_DAY;
+      value = value + HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
     }
 
     this.value = value;
   }
 
   public increaseMenutes() {
-    let value = this.value;
+    let menutes = this.value;
 
-    value = value + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
-    value = value % MILLISECONDS_IN_HOUR;
+    menutes = menutes + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
+    menutes = menutes % MILLISECONDS_IN_HOUR;
 
-    this.value = value;
+    let hours = this.value;
+
+    hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
+    hours = hours * MILLISECONDS_IN_HOUR;
+
+    this.value = hours + menutes;
   }
 
   public decreaseMenutes() {
-    let value = this.value;
+    let menutes = this.value;
 
-    value = value - MILLISECONDS_IN_MENUTE * this.menutesStepValue;
+    menutes = menutes % MILLISECONDS_IN_HOUR;
+    menutes = menutes - MILLISECONDS_IN_MENUTE * this.menutesStepValue;
 
-    if (value < 0) {
-      value = value + MILLISECONDS_IN_HOUR;
+    if (menutes < 0) {
+      menutes = menutes + MILLISECONDS_IN_HOUR;
     }
 
-    this.value = value;
+    let hours = this.value;
+
+    hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
+    hours = hours * MILLISECONDS_IN_HOUR;
+
+    this.value = hours + menutes;
   }
 }
