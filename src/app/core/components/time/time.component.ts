@@ -1,4 +1,5 @@
 import { Component, Input, } from '@angular/core';
+import { ControlValueAccessor } from '@angular/forms';
 
 import { HOURS_IN_DAY,
          MILLISECONDS_IN_HOUR,
@@ -13,7 +14,7 @@ export const DEFAULT_MENUTES_STEP = 15;
     './time.component.scss',
   ],
 })
-export class TimeComponent {
+export class TimeComponent implements ControlValueAccessor {
   private hourStepValue   : number;
   private menutesStepValue: number;
   private value           : number;
@@ -88,5 +89,18 @@ export class TimeComponent {
     hours = hours * MILLISECONDS_IN_HOUR;
 
     this.value = hours + menutes;
+  }
+
+  public writeValue(value: number): void {
+    this.value = value;
+  }
+
+  public registerOnChange(fn: (value: any) => void): void {
+  }
+
+  public registerOnTouched(fn: any): void {
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
   }
 }
