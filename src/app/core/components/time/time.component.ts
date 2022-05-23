@@ -1,5 +1,5 @@
 import { Component, Input, } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { HOURS_IN_DAY,
          MILLISECONDS_IN_HOUR,
@@ -12,6 +12,13 @@ export const DEFAULT_MENUTES_STEP = 15;
   templateUrl: './time.component.html',
   styleUrls: [
     './time.component.scss',
+  ],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: TimeComponent,
+    },
   ],
 })
 export class TimeComponent implements ControlValueAccessor {
