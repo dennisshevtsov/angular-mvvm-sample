@@ -59,8 +59,8 @@ export class TodoListTaskPeriod2Component
       this.form.setValue({
         'day'    : this.formatter.toLocalDate(period.day),
         'fullDay': period.fullDay,
-        'start'  : this.formatter.toLocalTime(period.start),
-        'end'    : this.formatter.toLocalTime(period.end),
+        'start'  : period.start,
+        'end'    : period.end,
       });
     }
   }
@@ -70,8 +70,8 @@ export class TodoListTaskPeriod2Component
       const period = new TodoListTaskDateDto(
         this.formatter.fromLocalDate(value.day),
         value.fullDay,
-        this.formatter.fromLocalTime(value.start),
-        this.formatter.fromLocalTime(value.end));
+        value.start,
+        value.end);
 
       fn(period);
     };
