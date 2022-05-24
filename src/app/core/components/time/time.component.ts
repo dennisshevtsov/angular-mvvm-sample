@@ -26,10 +26,14 @@ export class TimeComponent implements ControlValueAccessor {
   private menutesStepValue: number;
   private value           : number;
 
+  private disabledValue: boolean;
+
   public constructor() {
     this.hourStepValue = 1;
     this.menutesStepValue = DEFAULT_MENUTES_STEP;
     this.value = 0;
+
+    this.disabledValue = false;
   }
 
   @Input()
@@ -45,57 +49,70 @@ export class TimeComponent implements ControlValueAccessor {
     return (this.value % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE) >> 0;
   }
 
+  public get disabled(): boolean {
+    return this.disabledValue;
+  }
+
   public increaseHours() {
-    let value = this.value;
+    if (!this.disabled)
+    {
+      let value = this.value;
 
-    value = value + MILLISECONDS_IN_HOUR * this.hourStepValue;
-    value = value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
-
-    this.value = value;
+      value = value + MILLISECONDS_IN_HOUR * this.hourStepValue;
+      value = value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
+  
+      this.value = value;
+    }
   }
 
   public decreaseHours() {
-    let value = this.value;
+    if (this.disabled) {
+      let value = this.value;
 
-    value = value - MILLISECONDS_IN_HOUR * this.hourStepValue;
-
-    if (value < 0) {
-      value = value + HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
+      value = value - MILLISECONDS_IN_HOUR * this.hourStepValue;
+  
+      if (value < 0) {
+        value = value + HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
+      }
+  
+      this.value = value;
     }
-
-    this.value = value;
   }
 
   public increaseMenutes() {
-    let menutes = this.value;
+    if (this.disabled) {
+      let menutes = this.value;
 
-    menutes = menutes + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
-    menutes = menutes % MILLISECONDS_IN_HOUR;
-
-    let hours = this.value;
-
-    hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
-    hours = hours * MILLISECONDS_IN_HOUR;
-
-    this.value = hours + menutes;
+      menutes = menutes + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
+      menutes = menutes % MILLISECONDS_IN_HOUR;
+  
+      let hours = this.value;
+  
+      hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
+      hours = hours * MILLISECONDS_IN_HOUR;
+  
+      this.value = hours + menutes;
+    }
   }
 
   public decreaseMenutes() {
-    let menutes = this.value;
+    if (this.disabled) {
+      let menutes = this.value;
 
-    menutes = menutes % MILLISECONDS_IN_HOUR;
-    menutes = menutes - MILLISECONDS_IN_MENUTE * this.menutesStepValue;
-
-    if (menutes < 0) {
-      menutes = menutes + MILLISECONDS_IN_HOUR;
+      menutes = menutes % MILLISECONDS_IN_HOUR;
+      menutes = menutes - MILLISECONDS_IN_MENUTE * this.menutesStepValue;
+  
+      if (menutes < 0) {
+        menutes = menutes + MILLISECONDS_IN_HOUR;
+      }
+  
+      let hours = this.value;
+  
+      hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
+      hours = hours * MILLISECONDS_IN_HOUR;
+  
+      this.value = hours + menutes;
     }
-
-    let hours = this.value;
-
-    hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
-    hours = hours * MILLISECONDS_IN_HOUR;
-
-    this.value = hours + menutes;
   }
 
   public writeValue(value: number): void {
@@ -108,6 +125,7 @@ export class TimeComponent implements ControlValueAccessor {
   public registerOnTouched(fn: any): void {
   }
 
-  public setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(disabled: boolean): void {
+    this.disabledValue = disabled;
   }
 }
