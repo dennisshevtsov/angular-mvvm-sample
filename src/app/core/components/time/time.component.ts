@@ -42,7 +42,7 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public get hours(): number {
-    return (this.value / MILLISECONDS_IN_HOUR) >> 0;
+    return (this.value / MILLISECONDS_IN_HOUR % HOURS_IN_DAY) >> 0;
   }
 
   public get minutes(): number {
@@ -66,7 +66,7 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public decreaseHours() {
-    if (this.disabled) {
+    if (!this.disabled) {
       let value = this.value;
 
       value = value - MILLISECONDS_IN_HOUR * this.hourStepValue;
@@ -80,7 +80,7 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public increaseMenutes() {
-    if (this.disabled) {
+    if (!this.disabled) {
       let menutes = this.value;
 
       menutes = menutes + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
@@ -96,7 +96,7 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public decreaseMenutes() {
-    if (this.disabled) {
+    if (!this.disabled) {
       let menutes = this.value;
 
       menutes = menutes % MILLISECONDS_IN_HOUR;
