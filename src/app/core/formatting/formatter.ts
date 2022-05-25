@@ -1,7 +1,9 @@
 import { formatDate, } from '@angular/common';
 import { Injectable, } from '@angular/core';
 
-import { MILLISECONDS_IN_HOUR, MILLISECONDS_IN_MENUTE, } from '../date';
+import { HOURS_IN_DAY,
+         MILLISECONDS_IN_HOUR,
+         MILLISECONDS_IN_MENUTE, } from '../date';
 
 export const DATE_FORMAT: string = 'yyyy-MM-dd';
 export const DATE_LOCALE: string = 'en-US';
@@ -40,5 +42,13 @@ export class Formatter {
                 time.getUTCMinutes() * MILLISECONDS_IN_MENUTE;
 
     return utc;
+  }
+
+  public toHours(value: number): number {
+    return (value / MILLISECONDS_IN_HOUR % HOURS_IN_DAY) >> 0;
+  }
+
+  public toMinutes(value: number): number {
+    return (value % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE) >> 0;
   }
 }
