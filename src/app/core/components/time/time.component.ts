@@ -1,9 +1,11 @@
-import { Component, Input, } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, Input,     } from '@angular/core';
+import { ControlValueAccessor,
+         NG_VALUE_ACCESSOR     } from '@angular/forms';
 
 import { HOURS_IN_DAY,
          MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE, } from '../../date';
+         MILLISECONDS_IN_MENUTE, } from 'src/app/core/date';
+import { Formatter,              } from 'src/app/core/formatting';
 
 export const DEFAULT_MENUTES_STEP = 15;
 
@@ -28,7 +30,9 @@ export class TimeComponent implements ControlValueAccessor {
 
   private disabledValue: boolean;
 
-  public constructor() {
+  public constructor(
+    private readonly formatter: Formatter,
+  ) {
     this.hourStepValue = 1;
     this.menutesStepValue = DEFAULT_MENUTES_STEP;
     this.value = 0;
@@ -42,11 +46,11 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public get hours(): number {
-    return (this.value / MILLISECONDS_IN_HOUR % HOURS_IN_DAY) >> 0;
+    return this.formatter.toHours(this.value);
   }
 
   public get minutes(): number {
-    return (this.value % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE) >> 0;
+    return this.formatter.toMinutes(this.value);
   }
 
   public get disabled(): boolean {
