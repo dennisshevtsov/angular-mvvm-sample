@@ -30,6 +30,8 @@ export class TimeComponent implements ControlValueAccessor {
 
   private disabledValue: boolean;
 
+  private onChange: (value: any) => void;
+
   public constructor(
     private readonly formatter: Formatter,
   ) {
@@ -38,6 +40,8 @@ export class TimeComponent implements ControlValueAccessor {
     this.value = 0;
 
     this.disabledValue = false;
+
+    this.onChange = (value: any) => {};
   }
 
   @Input()
@@ -66,6 +70,7 @@ export class TimeComponent implements ControlValueAccessor {
       value = value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
   
       this.value = value;
+      this.onChange(this.value);
     }
   }
 
@@ -80,6 +85,7 @@ export class TimeComponent implements ControlValueAccessor {
       }
   
       this.value = value;
+      this.onChange(this.value);
     }
   }
 
@@ -96,6 +102,7 @@ export class TimeComponent implements ControlValueAccessor {
       hours = hours * MILLISECONDS_IN_HOUR;
   
       this.value = hours + menutes;
+      this.onChange(this.value);
     }
   }
 
@@ -116,6 +123,7 @@ export class TimeComponent implements ControlValueAccessor {
       hours = hours * MILLISECONDS_IN_HOUR;
   
       this.value = hours + menutes;
+      this.onChange(this.value);
     }
   }
 
@@ -124,6 +132,7 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public registerOnChange(fn: (value: any) => void): void {
+    this.onChange = fn;
   }
 
   public registerOnTouched(fn: any): void {
