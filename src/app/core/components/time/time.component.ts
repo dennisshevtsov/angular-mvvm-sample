@@ -29,8 +29,10 @@ export class TimeComponent implements ControlValueAccessor {
   private value           : number;
 
   private disabledValue: boolean;
+  private touchedValue: boolean;
 
   private onChange: (value: any) => void;
+  private onTouched: () => void;
 
   public constructor(
     private readonly formatter: Formatter,
@@ -40,8 +42,10 @@ export class TimeComponent implements ControlValueAccessor {
     this.value = 0;
 
     this.disabledValue = false;
+    this.touchedValue = false;
 
     this.onChange = (value: any) => {};
+    this.onTouched = () => {};
   }
 
   @Input()
@@ -68,9 +72,11 @@ export class TimeComponent implements ControlValueAccessor {
 
       value = value + MILLISECONDS_IN_HOUR * this.hourStepValue;
       value = value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
-  
+
       this.value = value;
+
       this.onChange(this.value);
+      this.setTouchedState();
     }
   }
 
@@ -83,9 +89,11 @@ export class TimeComponent implements ControlValueAccessor {
       if (value < 0) {
         value = value + HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
       }
-  
+
       this.value = value;
+
       this.onChange(this.value);
+      this.setTouchedState();
     }
   }
 
@@ -95,14 +103,16 @@ export class TimeComponent implements ControlValueAccessor {
 
       menutes = menutes + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
       menutes = menutes % MILLISECONDS_IN_HOUR;
-  
+
       let hours = this.value;
-  
+
       hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
       hours = hours * MILLISECONDS_IN_HOUR;
-  
+
       this.value = hours + menutes;
+
       this.onChange(this.value);
+      this.setTouchedState();
     }
   }
 
@@ -116,14 +126,16 @@ export class TimeComponent implements ControlValueAccessor {
       if (menutes < 0) {
         menutes = menutes + MILLISECONDS_IN_HOUR;
       }
-  
+
       let hours = this.value;
-  
+
       hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
       hours = hours * MILLISECONDS_IN_HOUR;
-  
+
       this.value = hours + menutes;
+
       this.onChange(this.value);
+      this.setTouchedState();
     }
   }
 
@@ -140,5 +152,12 @@ export class TimeComponent implements ControlValueAccessor {
 
   public setDisabledState(disabled: boolean): void {
     this.disabledValue = disabled;
+  }
+
+  public setTouchedState(): void {
+    if (!this.touchedValue) {
+      this.touchedValue = true;
+      this.onTouched();
+    }
   }
 }
