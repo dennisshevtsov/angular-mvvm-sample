@@ -2,10 +2,8 @@ import { Component, Input,     } from '@angular/core';
 import { ControlValueAccessor,
          NG_VALUE_ACCESSOR     } from '@angular/forms';
 
-import { HOURS_IN_DAY,
-         MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE, } from 'src/app/core/date';
-import { Formatter,              } from 'src/app/core/formatting';
+import { Timer,     } from 'src/app/core/date';
+import { Formatter, } from 'src/app/core/formatting';
 
 export const DEFAULT_MENUTES_STEP = 15;
 
@@ -25,20 +23,21 @@ export const DEFAULT_MENUTES_STEP = 15;
 })
 export class TimeComponent implements ControlValueAccessor {
   private hourStepValue   : number;
-  private menutesStepValue: number;
+  private minutesStepValue: number;
   private value           : number;
 
   private disabledValue: boolean;
-  private touchedValue: boolean;
+  private touchedValue : boolean;
 
-  private onChange: (value: any) => void;
+  private onChange : (value: any) => void;
   private onTouched: () => void;
 
   public constructor(
+    private readonly timer    : Timer,
     private readonly formatter: Formatter,
   ) {
     this.hourStepValue = 1;
-    this.menutesStepValue = DEFAULT_MENUTES_STEP;
+    this.minutesStepValue = DEFAULT_MENUTES_STEP;
     this.value = 0;
 
     this.disabledValue = false;
@@ -50,7 +49,7 @@ export class TimeComponent implements ControlValueAccessor {
 
   @Input()
   public set menutesStep(value: number) {
-    this.menutesStepValue = value;
+    this.minutesStepValue = value;
   }
 
   public get hours(): number {
@@ -68,12 +67,7 @@ export class TimeComponent implements ControlValueAccessor {
   public increaseHours() {
     if (!this.disabled)
     {
-      let value = this.value;
-
-      value = value + MILLISECONDS_IN_HOUR * this.hourStepValue;
-      value = value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
-
-      this.value = value;
+      this.value = this.timer.increaseHours(this.value, this.hourStepValue);
 
       this.onChange(this.value);
       this.setTouchedState();
@@ -82,57 +76,25 @@ export class TimeComponent implements ControlValueAccessor {
 
   public decreaseHours() {
     if (!this.disabled) {
-      let value = this.value;
-
-      value = value - MILLISECONDS_IN_HOUR * this.hourStepValue;
-  
-      if (value < 0) {
-        value = value + HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
-      }
-
-      this.value = value;
+      this.value = this.timer.decreaseHours(this.value, this.hourStepValue);
 
       this.onChange(this.value);
       this.setTouchedState();
     }
   }
 
-  public increaseMenutes() {
+  public increaseMinutes() {
     if (!this.disabled) {
-      let menutes = this.value;
-
-      menutes = menutes + MILLISECONDS_IN_MENUTE * this.menutesStepValue;
-      menutes = menutes % MILLISECONDS_IN_HOUR;
-
-      let hours = this.value;
-
-      hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
-      hours = hours * MILLISECONDS_IN_HOUR;
-
-      this.value = hours + menutes;
+      this.value = this.timer.increaseMinutes(this.value, this.minutesStepValue);
 
       this.onChange(this.value);
       this.setTouchedState();
     }
   }
 
-  public decreaseMenutes() {
+  public decreaseMinutes() {
     if (!this.disabled) {
-      let menutes = this.value;
-
-      menutes = menutes % MILLISECONDS_IN_HOUR;
-      menutes = menutes - MILLISECONDS_IN_MENUTE * this.menutesStepValue;
-  
-      if (menutes < 0) {
-        menutes = menutes + MILLISECONDS_IN_HOUR;
-      }
-
-      let hours = this.value;
-
-      hours = (hours / MILLISECONDS_IN_HOUR) >> 0;
-      hours = hours * MILLISECONDS_IN_HOUR;
-
-      this.value = hours + menutes;
+      this.value = this.timer.decreaseMinutes(this.value, this.minutesStepValue);
 
       this.onChange(this.value);
       this.setTouchedState();
