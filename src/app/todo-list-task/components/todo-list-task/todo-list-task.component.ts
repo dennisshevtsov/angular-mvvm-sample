@@ -26,7 +26,7 @@ export class TodoListTaskComponent
   private readonly subscription: Subscription;
 
   public constructor(
-    private readonly fb   : FormBuilder,
+    private readonly fb : FormBuilder,
   ) {
     super();
 

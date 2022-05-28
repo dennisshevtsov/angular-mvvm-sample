@@ -1,10 +1,12 @@
 import { Injectable, } from '@angular/core';
 
-export const MILLISECONDS_IN_SECOND = 1 *  1000;
-export const MILLISECONDS_IN_MENUTE = 1 * 60 * 1000;
-export const MILLISECONDS_IN_HOUR   = 1 * 60 * MILLISECONDS_IN_MENUTE;
+export const HOURS_IN_DAY      = 24;
+export const SECONDS_IN_MINUTE = 60;
+export const MINUTES_IN_HOUR   = 60;
 
-export const HOURS_IN_DAY = 24;
+export const MILLISECONDS_IN_SECOND = 1 *  1000;
+export const MILLISECONDS_IN_MENUTE = 1 * SECONDS_IN_MINUTE * MILLISECONDS_IN_SECOND;
+export const MILLISECONDS_IN_HOUR   = 1 * MINUTES_IN_HOUR * MILLISECONDS_IN_MENUTE;
 
 @Injectable({
   providedIn: 'root',

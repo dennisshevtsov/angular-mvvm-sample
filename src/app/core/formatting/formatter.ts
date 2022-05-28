@@ -3,7 +3,8 @@ import { Injectable, } from '@angular/core';
 
 import { HOURS_IN_DAY,
          MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE, } from '../date';
+         MILLISECONDS_IN_MENUTE,
+         MINUTES_IN_HOUR, } from '../date';
 
 export const DATE_FORMAT: string = 'yyyy-MM-dd';
 export const DATE_LOCALE: string = 'en-US';
@@ -45,10 +46,14 @@ export class Formatter {
   }
 
   public toHours(value: number): number {
-    return (value / MILLISECONDS_IN_HOUR % HOURS_IN_DAY) >> 0;
+    return ((value / MILLISECONDS_IN_HOUR % HOURS_IN_DAY) >> 0) - this.UtcShift;
   }
 
   public toMinutes(value: number): number {
     return (value % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE) >> 0;
+  }
+
+  private get UtcShift(): number {
+    return (new Date().getTimezoneOffset() / MINUTES_IN_HOUR) >> 0;
   }
 }
