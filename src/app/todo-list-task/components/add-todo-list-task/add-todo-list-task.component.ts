@@ -85,7 +85,7 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
   private buildDefaultTimePeriod(): TodoListTaskDateDto {
     const now = this.clock.now();
     const step = 15 * MILLISECONDS_IN_MENUTE;
-    const start = now - (now % step);
+    const start = now - (now % step) + step;
     const end = start + MILLISECONDS_IN_HOUR;
 
     return new TodoListTaskDateDto(now, false, start, end);

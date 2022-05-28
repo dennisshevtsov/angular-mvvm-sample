@@ -2,12 +2,13 @@ import { CommonModule, } from '@angular/common';
 import { NgModule,     } from '@angular/core';
 import { RouterModule, } from '@angular/router';
 
-import { ModalComponent, PageComponent,
-         TimeComponent, ToastComponent,
-         ToastsComponent,               } from '.';
+import { DateComponent, ModalComponent,
+         PageComponent, TimeComponent,
+         ToastComponent, ToastsComponent, } from '.';
 
 @NgModule({
   declarations: [
+    DateComponent,
     ModalComponent,
     PageComponent,
     TimeComponent,
@@ -19,6 +20,7 @@ import { ModalComponent, PageComponent,
     RouterModule,
   ],
   exports: [
+    DateComponent,
     ModalComponent,
     PageComponent,
     TimeComponent,
