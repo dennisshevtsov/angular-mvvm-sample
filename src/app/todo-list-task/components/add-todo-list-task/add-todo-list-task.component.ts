@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { AppClock, MILLISECONDS_IN_HOUR,
+import { AppClock, HOURS_IN_DAY, MILLISECONDS_IN_HOUR,
          MILLISECONDS_IN_MENUTE,
          ToastsComponent,
          TodoListTaskLinks,
@@ -83,7 +83,7 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
   }
 
   private buildDefaultTimePeriod(): TodoListTaskDateDto {
-    const now = this.clock.now();
+    const now = this.clock.now() % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
     const step = 15 * MILLISECONDS_IN_MENUTE;
     const start = now - (now % step) + step;
     const end = start + MILLISECONDS_IN_HOUR;
