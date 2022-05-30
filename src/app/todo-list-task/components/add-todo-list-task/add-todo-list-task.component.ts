@@ -4,7 +4,8 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { AppClock, HOURS_IN_DAY, MILLISECONDS_IN_HOUR,
+import { AppClock, HOURS_IN_DAY,
+         MILLISECONDS_IN_HOUR,
          MILLISECONDS_IN_MENUTE,
          ToastsComponent,
          TodoListTaskLinks,
