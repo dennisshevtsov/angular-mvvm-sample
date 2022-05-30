@@ -29,29 +29,23 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
 
     endControl.setErrors(endControlError);
 
-    if (startControlValue && endControlValue) {
-      const startParts = startControlValue.split(':');
-      const endParts = endControlValue.split(':');
+    if (startControlValue && endControlValue &&
+        startControlValue >= endControlValue) {
+      startControl.setErrors({
+        startBeforeEnd: true,
+      });
+      startControl.markAsTouched({
+        onlySelf: true,
+      });
 
-      if (startParts[0] > endParts[0] ||
-          (startParts[0] == endParts[0] &&
-           startParts[1] >= endParts[1])) {
-        startControl.setErrors({
-          startBeforeEnd: true,
-        });
-        startControl.markAsTouched({
-          onlySelf: true,
-        });
+      endControl.setErrors({
+        startBeforeEnd: true,
+      });
+      endControl.markAsTouched({
+        onlySelf: true,
+      });
 
-        endControl.setErrors({
-          startBeforeEnd: true,
-        });
-        endControl.markAsTouched({
-          onlySelf: true,
-        });
-
-        errors['startBeforeEnd'] = true;
-      }
+      errors['startBeforeEnd'] = true;
     }
   }
   else {

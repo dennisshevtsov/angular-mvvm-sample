@@ -1,2 +1,2 @@
 export * from './time-period-validator';
-export * from './time-period-validator2';
+export * from './time-period-validator';

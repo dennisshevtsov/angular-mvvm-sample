@@ -12,7 +12,7 @@ import { Subscription, } from 'rxjs';
 
 import { Formatter, FormComponentBase } from 'src/app/core';
 import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
-import { timePeriodValidator2,        } from 'src/app/todo-list-task/validators';
+import { timePeriodValidator,         } from 'src/app/todo-list-task/validators';
 
 @Component({
   selector: 'todo-list-task-period',
@@ -127,7 +127,7 @@ export class TodoListTaskPeriodComponent
 
     const options: AbstractControlOptions = {
       validators: [
-        timePeriodValidator2,
+        timePeriodValidator,
       ],
     };
 
