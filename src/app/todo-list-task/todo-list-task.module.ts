@@ -10,17 +10,15 @@ import { AddTodoListTaskComponent,
          UpdateTodoListTaskComponent,  } from './components';
 import { TodoListTaskTimePipe,         } from './pipes';
 import { TodoListTaskRoutingModule,    } from './todo-list-task-routing.module';
-import { TodoListTaskPeriod2Component } from './components/todo-list-task-period2/todo-list-task-period2.component';
 
 @NgModule({
   declarations: [
     AddTodoListTaskComponent,
     SearchTodoListTasksComponent,
-    TodoListTaskPeriodComponent,
     TodoListTaskComponent,
-    UpdateTodoListTaskComponent,
+    TodoListTaskPeriodComponent,
     TodoListTaskTimePipe,
-    TodoListTaskPeriod2Component,
+    UpdateTodoListTaskComponent,
   ],
   imports: [
     CommonModule,

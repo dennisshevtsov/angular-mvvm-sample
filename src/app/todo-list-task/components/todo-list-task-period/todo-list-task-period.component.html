@@ -1,6 +1,6 @@
 <div [formGroup]="form">
   <div class="form-group mb-3"
-        [ngClass]="{ 'has-error': !isValid('day')}">
+       [ngClass]="{ 'has-error': !isValid('day')}">
     <label for="dpDate" class="form-label">Date</label>
     <input id="dpDate"
            class="form-control"
@@ -20,14 +20,10 @@
     <label for="chbIsFullDay" class="form-check-label">Full Day</label>
   </div>
   <div class="form-group mb-3"
-        [ngClass]="{ 'has-error': !isValid('start')}"
-        *ngIf="!form.value.fullDay">
+       [ngClass]="{ 'has-error': !isValid('start')}"
+       *ngIf="!form.value.fullDay">
     <label for="dpStartTime" class="form-label">Start Time</label>
-    <input id="dpStartTime"
-           class="form-control"
-           type="time"
-           placeholder="Start time"
-           formControlName="start">
+    <time formControlName="start"></time>
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
@@ -35,14 +31,15 @@
     </span>
   </div>
   <div class="form-group mb-3"
-        [ngClass]="{ 'has-error': !isValid('end')}"
-        *ngIf="!form.value.fullDay">
+       [ngClass]="{ 'has-error': !isValid('end')}"
+       *ngIf="!form.value.fullDay">
     <label for="dpEndTime" class="form-label">End Time</label>
-    <input id="dpEndTime"
-           class="form-control"
-           type="time"
-           placeholder="End time"
-           formControlName="end">
+    <time formControlName="end"></time>
+    <span class="invalid-feedback"
+          *ngIf="hasErrors('start')">
+      <span *ngIf="hasError('start', 'required')">Please enter a start.</span>
+      <span *ngIf="hasError('start', 'startBeforeEnd')">Please enter a start before an end.</span>
+    </span>
     <span class="invalid-feedback"
           *ngIf="hasErrors('end')">
       <span *ngIf="hasError('end', 'required')">Please enter an end.</span>

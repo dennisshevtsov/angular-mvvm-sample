@@ -12,7 +12,7 @@ import { Subscription, } from 'rxjs';
 
 import { Formatter, FormComponentBase } from 'src/app/core';
 import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
-import { timePeriodValidator,         } from 'src/app/todo-list-task/validators';
+import { timePeriodValidator2,        } from 'src/app/todo-list-task/validators';
 
 @Component({
   selector: 'todo-list-task-period',
@@ -55,11 +55,12 @@ export class TodoListTaskPeriodComponent
 
   public writeValue(period: TodoListTaskDateDto): void {
     if (period) {
+      console.log(period);
       this.form.setValue({
         'day'    : this.formatter.toLocalDate(period.day),
         'fullDay': period.fullDay,
-        'start'  : this.formatter.toLocalTime(period.start),
-        'end'    : this.formatter.toLocalTime(period.end),
+        'start'  : period.start,
+        'end'    : period.end,
       });
     }
   }
@@ -69,8 +70,8 @@ export class TodoListTaskPeriodComponent
       const period = new TodoListTaskDateDto(
         this.formatter.fromLocalDate(value.day),
         value.fullDay,
-        this.formatter.fromLocalTime(value.start),
-        this.formatter.fromLocalTime(value.end));
+        value.start,
+        value.end);
 
       fn(period);
     };
@@ -126,7 +127,7 @@ export class TodoListTaskPeriodComponent
 
     const options: AbstractControlOptions = {
       validators: [
-        timePeriodValidator,
+        timePeriodValidator2,
       ],
     };
 
