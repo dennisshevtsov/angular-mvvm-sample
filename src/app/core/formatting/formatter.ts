@@ -12,6 +12,8 @@ export const DATE_LOCALE: string = 'en-US';
 export const TIME_FORMAT: string = 'HH:mm';
 export const TIME_LOCALE: string = DATE_LOCALE;
 
+export const UTC_SHIFT: number = (new Date().getTimezoneOffset() / MINUTES_IN_HOUR) >> 0;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -46,14 +48,23 @@ export class Formatter {
   }
 
   public toHours(value: number): number {
-    return ((value / MILLISECONDS_IN_HOUR % HOURS_IN_DAY) >> 0) - this.UtcShift;
+    let formatted = value;
+
+    formatted /= MILLISECONDS_IN_HOUR;
+    formatted -= UTC_SHIFT;
+    formatted %= HOURS_IN_DAY;
+    formatted >>= 0;
+
+    return formatted;
   }
 
   public toMinutes(value: number): number {
-    return (value % MILLISECONDS_IN_HOUR / MILLISECONDS_IN_MENUTE) >> 0;
-  }
+    let formatted = value;
 
-  private get UtcShift(): number {
-    return (new Date().getTimezoneOffset() / MINUTES_IN_HOUR) >> 0;
+    formatted %= MILLISECONDS_IN_HOUR;
+    formatted /= MILLISECONDS_IN_MENUTE;
+    formatted >>= 0;
+
+    return formatted;
   }
 }
