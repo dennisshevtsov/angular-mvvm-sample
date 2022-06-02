@@ -2,11 +2,7 @@
   <div class="form-group mb-3"
        [ngClass]="{ 'has-error': !isValid('day')}">
     <label for="dpDate" class="form-label">Date</label>
-    <input id="dpDate"
-           class="form-control"
-           type="date"
-           placeholder="Date"
-           formControlName="day">
+    <date formControlName="day"></date>
     <span class="invalid-feedback"
           *ngIf="hasErrors('day')">
       <span *ngIf="hasError('day', 'required')">Please enter a date.</span>

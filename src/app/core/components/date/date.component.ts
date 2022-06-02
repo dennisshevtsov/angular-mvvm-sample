@@ -17,20 +17,24 @@ import { ControlValueAccessor,
   ],
 })
 export class DateComponent implements ControlValueAccessor {
-  private value   : number;
-  private onChange: (value: any) => void;
+  private dateValue: number;
+  private onChange : (value: any) => void;
 
   public constructor() {
-    this.value = 0;
+    this.dateValue = 0;
     this.onChange = () => {};
   }
 
-  public get date(): number {
-    return this.value;
+  public get value(): number {
+    return this.dateValue;
+  }
+
+  public set value(value: number) {
+    this.dateValue = value;
   }
 
   public writeValue(value: number): void {
-    this.value = value;
+    this.dateValue = value;
   }
 
   public registerOnChange(fn: (value: any) => void): void {
