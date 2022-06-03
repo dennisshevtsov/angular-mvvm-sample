@@ -52,6 +52,14 @@ export class TimeComponent implements ControlValueAccessor {
     this.minutesStepValue = value;
   }
 
+  public get day(): string {
+    return this.formatter.toLocalDate(this.value);
+  }
+
+  public set day(day: string) {
+    
+  }
+
   public get hours(): number {
     return this.formatter.toHours(this.value);
   }
