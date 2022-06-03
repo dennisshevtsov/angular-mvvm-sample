@@ -2,7 +2,7 @@ import { Component, Input,     } from '@angular/core';
 import { ControlValueAccessor,
          NG_VALUE_ACCESSOR     } from '@angular/forms';
 
-import { Timer,     } from 'src/app/core/date';
+import { HOURS_IN_DAY, MILLISECONDS_IN_HOUR, Timer,     } from 'src/app/core/date';
 import { Formatter, } from 'src/app/core/formatting';
 
 export const DEFAULT_MENUTES_STEP = 15;
@@ -57,15 +57,20 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public set day(day: string) {
-    
+    let value = this.value;
+
+    value %= HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
+    value += this.formatter.fromLocalDate(day);
+
+    this.value = value;
   }
 
   public get hours(): number {
-    return this.formatter.toHours(this.value);
+    return this.formatter.toLocalHours(this.value);
   }
 
   public get minutes(): number {
-    return this.formatter.toMinutes(this.value);
+    return this.formatter.toLocalMinutes(this.value);
   }
 
   public get disabled(): boolean {

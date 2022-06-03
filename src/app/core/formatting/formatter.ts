@@ -47,7 +47,7 @@ export class Formatter {
     return utc;
   }
 
-  public toHours(value: number): number {
+  public toLocalHours(value: number): number {
     let formatted = value;
 
     formatted /= MILLISECONDS_IN_HOUR;
@@ -58,7 +58,7 @@ export class Formatter {
     return formatted;
   }
 
-  public toMinutes(value: number): number {
+  public toLocalMinutes(value: number): number {
     let formatted = value;
 
     formatted %= MILLISECONDS_IN_HOUR;
