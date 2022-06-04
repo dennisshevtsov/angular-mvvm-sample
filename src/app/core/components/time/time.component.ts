@@ -2,8 +2,10 @@ import { Component, Input,     } from '@angular/core';
 import { ControlValueAccessor,
          NG_VALUE_ACCESSOR     } from '@angular/forms';
 
-import { HOURS_IN_DAY, MILLISECONDS_IN_HOUR, Timer,     } from 'src/app/core/date';
-import { Formatter, } from 'src/app/core/formatting';
+import { HOURS_IN_DAY,
+         MILLISECONDS_IN_HOUR,
+         DateTime,             } from 'src/app/core/date';
+import { Formatter,            } from 'src/app/core/formatting';
 
 export const DEFAULT_MENUTES_STEP = 15;
 
@@ -24,7 +26,7 @@ export const DEFAULT_MENUTES_STEP = 15;
 export class TimeComponent implements ControlValueAccessor {
   private hourStepValue   : number;
   private minutesStepValue: number;
-  private value           : number;
+  private dateTimeValue   : DateTime;
 
   private disabledValue: boolean;
   private touchedValue : boolean;
@@ -33,17 +35,16 @@ export class TimeComponent implements ControlValueAccessor {
   private onTouched: () => void;
 
   public constructor(
-    private readonly timer    : Timer,
     private readonly formatter: Formatter,
   ) {
     this.hourStepValue = 1;
     this.minutesStepValue = DEFAULT_MENUTES_STEP;
-    this.value = 0;
+    this.dateTimeValue = new DateTime(0);
 
     this.disabledValue = false;
     this.touchedValue = false;
 
-    this.onChange = (value: any) => {};
+    this.onChange  = () => {};
     this.onTouched = () => {};
   }
 
@@ -53,24 +54,24 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public get day(): string {
-    return this.formatter.toLocalDate(this.value);
+    return this.formatter.toLocalDate(this.dateTimeValue.value);
   }
 
   public set day(day: string) {
-    let value = this.value;
+    let value = this.dateTimeValue.value;
 
     value %= HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
     value += this.formatter.fromLocalDate(day);
 
-    this.value = value;
+    this.dateTimeValue.day = value;
   }
 
   public get hours(): number {
-    return this.formatter.toLocalHours(this.value);
+    return this.formatter.toLocalHours(this.dateTimeValue.value);
   }
 
   public get minutes(): number {
-    return this.formatter.toLocalMinutes(this.value);
+    return this.formatter.toLocalMinutes(this.dateTimeValue.value);
   }
 
   public get disabled(): boolean {
@@ -80,42 +81,42 @@ export class TimeComponent implements ControlValueAccessor {
   public increaseHours() {
     if (!this.disabled)
     {
-      this.value = this.timer.increaseHours(this.value, this.hourStepValue);
+      this.dateTimeValue.increaseHours(this.hourStepValue);
 
-      this.onChange(this.value);
+      this.onChange(this.dateTimeValue);
       this.setTouchedState();
     }
   }
 
   public decreaseHours() {
     if (!this.disabled) {
-      this.value = this.timer.decreaseHours(this.value, this.hourStepValue);
+      this.dateTimeValue.decreaseHours(this.hourStepValue);
 
-      this.onChange(this.value);
+      this.onChange(this.dateTimeValue);
       this.setTouchedState();
     }
   }
 
   public increaseMinutes() {
     if (!this.disabled) {
-      this.value = this.timer.increaseMinutes(this.value, this.minutesStepValue);
+      this.dateTimeValue.increaseMinutes(this.minutesStepValue);
 
-      this.onChange(this.value);
+      this.onChange(this.dateTimeValue);
       this.setTouchedState();
     }
   }
 
   public decreaseMinutes() {
     if (!this.disabled) {
-      this.value = this.timer.decreaseMinutes(this.value, this.minutesStepValue);
+      this.dateTimeValue.decreaseMinutes(this.minutesStepValue);
 
-      this.onChange(this.value);
+      this.onChange(this.dateTimeValue);
       this.setTouchedState();
     }
   }
 
   public writeValue(value: number): void {
-    this.value = value;
+    this.dateTimeValue = new DateTime(value);
   }
 
   public registerOnChange(fn: (value: any) => void): void {

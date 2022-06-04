@@ -1,2 +1,2 @@
 export * from './app-clock';
-export * from './timer';
+export * from './date-time';
