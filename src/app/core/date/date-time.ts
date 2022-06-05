@@ -1,4 +1,5 @@
-import { HOURS_IN_DAY, MILLISECONDS_IN_HOUR,
+import { HOURS_IN_DAY,
+         MILLISECONDS_IN_HOUR,
          MILLISECONDS_IN_MENUTE, } from './app-clock';
 
 export class DateTime {
@@ -15,7 +16,7 @@ export class DateTime {
   public set day(value: number) {
     const dateTimeValue = this.dateTimeValue;
     const time = dateTimeValue % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
-    const day = value - value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
+    const day  = value - value % (HOURS_IN_DAY * MILLISECONDS_IN_HOUR);
 
     this.dateTimeValue = day + time;
   }

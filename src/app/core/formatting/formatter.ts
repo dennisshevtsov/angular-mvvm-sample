@@ -4,7 +4,7 @@ import { Injectable, } from '@angular/core';
 import { HOURS_IN_DAY,
          MILLISECONDS_IN_HOUR,
          MILLISECONDS_IN_MENUTE,
-         MINUTES_IN_HOUR, } from '../date';
+         MINUTES_IN_HOUR,        } from '../date';
 
 export const DATE_FORMAT: string = 'yyyy-MM-dd';
 export const DATE_LOCALE: string = 'en-US';
