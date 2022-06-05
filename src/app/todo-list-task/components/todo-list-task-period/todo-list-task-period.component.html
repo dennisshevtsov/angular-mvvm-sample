@@ -1,19 +1,20 @@
 <div [formGroup]="form">
-  <div class="form-group mb-3"
-       [ngClass]="{ 'has-error': !isValid('day')}">
-    <label for="dpDate" class="form-label">Date</label>
-    <date formControlName="day"></date>
-    <span class="invalid-feedback"
-          *ngIf="hasErrors('day')">
-      <span *ngIf="hasError('day', 'required')">Please enter a date.</span>
-    </span>
-  </div>
   <div class="form-group form-check form-switch mb-3">
     <input id="chbIsFullDay"
            type="checkbox"
            class="form-check-input"
            formControlName="fullDay">
     <label for="chbIsFullDay" class="form-check-label">Full Day</label>
+  </div>
+  <div class="form-group mb-3"
+       [ngClass]="{ 'has-error': !isValid('day')}"
+       *ngIf="form.value.fullDay">
+    <label for="dpDate" class="form-label">Date</label>
+    <date formControlName="day"></date>
+    <span class="invalid-feedback"
+          *ngIf="hasErrors('day')">
+      <span *ngIf="hasError('day', 'required')">Please enter a date.</span>
+    </span>
   </div>
   <div class="form-group mb-3"
        [ngClass]="{ 'has-error': !isValid('start')}"
