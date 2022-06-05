@@ -39,7 +39,7 @@ export class TimeComponent implements ControlValueAccessor {
   ) {
     this.hourStepValue = 1;
     this.minutesStepValue = DEFAULT_MENUTES_STEP;
-    this.dateTimeValue = new DateTime(0);
+    this.dateTimeValue = new DateTime();
 
     this.disabledValue = false;
     this.touchedValue = false;

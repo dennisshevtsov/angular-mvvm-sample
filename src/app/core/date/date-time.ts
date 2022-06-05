@@ -4,7 +4,7 @@ import { HOURS_IN_DAY, MILLISECONDS_IN_HOUR,
 export class DateTime {
   private dateTimeValue: number;
 
-  public constructor(value: number) {
+  public constructor(value: number = 0) {
     this.dateTimeValue = value;
   }
 
