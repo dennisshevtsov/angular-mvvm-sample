@@ -61,7 +61,10 @@ export class TimeComponent implements ControlValueAccessor {
     let value = this.dateTimeValue.value;
 
     value %= HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
-    value += this.formatter.fromLocalDate(day);
+
+    if (day) {
+      value += this.formatter.fromLocalDate(day);
+    }
 
     this.dateTimeValue.day = value;
   }
