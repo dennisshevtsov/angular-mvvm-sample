@@ -127,6 +127,7 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
   public setDisabledState(disabled: boolean): void {
