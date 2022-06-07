@@ -11,7 +11,7 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
       (!timePeriodControl.pristine ||
         timePeriodControl.touched ||
         timePeriodControl.dirty)) {
-    const startControlValue = startControl.value;
+    const startControlValue = startControl.value.value ?? startControl.value;
     const startControlError = getControlError(startControlValue);
 
     startControl.setErrors(startControlError);
@@ -20,7 +20,7 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
       errors['startRequired'] = true;
     }
 
-    const endControlValue = endControl.value;
+    const endControlValue = endControl.value.value ?? endControl.value;
     const endControlError = getControlError(startControlValue);
 
     if (endControlError) {
