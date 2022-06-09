@@ -21,14 +21,16 @@ export class DateComponent implements ControlValueAccessor {
   private onChange : (value: any) => void;
   private onTouched: () => void;
 
-  private touchedValue: boolean;
+  private disabledValue: boolean;
+  private touchedValue : boolean;
 
   public constructor() {
     this.dateValue = 0;
     this.onChange  = () => {};
     this.onTouched = () => {};
 
-    this.touchedValue = false;
+    this.disabledValue = false;
+    this.touchedValue  = false;
   }
 
   public get value(): number {
@@ -55,6 +57,7 @@ export class DateComponent implements ControlValueAccessor {
   }
 
   public setDisabledState(disabled: boolean): void {
+    this.disabledValue = disabled;
   }
 
   public setTouchedState(): void {
