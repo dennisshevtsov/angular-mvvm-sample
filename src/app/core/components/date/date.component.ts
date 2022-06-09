@@ -38,10 +38,16 @@ export class DateComponent implements ControlValueAccessor {
   }
 
   public set value(value: number) {
-    this.dateValue = value;
+    if (!this.disabled) {
+      this.dateValue = value;
 
-    this.setTouchedState();
-    this.onChange(value);
+      this.setTouchedState();
+      this.onChange(value);
+    }
+  }
+
+  public get disabled(): boolean {
+    return this.disabledValue;
   }
 
   public writeValue(value: number): void {
