@@ -19,10 +19,12 @@ import { ControlValueAccessor,
 export class DateComponent implements ControlValueAccessor {
   private dateValue: number;
   private onChange : (value: any) => void;
+  private onTouched: () => void;
 
   public constructor() {
     this.dateValue = 0;
-    this.onChange = () => {};
+    this.onChange  = () => {};
+    this.onTouched = () => {};
   }
 
   public get value(): number {
@@ -42,6 +44,7 @@ export class DateComponent implements ControlValueAccessor {
   }
 
   public registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
   public setDisabledState(disabled: boolean): void {
