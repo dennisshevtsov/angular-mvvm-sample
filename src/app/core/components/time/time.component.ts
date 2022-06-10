@@ -1,4 +1,5 @@
-import { Component, Input,     } from '@angular/core';
+import { Component, Input,
+         ViewEncapsulation,    } from '@angular/core';
 import { ControlValueAccessor,
          NG_VALUE_ACCESSOR     } from '@angular/forms';
 
@@ -22,6 +23,7 @@ export const DEFAULT_MENUTES_STEP = 15;
       useExisting: TimeComponent,
     },
   ],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TimeComponent implements ControlValueAccessor {
   private hourStepValue   : number;

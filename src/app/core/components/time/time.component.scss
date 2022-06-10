@@ -1,0 +1,16 @@
+@import "/node_modules/bootstrap/scss/functions";
+@import "/node_modules/bootstrap/scss/variables";
+@import "/node_modules/bootstrap/scss/mixins";
+
+@import "/node_modules/bootstrap/scss/forms/validation";
+
+.ng-dirty.ng-invalid > .input-group > .form-control,
+.ng-touched.ng-invalid > .input-group > .form-control {
+  @extend .is-invalid;
+}
+
+.ng-dirty.ng-valid > .input-group > .form-control,
+.ng-touched.ng-valid > .input-group > .form-control {
+  @extend .is-valid;
+}
+
