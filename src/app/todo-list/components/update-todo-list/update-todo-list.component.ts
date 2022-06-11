@@ -11,6 +11,8 @@ import { ToastsComponent,
 import { TodoListComponent,            } from '../todo-list/todo-list.component';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 
+declare var window: any;
+
 @Component({
   templateUrl: './update-todo-list.component.html',
   styleUrls: [
@@ -30,6 +32,8 @@ export class UpdateTodoListComponent
 
   private readonly subscription: Subscription;
 
+  private added: boolean;
+
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
 
@@ -38,6 +42,8 @@ export class UpdateTodoListComponent
     private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {
     this.subscription = new Subscription();
+
+    this.added = false;
   }
 
   public get backLink(): any[] {
@@ -72,12 +78,26 @@ export class UpdateTodoListComponent
     this.subscription.add(
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
+
+    this.subscription.add(
+      this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
+                         .subscribe(() => {
+                           const href: string = window.location.href;
+                           const hashIndex = href.indexOf('#');
+                           const cleanHref = href.substring(0, hashIndex);
+
+                           const title: string = window.document.title;
+
+                           window.history.pushState('', title, cleanHref);
+
+                           this.added = true;
+                         }));
   }
 
   public ngAfterViewInit(): void {
-    this.subscription.add(
-      this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
-                         .subscribe(() => this.toasts.info('The TODO list is added.')));
+    if (this.added) {
+      this.toasts.info('The TODO list is added.');
+    }
   }
 
   public ngOnDestroy(): void {
