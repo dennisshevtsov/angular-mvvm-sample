@@ -1,4 +1,5 @@
-import { Component, OnDestroy,   } from '@angular/core';
+import { Component, OnDestroy,
+         OnInit,                 } from '@angular/core';
 import { AbstractControl,
          AbstractControlOptions,
          ControlValueAccessor,
@@ -35,7 +36,7 @@ import { timePeriodValidator,         } from 'src/app/todo-list-task/validators'
 })
 export class TodoListTaskPeriodComponent
   extends FormComponentBase
-  implements OnDestroy, ControlValueAccessor, Validator {
+  implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   private readonly subscription: Subscription;
 
   public constructor(
@@ -47,6 +48,28 @@ export class TodoListTaskPeriodComponent
     this.subscription = new Subscription();
   }
 
+  public ngOnInit(): void {
+    const dayControl: AbstractControl = this.form.get('day')!;
+    const fullDayControl: AbstractControl = this.form.get('fullDay')!;
+
+    this.subscription.add(
+      fullDayControl.valueChanges.subscribe((value) => {
+        if (value) {
+          this.form.clearValidators();
+
+          dayControl.setValidators(Validators.required);
+        }
+        else {
+          dayControl.clearValidators();
+
+          this.form.setValidators(timePeriodValidator);
+        }
+
+        dayControl.updateValueAndValidity();
+        this.form.updateValueAndValidity();
+      }));
+  }
+
   public ngOnDestroy(): void {
     if (this.subscription) {
       this.subscription.unsubscribe();
@@ -56,7 +79,7 @@ export class TodoListTaskPeriodComponent
   public writeValue(period: TodoListTaskDateDto): void {
     if (period) {
       this.form.setValue({
-        'day'    : this.formatter.toLocalDate(period.day),
+        'day'    : period.day ? this.formatter.toLocalDate(period.day): '',
         'fullDay': period.fullDay,
         'start'  : period.start,
         'end'    : period.end,
