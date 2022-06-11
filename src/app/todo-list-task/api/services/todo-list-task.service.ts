@@ -184,7 +184,7 @@ export class TodoListTaskService {
         end    : number,
       },
     }[]) {
-    let todoListTaskId = 0;
+    let todoListTaskId = 1;
 
     if (todoListTasks.length > 0) {
       const lastTodoListTask = todoListTasks[todoListTasks.length - 1];

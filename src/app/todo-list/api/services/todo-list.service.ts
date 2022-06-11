@@ -95,7 +95,7 @@ export class TodoListService {
       title: string,
       description: string,
     }[]) {
-    let todoListId = 0;
+    let todoListId = 1;
 
     if (todoLists.length) {
       const lastTodoList = todoLists[todoLists.length -1];
