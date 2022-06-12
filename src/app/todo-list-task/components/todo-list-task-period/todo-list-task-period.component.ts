@@ -49,6 +49,8 @@ export class TodoListTaskPeriodComponent
 
   public ngOnInit(): void {
     const dayControl    : AbstractControl = this.form.get('day')!;
+    const startControl  : AbstractControl = this.form.get('start')!;
+    const endControl    : AbstractControl = this.form.get('end')!;
     const fullDayControl: AbstractControl = this.form.get('fullDay')!;
 
     this.subscription.add(
@@ -65,7 +67,8 @@ export class TodoListTaskPeriodComponent
         }
 
         dayControl.updateValueAndValidity();
-        this.form.updateValueAndValidity();
+        startControl.updateValueAndValidity();
+        endControl.updateValueAndValidity();
       }));
   }
 
