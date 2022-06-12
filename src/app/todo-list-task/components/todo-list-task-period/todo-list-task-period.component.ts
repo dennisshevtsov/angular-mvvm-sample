@@ -49,7 +49,7 @@ export class TodoListTaskPeriodComponent
   }
 
   public ngOnInit(): void {
-    const dayControl: AbstractControl = this.form.get('day')!;
+    const dayControl    : AbstractControl = this.form.get('day')!;
     const fullDayControl: AbstractControl = this.form.get('fullDay')!;
 
     this.subscription.add(
@@ -90,7 +90,7 @@ export class TodoListTaskPeriodComponent
   public registerOnChange(fn: (value: any) => void): void {
     const onChange = (value: any) => {
       const period = new TodoListTaskDateDto(
-        this.formatter.fromLocalDate(value.day),
+        value.day ? this.formatter.fromLocalDate(value.day) : undefined,
         value.fullDay,
         value.start,
         value.end);
@@ -141,7 +141,7 @@ export class TodoListTaskPeriodComponent
 
   protected buildForm(): FormGroup {
     const controlConfig = {
-      'day'    : this.fb.control('', Validators.required),
+      'day'    : '',
       'fullDay': false,
       'start'  : '',
       'end'    : '',
