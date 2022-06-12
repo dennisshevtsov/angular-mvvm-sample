@@ -1,6 +1,7 @@
 import { Component,            } from '@angular/core';
 import { ControlValueAccessor,
          NG_VALUE_ACCESSOR,    } from '@angular/forms';
+import { Formatter } from '../../formatting';
 
 @Component({
   selector: 'date',
@@ -24,7 +25,9 @@ export class DateComponent implements ControlValueAccessor {
   private disabledValue: boolean;
   private touchedValue : boolean;
 
-  public constructor() {
+  public constructor(
+    private readonly formatter: Formatter,
+  ) {
     this.dateValue = 0;
     this.onChange  = () => {};
     this.onTouched = () => {};
@@ -33,16 +36,16 @@ export class DateComponent implements ControlValueAccessor {
     this.touchedValue  = false;
   }
 
-  public get value(): number {
-    return this.dateValue;
+  public get value(): string {
+    return this.formatter.toLocalDate(this.dateValue);
   }
 
-  public set value(value: number) {
-    if (!this.disabled) {
-      this.dateValue = value;
+  public set value(value: string) {
+    if (!this.disabled && value) {
+      this.dateValue = this.formatter.fromLocalDate(value);
 
       this.setTouchedState();
-      this.onChange(value);
+      this.onChange(this.dateValue);
     }
   }
 

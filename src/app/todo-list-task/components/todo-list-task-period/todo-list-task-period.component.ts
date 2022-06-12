@@ -11,9 +11,9 @@ import { AbstractControl,
 
 import { Subscription, } from 'rxjs';
 
-import { Formatter, FormComponentBase } from 'src/app/core';
-import { TodoListTaskDateDto,         } from 'src/app/todo-list-task/api';
-import { timePeriodValidator,         } from 'src/app/todo-list-task/validators';
+import { FormComponentBase,   } from 'src/app/core';
+import { TodoListTaskDateDto, } from 'src/app/todo-list-task/api';
+import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
 
 @Component({
   selector: 'todo-list-task-period',
@@ -41,7 +41,6 @@ export class TodoListTaskPeriodComponent
 
   public constructor(
     private readonly fb       : FormBuilder,
-    private readonly formatter: Formatter,
   ) {
     super();
 
@@ -79,7 +78,7 @@ export class TodoListTaskPeriodComponent
   public writeValue(period: TodoListTaskDateDto): void {
     if (period) {
       this.form.setValue({
-        'day'    : period.day ? this.formatter.toLocalDate(period.day): '',
+        'day'    : period.day,
         'fullDay': period.fullDay,
         'start'  : period.start,
         'end'    : period.end,
@@ -90,7 +89,7 @@ export class TodoListTaskPeriodComponent
   public registerOnChange(fn: (value: any) => void): void {
     const onChange = (value: any) => {
       const period = new TodoListTaskDateDto(
-        value.day ? this.formatter.fromLocalDate(value.day) : undefined,
+        value.day,
         value.fullDay,
         value.start,
         value.end);
