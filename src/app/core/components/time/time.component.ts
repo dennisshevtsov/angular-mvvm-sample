@@ -71,7 +71,7 @@ export class TimeComponent implements ControlValueAccessor {
 
       this.dateTimeValue.day = value;
 
-      this.onChange(this.dateTimeValue);
+      this.onChange(this.dateTimeValue.value);
       this.setTouchedState();
     }
   }
@@ -93,7 +93,7 @@ export class TimeComponent implements ControlValueAccessor {
     {
       this.dateTimeValue.increaseHours(this.hourStepValue);
 
-      this.onChange(this.dateTimeValue);
+      this.onChange(this.dateTimeValue.value);
       this.setTouchedState();
     }
   }
@@ -102,7 +102,7 @@ export class TimeComponent implements ControlValueAccessor {
     if (!this.disabled) {
       this.dateTimeValue.decreaseHours(this.hourStepValue);
 
-      this.onChange(this.dateTimeValue);
+      this.onChange(this.dateTimeValue.value);
       this.setTouchedState();
     }
   }
@@ -111,7 +111,7 @@ export class TimeComponent implements ControlValueAccessor {
     if (!this.disabled) {
       this.dateTimeValue.increaseMinutes(this.minutesStepValue);
 
-      this.onChange(this.dateTimeValue);
+      this.onChange(this.dateTimeValue.value);
       this.setTouchedState();
     }
   }
@@ -120,7 +120,7 @@ export class TimeComponent implements ControlValueAccessor {
     if (!this.disabled) {
       this.dateTimeValue.decreaseMinutes(this.minutesStepValue);
 
-      this.onChange(this.dateTimeValue);
+      this.onChange(this.dateTimeValue.value);
       this.setTouchedState();
     }
   }
