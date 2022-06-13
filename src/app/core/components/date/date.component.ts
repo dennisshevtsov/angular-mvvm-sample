@@ -1,7 +1,12 @@
 import { Component,            } from '@angular/core';
-import { ControlValueAccessor,
-         NG_VALUE_ACCESSOR,    } from '@angular/forms';
-import { Formatter } from '../../formatting';
+import { AbstractControl,
+         ControlValueAccessor,
+         NG_VALIDATORS,
+         NG_VALUE_ACCESSOR,
+         ValidationErrors,
+         Validator,            } from '@angular/forms';
+
+import { Formatter, } from 'src/app/core/formatting';
 
 @Component({
   selector: 'date',
@@ -15,9 +20,14 @@ import { Formatter } from '../../formatting';
       multi: true,
       useExisting: DateComponent,
     },
+    {
+      provide: NG_VALIDATORS,
+      multi: true,
+      useExisting: DateComponent,
+    },
   ],
 })
-export class DateComponent implements ControlValueAccessor {
+export class DateComponent implements ControlValueAccessor, Validator {
   private dateValue: number;
   private onChange : (value: any) => void;
   private onTouched: () => void;
@@ -74,5 +84,12 @@ export class DateComponent implements ControlValueAccessor {
       this.touchedValue = true;
       this.onTouched();
     }
+  }
+
+  public validate(control: AbstractControl)
+  : ValidationErrors | null {
+    const errors: ValidationErrors = {};
+
+    return errors;
   }
 }

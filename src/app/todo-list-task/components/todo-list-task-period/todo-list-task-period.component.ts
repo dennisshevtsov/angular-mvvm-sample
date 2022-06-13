@@ -31,7 +31,7 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
       provide: NG_VALIDATORS,
       multi: true,
       useExisting: TodoListTaskPeriodComponent,
-    }
+    },
   ],
 })
 export class TodoListTaskPeriodComponent
