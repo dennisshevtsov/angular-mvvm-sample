@@ -1,10 +1,6 @@
 import { Component,            } from '@angular/core';
-import { AbstractControl,
-         ControlValueAccessor,
-         NG_VALIDATORS,
-         NG_VALUE_ACCESSOR,
-         ValidationErrors,
-         Validator,            } from '@angular/forms';
+import { ControlValueAccessor,
+         NG_VALUE_ACCESSOR,    } from '@angular/forms';
 
 import { Formatter, } from 'src/app/core/formatting';
 
@@ -20,16 +16,11 @@ import { Formatter, } from 'src/app/core/formatting';
       multi: true,
       useExisting: DateComponent,
     },
-    {
-      provide: NG_VALIDATORS,
-      multi: true,
-      useExisting: DateComponent,
-    },
   ],
 })
-export class DateComponent implements ControlValueAccessor, Validator {
-  private dateValue: number;
-  private onChange : (value: any) => void;
+export class DateComponent implements ControlValueAccessor {
+  private dateValue: undefined | number;
+  private onChange : (value: undefined | number | string) => void;
   private onTouched: () => void;
 
   private disabledValue: boolean;
@@ -38,7 +29,7 @@ export class DateComponent implements ControlValueAccessor, Validator {
   public constructor(
     private readonly formatter: Formatter,
   ) {
-    this.dateValue = 0;
+    this.dateValue = undefined;
     this.onChange  = () => {};
     this.onTouched = () => {};
 
@@ -47,12 +38,12 @@ export class DateComponent implements ControlValueAccessor, Validator {
   }
 
   public get value(): string {
-    return this.formatter.toLocalDate(this.dateValue);
+    return this.dateValue ? this.formatter.toLocalDate(this.dateValue) : '';
   }
 
   public set value(value: string) {
-    if (!this.disabled && value) {
-      this.dateValue = this.formatter.fromLocalDate(value);
+    if (!this.disabled) {
+      this.dateValue = this.convertToDate(value);
 
       this.setTouchedState();
       this.onChange(this.dateValue);
@@ -67,8 +58,9 @@ export class DateComponent implements ControlValueAccessor, Validator {
     this.dateValue = value;
   }
 
-  public registerOnChange(fn: (value: any) => void): void {
-    this.onChange = fn;
+  public registerOnChange(
+    fn: (value: undefined | number | string) => void): void {
+    this.onChange = (value) => fn(this.convertToDate(value));
   }
 
   public registerOnTouched(fn: any): void {
@@ -86,10 +78,17 @@ export class DateComponent implements ControlValueAccessor, Validator {
     }
   }
 
-  public validate(control: AbstractControl)
-  : ValidationErrors | null {
-    const errors: ValidationErrors = {};
+  private convertToDate(value: undefined | number | string): undefined | number {
+    let date = undefined;
 
-    return errors;
+    if (value) {
+      if (typeof value === 'string') {
+        date = this.formatter.fromLocalDate(value);
+      } else if (typeof value === 'number') {
+        date = value;
+      }
+    }
+
+    return date;
   }
 }
