@@ -48,34 +48,13 @@ export class TodoListTaskPeriodComponent
   }
 
   public ngOnInit(): void {
-    const dayControl    : AbstractControl = this.form.get('day')!;
-    const startControl  : AbstractControl = this.form.get('start')!;
-    const endControl    : AbstractControl = this.form.get('end')!;
-    const fullDayControl: AbstractControl = this.form.get('fullDay')!;
-
     this.subscription.add(
-      fullDayControl.valueChanges.subscribe((value) => {
-        if (value) {
-          this.form.clearValidators();
-
-          dayControl.setValidators(Validators.required);
-        }
-        else {
-          dayControl.clearValidators();
-
-          this.form.setValidators(timePeriodValidator);
-        }
-
-        dayControl.updateValueAndValidity();
-        startControl.updateValueAndValidity();
-        endControl.updateValueAndValidity();
-      }));
+      this.fullDayControl.valueChanges.subscribe(
+        value => this.changeValidation(value)));
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 
   public writeValue(period: TodoListTaskDateDto): void {
@@ -156,5 +135,42 @@ export class TodoListTaskPeriodComponent
     };
 
     return this.fb.group(controlConfig, options);
+  }
+
+  private dayControlValue: undefined | AbstractControl;
+  private get dayControl(): AbstractControl {
+    return this.dayControlValue ?? (this.dayControlValue = this.form.get('day')!);
+  }
+
+  private startControlValue: undefined | AbstractControl;
+  private get startControl(): AbstractControl {
+    return this.startControlValue ?? (this.startControlValue = this.form.get('start')!);
+  }
+
+  private endControlValue: undefined | AbstractControl;
+  private get endControl(): AbstractControl {
+    return this.endControlValue ?? (this.endControlValue = this.form.get('end')!);
+  }
+
+  private fullDayControlValue: undefined | AbstractControl;
+  private get fullDayControl(): AbstractControl {
+    return this.fullDayControlValue ?? (this.fullDayControlValue = this.form.get('fullDay')!);
+  }
+
+  private changeValidation(fullDay: boolean): void {
+    if (fullDay) {
+      this.form.clearValidators();
+
+      this.dayControl.setValidators(Validators.required);
+    }
+    else {
+      this.dayControl.clearValidators();
+
+      this.form.setValidators(timePeriodValidator);
+    }
+
+    this.dayControl.updateValueAndValidity();
+    this.startControl.updateValueAndValidity();
+    this.endControl.updateValueAndValidity();
   }
 }
