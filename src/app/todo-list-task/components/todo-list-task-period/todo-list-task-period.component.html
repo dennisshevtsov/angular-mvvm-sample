@@ -24,6 +24,7 @@
     <span class="invalid-feedback"
           *ngIf="hasErrors('start')">
       <span *ngIf="hasError('start', 'startBeforeEnd')">Please enter a start before an end.</span>
+      <span *ngIf="hasError('start', 'required')">Please enter a start date.</span>
     </span>
   </div>
   <div class="form-group mb-3"
@@ -34,6 +35,7 @@
     <span class="invalid-feedback"
           *ngIf="hasErrors('end')">
       <span *ngIf="hasError('end', 'startBeforeEnd')">Please enter an end after a start.</span>
+      <span *ngIf="hasError('end', 'required')">Please enter an end date.</span>
     </span>
   </div>
 </div>
