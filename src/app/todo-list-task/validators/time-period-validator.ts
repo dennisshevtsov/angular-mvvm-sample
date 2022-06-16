@@ -1,4 +1,5 @@
 import { AbstractControl, ValidationErrors, } from '@angular/forms';
+import { MILLISECONDS_IN_DAY } from 'src/app/core/date';
 
 export function timePeriodValidator(timePeriodControl: AbstractControl)
   : ValidationErrors | null {
@@ -56,11 +57,12 @@ export function timePeriodValidator(timePeriodControl: AbstractControl)
   return errors;
 }
 
-function getControlError(controlValue: string)
+function getControlError(controlValue: undefined | number)
   : ValidationErrors | null {
   let controlError: ValidationErrors | null = null;
 
-  if (controlValue === '') {
+  if (!controlValue ||
+       controlValue === controlValue % MILLISECONDS_IN_DAY) {
     controlError =  {
       required: true,
     };
