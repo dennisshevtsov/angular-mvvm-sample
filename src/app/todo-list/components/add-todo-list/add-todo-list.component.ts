@@ -40,9 +40,7 @@ export class AddTodoListComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 
   public onOkPressed(): void {
