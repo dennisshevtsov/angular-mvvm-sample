@@ -3,7 +3,7 @@ import { ReactiveFormsModule,       } from '@angular/forms';
 import { By,                        } from '@angular/platform-browser';
 import { RouterModule,              } from '@angular/router';
 
-import { of, } from 'rxjs';
+import { of, throwError, } from 'rxjs';
 
 import { CoreModule,
          TodoListLinks,
@@ -84,7 +84,7 @@ describe('AddTodoListComponent', () => {
     addTodoListFixture.detectChanges();
   });
 
-  it('if todo list is invalid', () => {
+  it('should not call add method', () => {
     addTodoListFixture.debugElement.query(By.css('#txtTitle')).nativeElement.value = '';
     addTodoListFixture.debugElement.query(By.css('#txtDescription')).nativeElement.value = '';
 
@@ -93,11 +93,11 @@ describe('AddTodoListComponent', () => {
     addTodoListComponent.onOkPressed();
 
     expect(vm.add.calls.count())
-      .withContext('vm should not be called')
+      .withContext('should not call add method')
       .toBe(0);
   });
 
-  it('if todo list is valid', () => {
+  it('should call add method with success', () => {
     const titleControl =
       addTodoListFixture.debugElement.query(By.css('#txtTitle')).nativeElement;
 
@@ -111,7 +111,33 @@ describe('AddTodoListComponent', () => {
     addTodoListComponent.onOkPressed();
 
     expect(vm.add.calls.count())
-      .withContext('vm should be called')
+      .withContext('should not call add method')
       .toBe(1);
+
+    expect(navigator.navigateToUpdateTodoList.calls.count())
+      .withContext('should call redirect method')
+      .toBe(1);
+  });
+
+  it('should call add method with error', () => {
+    const titleControl =
+      addTodoListFixture.debugElement.query(By.css('#txtTitle')).nativeElement;
+
+    titleControl.value = 'test';
+    titleControl.dispatchEvent(new Event('input'));
+
+    addTodoListFixture.detectChanges();
+
+    vm.add.and.returnValue(throwError(() => ''));
+
+    addTodoListComponent.onOkPressed();
+
+    expect(vm.add.calls.count())
+      .withContext('should call add operation')
+      .toBe(1);
+
+    expect(navigator.navigateToUpdateTodoList.calls.count())
+      .withContext('should redirect to update screen')
+      .toBe(0);
   });
 });
