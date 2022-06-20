@@ -2,8 +2,9 @@ import { inject, TestBed, } from '@angular/core/testing';
 
 import { of, } from 'rxjs';
 
-import { AddTodoListResponseDto, TodoListService, } from 'src/app/todo-list/api';
-import { AddTodoListViewModel, } from './add-todo-list.view-model';
+import { AddTodoListResponseDto,
+         TodoListService,        } from 'src/app/todo-list/api';
+import { AddTodoListViewModel,   } from './add-todo-list.view-model';
 
 describe('AddTodoListViewModel', () => {
   beforeEach(() => {
@@ -35,7 +36,7 @@ describe('AddTodoListViewModel', () => {
     vm.add();
 
     expect(service.addTodoList.calls.count())
-      .withContext('should call addTodoLIst method once')
+      .withContext('should call addTodoList method once')
       .toBe(1);
   }))
 });
