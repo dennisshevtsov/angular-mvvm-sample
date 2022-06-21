@@ -83,5 +83,5 @@ describe('UpdateTodoListViewModel', () => {
             .withContext('updateTodoList should be called once')
             .toBe(1);
         });
-      }))
+      }));
 });
