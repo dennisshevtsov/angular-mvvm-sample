@@ -17,6 +17,7 @@ describe('UpdateTodoListViewModel', () => {
             TodoListService,
             [
               'getTodoList',
+              'updateTodoList',
             ]),
         },
       ]
@@ -42,6 +43,10 @@ describe('UpdateTodoListViewModel', () => {
 
         vm.todoList.todoListId = todoListId;
         vm.initialize().subscribe(() => {
+          expect(srv.getTodoList.calls.count())
+            .withContext('getTodoList should be called once')
+            .toBe(1);
+
           expect(vm.todoList)
             .withContext('todoList prop shoul be defined')
             .toBeDefined();
@@ -60,4 +65,23 @@ describe('UpdateTodoListViewModel', () => {
         });
       }
      ));
+
+  it('update should call updateTodoList method',
+     inject(
+      [
+        UpdateTodoListViewModel,
+        TodoListService,
+      ],
+      (
+        vm: UpdateTodoListViewModel,
+        srv: jasmine.SpyObj<TodoListService>
+      ) => {
+        srv.updateTodoList.and.returnValue(of(void 0));
+
+        vm.update().subscribe(() => {
+          expect(srv.updateTodoList.calls.count())
+            .withContext('updateTodoList should be called once')
+            .toBe(1);
+        });
+      }))
 });
