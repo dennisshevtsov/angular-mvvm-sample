@@ -1,8 +1,10 @@
 import { inject, TestBed, } from '@angular/core/testing';
-import { of } from 'rxjs';
 
-import { AddTodoListTaskResponseDto, TodoListTaskService,      } from 'src/app/todo-list-task/api';
-import { AddTodoListTaskViewModel, } from './add-todo-list-task.view-model';
+import { of, } from 'rxjs';
+
+import { AddTodoListTaskResponseDto,
+         TodoListTaskService,        } from 'src/app/todo-list-task/api';
+import { AddTodoListTaskViewModel,   } from './add-todo-list-task.view-model';
 
 describe('AddTodoListTaskViewModel', () => {
   beforeEach(() => {
