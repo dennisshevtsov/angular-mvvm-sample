@@ -1,6 +1,6 @@
 import { Injectable, } from '@angular/core';
 
-import { map, mergeMap, Observable, } from 'rxjs';
+import { map, mergeMap, Observable, of, } from 'rxjs';
 
 import { CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
@@ -35,6 +35,10 @@ export class SearchTodoListTasksViewModel {
     this.recordValue = record;
   }
 
+  public get hasSelection(): boolean {
+    return !!this.selected.todoListTaskId;
+  }
+
   public get tasks(): SearchTodoListTasksRecordResponseDto[] {
     return this.tasksValue ?? [];
   }
@@ -53,15 +57,19 @@ export class SearchTodoListTasksViewModel {
   }
 
   public complete(): Observable<void> {
-    const requestDto = new CompleteTodoListTaskRequestDto(
-      this.todoListId,
-      this.selected.todoListTaskId,
-    );
+    if (this.hasSelection) {
+      const requestDto = new CompleteTodoListTaskRequestDto(
+        this.todoListId,
+        this.selected.todoListTaskId,
+      );
+  
+      return this.service.completeTodoListTask(requestDto)
+                         .pipe(map(() => {
+                           this.selected.completed = true;
+                         }));
+    }
 
-    return this.service.completeTodoListTask(requestDto)
-                       .pipe(map(() => {
-                         this.selected.completed = true;
-                       }));
+    return of(void 0);
   }
 
   public uncomplete(): Observable<void> {

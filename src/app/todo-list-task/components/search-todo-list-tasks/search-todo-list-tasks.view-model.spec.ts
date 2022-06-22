@@ -85,4 +85,52 @@ describe('SearchTodoListTasksViewModel', () => {
             .toBe(todoListId);
         });
       }));
+
+  it('complete should call completeTodoListTask',
+     inject(
+      [
+        SearchTodoListTasksViewModel,
+        TodoListTaskService,
+      ],
+      (
+        vm : SearchTodoListTasksViewModel,
+        srv: jasmine.SpyObj<TodoListTaskService>,
+      ) => {
+        srv.completeTodoListTask.and.returnValue(of(void 0));
+
+        vm.complete().subscribe(() => {
+          expect(srv.completeTodoListTask.calls.count())
+            .withContext('completeTodoListTask should not be called if there is no selected record')
+            .toBe(0);
+        });
+
+        const todoListId = 'test todo list id';
+        const todoListTaskId = 'test todo list task id 0';
+
+        vm.todoListId = todoListId;
+        vm.selected = new SearchTodoListTasksRecordResponseDto(
+          todoListTaskId,
+          false,
+          'test todo list task title 0',
+          'test todo list task description 0',
+          new TodoListTaskDateDto(1000000, false),
+        );
+
+        vm.complete().subscribe(() => {
+          expect(srv.completeTodoListTask.calls.count())
+            .withContext('completeTodoListTask should be called once')
+            .toBe(1);
+
+          const completeTodoListTaskCalls =
+            srv.completeTodoListTask.calls.first();
+
+          expect(completeTodoListTaskCalls.args[0].todoListId)
+            .withContext('completeTodoListTask should be called with IDs')
+            .toBe(todoListId);
+
+          expect(completeTodoListTaskCalls.args[0].todoListTaskId)
+            .withContext('completeTodoListTask should be called with IDs')
+            .toBe(todoListTaskId);
+        });
+      }));
 });
