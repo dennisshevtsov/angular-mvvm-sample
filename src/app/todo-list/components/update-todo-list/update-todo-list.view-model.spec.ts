@@ -24,7 +24,7 @@ describe('UpdateTodoListViewModel', () => {
     });
   });
 
-  it('initialize should populate todoList prop',
+  it('initialize should populate todoList',
      inject(
       [
         UpdateTodoListViewModel,
@@ -66,7 +66,7 @@ describe('UpdateTodoListViewModel', () => {
       }
      ));
 
-  it('update should call updateTodoList method',
+  it('update should call updateTodoList',
      inject(
       [
         UpdateTodoListViewModel,

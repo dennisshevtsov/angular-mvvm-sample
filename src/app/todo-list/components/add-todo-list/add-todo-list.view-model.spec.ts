@@ -23,20 +23,20 @@ describe('AddTodoListViewModel', () => {
     });
   });
 
-  it('should call addTodoList method', inject(
+  it('add should call addTodoList', inject(
     [
       AddTodoListViewModel,
       TodoListService,
     ],
     (vm: AddTodoListViewModel,
      service: jasmine.SpyObj<TodoListService>) => {
-    service.addTodoList.and.returnValue(
-      of(new AddTodoListResponseDto('test id')));
+      service.addTodoList.and.returnValue(
+        of(new AddTodoListResponseDto('test id')));
 
-    vm.add();
+      vm.add();
 
-    expect(service.addTodoList.calls.count())
-      .withContext('should call addTodoList method once')
-      .toBe(1);
-  }))
+      expect(service.addTodoList.calls.count())
+        .withContext('addTodoList should be called once')
+        .toBe(1);
+    }))
 });

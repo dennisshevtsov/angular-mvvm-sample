@@ -34,14 +34,14 @@ describe('SearchTodoListsViewModel', () => {
         vm : SearchTodoListsViewModel,
       ) => {
         expect(vm.hasSelection)
-          .withContext('should return false')
+          .withContext('hasSelection should be false')
           .toBeFalse();
 
         vm.selected = new SearchTodoListsRecordResponseDto(
           'test id', 'test title', 'test description');
 
         expect(vm.hasSelection)
-          .withContext('should return true')
+          .withContext('hasSelection should be true')
           .toBeTrue();
       }));
 
@@ -87,7 +87,7 @@ describe('SearchTodoListsViewModel', () => {
       }));
 
   it(
-    'delete should call delete method',
+    'delete should call delete',
     inject(
       [
         SearchTodoListsViewModel,
