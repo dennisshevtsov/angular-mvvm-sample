@@ -7,7 +7,7 @@ import { CompleteTodoListTaskRequestDto,
          SearchTodoListTasksRecordResponseDto,
          SearchTodoListTasksRequestDto,
          TodoListTaskService,
-         UncompleteTodoListTaskRequestDto,                  } from 'src/app/todo-list-task/api';
+         UncompleteTodoListTaskRequestDto,     } from 'src/app/todo-list-task/api';
 
 @Injectable()
 export class SearchTodoListTasksViewModel {
