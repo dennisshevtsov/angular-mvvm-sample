@@ -89,12 +89,16 @@ export class SearchTodoListTasksViewModel {
   }
 
   public delete() : Observable<void> {
-    const requestDto = new DeleteTodoListTaskRequestDto(
-      this.todoListId,
-      this.selected.todoListTaskId,
-    );
+    if (this.hasSelection) {
+      const requestDto = new DeleteTodoListTaskRequestDto(
+        this.todoListId,
+        this.selected.todoListTaskId,
+      );
+  
+      return this.service.deleteTodoListTask(requestDto)
+                         .pipe(mergeMap(() => this.search()));
+    }
 
-    return this.service.deleteTodoListTask(requestDto)
-                       .pipe(mergeMap(() => this.search()));
+    return of(void 0);
   }
 }

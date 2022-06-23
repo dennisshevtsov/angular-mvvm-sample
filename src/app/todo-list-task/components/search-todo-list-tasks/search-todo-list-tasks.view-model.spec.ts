@@ -172,39 +172,121 @@ describe('SearchTodoListTasksViewModel', () => {
     ) => {
       srv.uncompleteTodoListTask.and.returnValue(of(void 0));
 
-        vm.uncomplete().subscribe(() => {
-          expect(srv.completeTodoListTask.calls.count())
-            .withContext('uncompleteTodoListTask should not be called if there is no selected record')
-            .toBe(0);
-        });
+      vm.uncomplete().subscribe(() => {
+        expect(srv.completeTodoListTask.calls.count())
+          .withContext('uncompleteTodoListTask should not be called if there is no selected record')
+          .toBe(0);
+      });
 
-        const todoListId = 'test todo list id';
-        const todoListTaskId = 'test todo list task id 0';
+      const todoListId = 'test todo list id';
+      const todoListTaskId = 'test todo list task id 0';
 
-        vm.todoListId = todoListId;
-        vm.selected = new SearchTodoListTasksRecordResponseDto(
-          todoListTaskId,
+      vm.todoListId = todoListId;
+      vm.selected = new SearchTodoListTasksRecordResponseDto(
+        todoListTaskId,
+        false,
+        'test todo list task title 0',
+        'test todo list task description 0',
+        new TodoListTaskDateDto(1000000, false),
+      );
+
+      vm.uncomplete().subscribe(() => {
+        expect(srv.uncompleteTodoListTask.calls.count())
+          .withContext('uncompleteTodoListTask should be called once')
+          .toBe(1);
+
+        const uncompleteTodoListTaskCalls =
+          srv.uncompleteTodoListTask.calls.first();
+
+        expect(uncompleteTodoListTaskCalls.args[0].todoListId)
+          .withContext('uncompleteTodoListTask should be called with IDs')
+          .toBe(todoListId);
+
+        expect(uncompleteTodoListTaskCalls.args[0].todoListTaskId)
+          .withContext('uncompleteTodoListTask should be called with IDs')
+          .toBe(todoListTaskId);
+      });
+    }));
+
+  it('delete should call uncompleteTodoListTask',
+    inject(
+    [
+      SearchTodoListTasksViewModel,
+      TodoListTaskService,
+    ],
+    (
+      vm : SearchTodoListTasksViewModel,
+      srv: jasmine.SpyObj<TodoListTaskService>,
+    ) => {
+      srv.deleteTodoListTask.and.returnValue(of(void 0));
+
+      const responseDtos = [
+        new SearchTodoListTasksRecordResponseDto(
+          'test todo list task id 0',
           false,
           'test todo list task title 0',
           'test todo list task description 0',
           new TodoListTaskDateDto(1000000, false),
-        );
+        ),
+        new SearchTodoListTasksRecordResponseDto(
+          'test todo list task id 1',
+          false,
+          'test todo list task title 1',
+          'test todo list task description 1',
+          new TodoListTaskDateDto(1000000, false),
+        ),
+        new SearchTodoListTasksRecordResponseDto(
+          'test todo list task id 2',
+          false,
+          'test todo list task title 2',
+          'test todo list task description 2',
+          new TodoListTaskDateDto(1000000, false),
+        ),
+      ];
 
-        vm.uncomplete().subscribe(() => {
-          expect(srv.uncompleteTodoListTask.calls.count())
-            .withContext('uncompleteTodoListTask should be called once')
-            .toBe(1);
+      srv.searchTodoListTasks.and.returnValue(of(responseDtos));
 
-          const uncompleteTodoListTaskCalls =
-            srv.uncompleteTodoListTask.calls.first();
+      vm.delete().subscribe(() => {
+        expect(srv.completeTodoListTask.calls.count())
+          .withContext('deleteTodoListTask should not be called if there is no selected record')
+          .toBe(0);
+      });
 
-          expect(uncompleteTodoListTaskCalls.args[0].todoListId)
-            .withContext('uncompleteTodoListTask should be called with IDs')
-            .toBe(todoListId);
+      const todoListId = 'test todo list id';
+      const todoListTaskId = 'test todo list task id 0';
 
-          expect(uncompleteTodoListTaskCalls.args[0].todoListTaskId)
-            .withContext('uncompleteTodoListTask should be called with IDs')
-            .toBe(todoListTaskId);
-        });
+      vm.todoListId = todoListId;
+      vm.selected = new SearchTodoListTasksRecordResponseDto(
+        todoListTaskId,
+        false,
+        'test todo list task title 0',
+        'test todo list task description 0',
+        new TodoListTaskDateDto(1000000, false),
+      );
+
+      vm.delete().subscribe(() => {
+        expect(srv.deleteTodoListTask.calls.count())
+          .withContext('deleteTodoListTask should be called once')
+          .toBe(1);
+
+        const deleteTodoListTaskCalls =
+          srv.deleteTodoListTask.calls.first();
+
+        expect(deleteTodoListTaskCalls.args[0].todoListId)
+          .withContext('deleteTodoListTask should be called with IDs')
+          .toBe(todoListId);
+
+        expect(deleteTodoListTaskCalls.args[0].todoListTaskId)
+          .withContext('deleteTodoListTask should be called with IDs')
+          .toBe(todoListTaskId);
+
+        expect(srv.searchTodoListTasks.calls.count())
+          .withContext('searchTodoListTasks should be called once')
+          .toBe(1);
+
+        expect(srv.searchTodoListTasks.calls.first().args[0].todoListId)
+          .withContext('searchTodoListTasks should be called with todoListId')
+          .toBe(todoListId);
+      });
     }));
 });
