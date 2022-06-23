@@ -73,15 +73,19 @@ export class SearchTodoListTasksViewModel {
   }
 
   public uncomplete(): Observable<void> {
-    const requestDto = new UncompleteTodoListTaskRequestDto(
-      this.todoListId,
-      this.selected.todoListTaskId,
-    );
+    if (this.hasSelection) {
+      const requestDto = new UncompleteTodoListTaskRequestDto(
+        this.todoListId,
+        this.selected.todoListTaskId,
+      );
 
-    return this.service.uncompleteTodoListTask(requestDto)
-                       .pipe(map(() => {
-                         this.selected.completed = false;
-                       }));
+      return this.service.uncompleteTodoListTask(requestDto)
+                         .pipe(map(() => {
+                           this.selected.completed = false;
+                         }));
+    }
+
+    return of(void 0);
   }
 
   public delete() : Observable<void> {
