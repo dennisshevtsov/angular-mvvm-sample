@@ -27,6 +27,32 @@ describe('SearchTodoListTasksViewModel', () => {
     });
   });
 
+  it('hasSelection should indicate if there is selected record',
+     inject(
+      [
+        SearchTodoListTasksViewModel,
+        TodoListTaskService,
+      ],
+      (
+        vm : SearchTodoListTasksViewModel,
+      ) => {
+        expect(vm.hasSelection)
+          .withContext('hasSelection should return false')
+          .toBeFalse();
+
+        vm.selected = new SearchTodoListTasksRecordResponseDto(
+          'test todo list task id',
+          false,
+          'test todo list task title',
+          'test todo list task description',
+          new TodoListTaskDateDto(0, true),
+        );
+
+        expect(vm.hasSelection)
+          .withContext('hasSelection should return true')
+          .toBeTrue();
+      }));
+
   it('search should populate tasks',
      inject(
       [
