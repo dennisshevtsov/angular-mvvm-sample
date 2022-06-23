@@ -19,6 +19,7 @@ describe('UpdateTodoListTaskViewModel', () => {
             TodoListTaskService,
             [
               'getTodoListTask',
+              'updateTodoListTask',
             ]),
         },
       ]
@@ -81,4 +82,40 @@ describe('UpdateTodoListTaskViewModel', () => {
             .toBe(todoListTaskId);
         });
       }))
+
+  it('update should call updateTodoListTask',
+    inject(
+      [
+        UpdateTodoListTaskViewModel,
+        TodoListTaskService,
+      ],
+      (
+        vm: UpdateTodoListTaskViewModel,
+        srv: jasmine.SpyObj<TodoListTaskService>,
+      ) => {
+        srv.updateTodoListTask.and.returnValue(of(void 0));
+
+        const dto = new UpdateTodoListTaskRequestDto(
+          'test todo list id',
+          'test todo list task id',
+          'test todo list task title',
+          'test todo list task description',
+          new TodoListTaskDateDto(0, true));
+
+        vm.task.todoListId = dto.todoListId;
+        vm.task.todoListTaskId = dto.todoListTaskId;
+        vm.task.title = dto.title;
+        vm.task.description = dto.description;
+        vm.task.date = dto.date;
+
+        vm.update().subscribe(() => {
+          expect(srv.updateTodoListTask.calls.count())
+            .withContext('updateTodoListTask should be called once')
+            .toBe(1);
+
+          expect(srv.updateTodoListTask.calls.first().args[0])
+            .withContext('updateTodoListTask should be called with task params')
+            .toEqual(dto);
+        });
+      }));
 });
