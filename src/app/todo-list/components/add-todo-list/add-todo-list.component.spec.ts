@@ -64,10 +64,6 @@ describe('AddTodoListComponent', () => {
       ],
       providers: [
         {
-          provide: AddTodoListViewModel,
-          useValue: vm,
-        },
-        {
           provide: TodoListLinks,
           useValue: links,
         },
