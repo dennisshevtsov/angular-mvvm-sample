@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
-import { ComponentFixture, inject, TestBed, } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { RouterModule } from '@angular/router';
+import { Component,                 } from '@angular/core';
+import { ComponentFixture, TestBed, } from '@angular/core/testing';
+import { By,                        } from '@angular/platform-browser';
+import { RouterModule,              } from '@angular/router';
 
 import { of, } from 'rxjs';
 
-import { CoreModule, PageComponent, TodoListLinks,
-         TodoListTaskLinks,                } from 'src/app/core';
-import { SearchTodoListsRecordResponseDto } from '../../api';
+import { CoreModule, PageComponent,
+         TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
+import { SearchTodoListsRecordResponseDto  } from 'src/app/todo-list/api';
 import { SearchTodoListsComponent,         } from './search-todo-lists.component';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
 
