@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, } from '@angular/core/testing';
 import { By,                        } from '@angular/platform-browser';
 import { RouterModule,              } from '@angular/router';
 
-import { of, } from 'rxjs';
+import { of, throwError, } from 'rxjs';
 
 import { CoreModule, PageComponent,
          TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
@@ -21,7 +21,11 @@ class ModalComponentMock {
 @Component({
   selector: 'app-toasts',
 })
-class ToastsComponentMock {}
+class ToastsComponentMock {
+  public info(message: string): void {}
+
+  public error(message: string): void {}
+}
 
 describe('SearchTodoListsComponent', () => {
   let vm               : jasmine.SpyObj<SearchTodoListsViewModel>;
@@ -157,5 +161,70 @@ describe('SearchTodoListsComponent', () => {
     expect(showSpy.calls.count())
       .withContext('show should be called once')
       .toBe(1);
-  })
+  });
+
+  it('onDeleteOkPressed should call delete', () => {
+    const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
+    const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
+
+    selectedSpy.and.returnValue(recordDto);
+
+    const toastsComponent = fixture.debugElement.query(By.css('app-toasts')).componentInstance;
+    const infoSpy = spyOn(toastsComponent, 'info');
+    const errorSpy = spyOn(toastsComponent, 'error');
+
+    vm.delete.and.returnValue(of(void 0));
+
+    fixture.componentInstance.onDeleteOkPressed();
+
+    expect(vm.delete.calls.count())
+      .withContext('delete should be called once')
+      .toBe(1);
+  });
+
+  it('onDeleteOkPressed should trigger info', () => {
+    const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
+    const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
+
+    selectedSpy.and.returnValue(recordDto);
+
+    const toastsComponent = fixture.debugElement.query(By.css('app-toasts')).componentInstance;
+    const infoSpy = spyOn(toastsComponent, 'info');
+    const errorSpy = spyOn(toastsComponent, 'error');
+
+    vm.delete.and.returnValue(of(void 0));
+
+    fixture.componentInstance.onDeleteOkPressed();
+
+    expect(infoSpy.calls.count())
+      .withContext('info should be called once')
+      .toBe(1);
+
+    expect(errorSpy.calls.count())
+      .withContext('error should not be called')
+      .toBe(0);
+  });
+
+  it('onDeleteOkPressed should trigger error', () => {
+    const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
+    const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
+
+    selectedSpy.and.returnValue(recordDto);
+
+    const toastsComponent = fixture.debugElement.query(By.css('app-toasts')).componentInstance;
+    const infoSpy = spyOn(toastsComponent, 'info');
+    const errorSpy = spyOn(toastsComponent, 'error');
+
+    vm.delete.and.returnValue(throwError(() => 'error'));
+
+    fixture.componentInstance.onDeleteOkPressed();
+
+    expect(infoSpy.calls.count())
+      .withContext('info should not be called')
+      .toBe(0);
+
+    expect(errorSpy.calls.count())
+      .withContext('error should be called once')
+      .toBe(1);
+  });
 });
