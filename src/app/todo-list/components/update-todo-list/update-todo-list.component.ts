@@ -11,8 +11,6 @@ import { ToastsComponent,
 import { TodoListComponent,            } from '../todo-list/todo-list.component';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 
-declare var window: any;
-
 @Component({
   templateUrl: './update-todo-list.component.html',
   styleUrls: [
