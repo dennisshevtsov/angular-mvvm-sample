@@ -11,6 +11,8 @@ import { ToastsComponent,
 import { TodoListComponent,            } from '../todo-list/todo-list.component';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 
+declare var window: any;
+
 @Component({
   templateUrl: './update-todo-list.component.html',
   styleUrls: [
@@ -18,6 +20,10 @@ import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
   ],
   providers: [
     UpdateTodoListViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
 export class UpdateTodoListComponent
@@ -28,19 +34,17 @@ export class UpdateTodoListComponent
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
-  private readonly subscription: Subscription;
-
   private added: boolean;
 
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
 
+    private readonly subscription: Subscription,
+
     private readonly route            : ActivatedRoute,
     private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {
-    this.subscription = new Subscription();
-
     this.added = false;
   }
 
