@@ -2,16 +2,15 @@ import { AfterViewInit, Component,
          OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { ActivatedRoute, ParamMap,     } from '@angular/router';
 
-import { mergeMap, Subscription, takeWhile, throwError, } from 'rxjs';
+import { mergeMap, Subscription,
+         takeWhile, throwError,        } from 'rxjs';
 
-import { ToastsComponent,
+import { RouteCleaner, ToastsComponent,
          TodoListLinks,
          TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { TodoListComponent,            } from '../todo-list/todo-list.component';
 import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
-
-declare var window: any;
 
 @Component({
   templateUrl: './update-todo-list.component.html',
@@ -42,6 +41,7 @@ export class UpdateTodoListComponent
     private readonly subscription: Subscription,
 
     private readonly route            : ActivatedRoute,
+    private readonly routeCleaner     : RouteCleaner,
     private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
   ) {
@@ -84,14 +84,7 @@ export class UpdateTodoListComponent
     this.subscription.add(
       this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
                          .subscribe(() => {
-                           const href: string = window.location.href;
-                           const hashIndex = href.indexOf('#');
-                           const cleanHref = href.substring(0, hashIndex);
-
-                           const title: string = window.document.title;
-
-                           window.history.pushState('', title, cleanHref);
-
+                           this.routeCleaner.clean();
                            this.added = true;
                          }));
   }
