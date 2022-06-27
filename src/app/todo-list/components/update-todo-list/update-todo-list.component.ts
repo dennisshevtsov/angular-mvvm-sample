@@ -67,13 +67,10 @@ export class UpdateTodoListComponent
         return this.vm.initialize();
       }
 
-      return throwError(() => new Error(''));
+      return throwError(() => new Error());
     };
 
     const observer = {
-      complete: () => {
-        this.subscription.add(this.vm.initialize().subscribe());
-      },
       error: () => this.toasts.error('An error occured.'),
     };
 
