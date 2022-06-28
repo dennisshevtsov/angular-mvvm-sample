@@ -33,6 +33,7 @@ describe('SearchTodoListsComponent', () => {
   let tll  : jasmine.SpyObj<TodoListLinks>;
   let tltl : jasmine.SpyObj<TodoListTaskLinks>;
   let unsub: jasmine.Spy<() => void>;
+  let add  : jasmine.Spy<(sub: Subscription) => void>;
 
   let fixture: ComponentFixture<SearchTodoListsComponent>;
 
@@ -74,6 +75,7 @@ describe('SearchTodoListsComponent', () => {
     const sub = new Subscription();
 
     unsub = spyOn(sub, 'unsubscribe');
+    add   = spyOn(sub, 'add');
 
     TestBed.overrideProvider(
       Subscription,
@@ -149,8 +151,20 @@ describe('SearchTodoListsComponent', () => {
       });
 
     fixture = TestBed.createComponent(SearchTodoListsComponent);
-    fixture.detectChanges();
   });
+
+  it('ngOnInit should call search', waitForAsync(() => {
+    fixture.detectChanges();
+    fixture.whenStable().then(() => {
+      expect(vm.search.calls.count())
+        .withContext('search should be called once')
+        .toBe(1);
+
+      expect(add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+    })
+  }));
 
   it('ngOnDestroy should call unsubscribe', () => {
     fixture.componentInstance.ngOnDestroy();
@@ -161,6 +175,8 @@ describe('SearchTodoListsComponent', () => {
   });
 
   it('onDeleteOkPressed should be called on delete button click', () => {
+    fixture.detectChanges();
+
     vm.delete.and.returnValue(of(void 0));
 
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
@@ -184,7 +200,9 @@ describe('SearchTodoListsComponent', () => {
       .toBe(1);
   });
 
-  it('onDeleteOkPressed should call delete', () => {
+  it('onDeleteOkPressed should call delete', waitForAsync(() => {
+    fixture.detectChanges();
+
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
 
@@ -198,12 +216,24 @@ describe('SearchTodoListsComponent', () => {
 
     fixture.componentInstance.onDeleteOkPressed();
 
-    expect(vm.delete.calls.count())
-      .withContext('delete should be called once')
-      .toBe(1);
-  });
+    fixture.whenStable().then(() => {
+      expect(vm.delete.calls.count())
+        .withContext('delete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should be called once')
+        .toBe(1);
+
+      expect(errorSpy.calls.count())
+        .withContext('error should not be called')
+        .toBe(0);
+    });
+  }));
 
   it('onDeleteOkPressed should trigger info', waitForAsync(() => {
+    fixture.detectChanges();
+
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
 
@@ -229,6 +259,8 @@ describe('SearchTodoListsComponent', () => {
   }));
 
   it('onDeleteOkPressed should trigger error', () => {
+    fixture.detectChanges();
+
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
 
