@@ -157,9 +157,6 @@ describe('UpdateTodoListComponent', () => {
       });
 
     fixture = TestBed.createComponent(UpdateTodoListComponent);
-
-
-
   });
 
   it('ngOnInit should call initialize', waitForAsync(() => {

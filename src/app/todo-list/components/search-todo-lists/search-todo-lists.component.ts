@@ -1,7 +1,7 @@
-import { Component, OnDestroy,
-         OnInit, ViewChild,    } from '@angular/core';
+import { Component, OnDestroy, OnInit,
+         ViewChild,                        } from '@angular/core';
 
-import { Subscription, } from 'rxjs';
+import { Subscription,                     } from 'rxjs';
 
 import { ModalComponent, ToastsComponent,
          TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
@@ -15,6 +15,10 @@ import { SearchTodoListsViewModel,         } from './search-todo-lists.view-mode
   ],
   providers: [
     SearchTodoListsViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
 export class SearchTodoListsComponent implements OnInit, OnDestroy {
@@ -24,16 +28,14 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   @ViewChild('toasts')
   public toasts!: ToastsComponent;
 
-  private subscription: Subscription;
-
   public constructor(
     public readonly vm: SearchTodoListsViewModel,
 
+    private readonly subscription: Subscription,
+
     private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
-  ) {
-    this.subscription = new Subscription();
-  }
+  ) {}
 
   public get addTodoListLink(): any[] {
     return this.todoListLinks.addTodoListLink();
@@ -48,7 +50,7 @@ export class SearchTodoListsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   public updateTodoListLink(

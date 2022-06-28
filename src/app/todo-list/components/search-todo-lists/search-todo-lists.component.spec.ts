@@ -1,9 +1,10 @@
 import { Component,                 } from '@angular/core';
-import { ComponentFixture, TestBed, } from '@angular/core/testing';
+import { ComponentFixture, TestBed,
+         waitForAsync,              } from '@angular/core/testing';
 import { By,                        } from '@angular/platform-browser';
 import { RouterModule,              } from '@angular/router';
 
-import { of, throwError, } from 'rxjs';
+import { of, Subscription, throwError, } from 'rxjs';
 
 import { CoreModule, PageComponent,
          TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
@@ -28,9 +29,10 @@ class ToastsComponentMock {
 }
 
 describe('SearchTodoListsComponent', () => {
-  let vm               : jasmine.SpyObj<SearchTodoListsViewModel>;
-  let todoListLinks    : jasmine.SpyObj<TodoListLinks>;
-  let todoListTaskLinks: jasmine.SpyObj<TodoListTaskLinks>;
+  let vm   : jasmine.SpyObj<SearchTodoListsViewModel>;
+  let tll  : jasmine.SpyObj<TodoListLinks>;
+  let tltl : jasmine.SpyObj<TodoListTaskLinks>;
+  let unsub: jasmine.Spy<() => void>;
 
   let fixture: ComponentFixture<SearchTodoListsComponent>;
 
@@ -67,7 +69,18 @@ describe('SearchTodoListsComponent', () => {
           ],
         }
       }
-    )
+    );
+
+    const sub = new Subscription();
+
+    unsub = spyOn(sub, 'unsubscribe');
+
+    TestBed.overrideProvider(
+      Subscription,
+      {
+        useValue: sub,
+      },
+    );
 
     vm = jasmine.createSpyObj(
       'SearchTodoListsViewModel',
@@ -88,7 +101,7 @@ describe('SearchTodoListsComponent', () => {
         useValue: vm,
       });
 
-    todoListLinks = jasmine.createSpyObj(
+    tll = jasmine.createSpyObj(
       'TodoListLinks',
       [
         'addTodoListLink',
@@ -96,7 +109,7 @@ describe('SearchTodoListsComponent', () => {
         'searchTodoListsLink',
       ]);
 
-    todoListLinks.searchTodoListsLink.and.returnValue([]);
+    tll.searchTodoListsLink.and.returnValue([]);
 
     const todoListsPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'todoLists')!;
     const todoListsSpy = todoListsPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto[]>;
@@ -120,10 +133,10 @@ describe('SearchTodoListsComponent', () => {
     TestBed.overrideProvider(
       TodoListLinks,
       {
-        useValue: todoListLinks,
+        useValue: tll,
       });
 
-    todoListTaskLinks = jasmine.createSpyObj(
+    tltl = jasmine.createSpyObj(
       TodoListTaskLinks,
       [
         'searchTodoListTasksLink',
@@ -132,11 +145,19 @@ describe('SearchTodoListsComponent', () => {
     TestBed.overrideProvider(
       TodoListTaskLinks,
       {
-        useValue: todoListTaskLinks,
+        useValue: tltl,
       });
 
     fixture = TestBed.createComponent(SearchTodoListsComponent);
     fixture.detectChanges();
+  });
+
+  it('ngOnDestroy should call unsubscribe', () => {
+    fixture.componentInstance.ngOnDestroy();
+
+    expect(unsub.calls.count())
+      .withContext('unsubscribe should be called once')
+      .toBe(1);
   });
 
   it('onDeleteOkPressed should be called on delete button click', () => {
@@ -182,7 +203,7 @@ describe('SearchTodoListsComponent', () => {
       .toBe(1);
   });
 
-  it('onDeleteOkPressed should trigger info', () => {
+  it('onDeleteOkPressed should trigger info', waitForAsync(() => {
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
 
@@ -196,14 +217,16 @@ describe('SearchTodoListsComponent', () => {
 
     fixture.componentInstance.onDeleteOkPressed();
 
-    expect(infoSpy.calls.count())
-      .withContext('info should be called once')
-      .toBe(1);
+    fixture.whenStable().then(() => {
+      expect(infoSpy.calls.count())
+        .withContext('info should be called once')
+        .toBe(1);
 
-    expect(errorSpy.calls.count())
-      .withContext('error should not be called')
-      .toBe(0);
-  });
+      expect(errorSpy.calls.count())
+        .withContext('error should not be called')
+        .toBe(0);
+    });
+  }));
 
   it('onDeleteOkPressed should trigger error', () => {
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
