@@ -1,22 +1,19 @@
-import { Component,                 } from '@angular/core';
+import { Component,                    } from '@angular/core';
 import { ComponentFixture, TestBed,
-         waitForAsync,              } from '@angular/core/testing';
-import { ReactiveFormsModule,       } from '@angular/forms';
-import { By } from '@angular/platform-browser';
-import { ActivatedRoute,
-         RouterModule,              } from '@angular/router';
+         waitForAsync,                 } from '@angular/core/testing';
+import { ReactiveFormsModule,          } from '@angular/forms';
+import { By,                           } from '@angular/platform-browser';
+import { ActivatedRoute, RouterModule, } from '@angular/router';
 
-import { of, Subscription, throwError,          } from 'rxjs';
+import { of, Subscription, throwError, } from 'rxjs';
 
-import { CoreModule,
-         PageComponent,
-         RouteCleaner,
-         TodoListLinks,
-         TodoListTaskLinks,         } from 'src/app/core';
-import { UpdateTodoListRequestDto,  } from '../../api';
-import { TodoListComponent,         } from '../todo-list/todo-list.component';
-import { UpdateTodoListComponent,   } from './update-todo-list.component';
-import { UpdateTodoListViewModel,   } from './update-todo-list.view-model';
+import { CoreModule,  PageComponent,
+         RouteCleaner, TodoListLinks,
+         TodoListTaskLinks,            } from 'src/app/core';
+import { UpdateTodoListRequestDto,     } from 'src/app/todo-list/api';
+import { TodoListComponent,            } from 'src/app/todo-list/components/todo-list/todo-list.component';
+import { UpdateTodoListComponent,      } from './update-todo-list.component';
+import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
 
 @Component({
   selector: 'app-modal',
