@@ -2,10 +2,11 @@ import { Component,                 } from '@angular/core';
 import { ComponentFixture, TestBed,
          waitForAsync,              } from '@angular/core/testing';
 import { ReactiveFormsModule,       } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute,
          RouterModule,              } from '@angular/router';
 
-import { of, Subscription,          } from 'rxjs';
+import { of, Subscription, throwError,          } from 'rxjs';
 
 import { CoreModule,
          PageComponent,
@@ -63,6 +64,7 @@ describe('UpdateTodoListComponent', () => {
       'UpdateTodoListViewModel',
       [
         'initialize',
+        'update',
       ],
       [
         'todoList',
@@ -184,4 +186,88 @@ describe('UpdateTodoListComponent', () => {
       .withContext('unsubscribe should be called once')
       .toBe(1);
   });
+
+  it('onOkPressed should not call update', waitForAsync(() => {
+    fixture.detectChanges();
+
+    vm.update.and.returnValue(of(void 0));
+
+    const titleControl = fixture.debugElement.query(By.css('#txtTitle')).nativeElement;
+
+    titleControl.value = '';
+    titleControl.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+    fixture.componentInstance.onOkPressed();
+
+    fixture.whenStable().then(() => {
+      expect(vm.update.calls.count())
+        .withContext('update should be called once')
+        .toBe(0);
+    });
+  }));
+
+  it('onOkPressed should call update', waitForAsync(() => {
+    fixture.detectChanges();
+
+    vm.update.and.returnValue(of(void 0));
+
+    const toastsComponent = fixture.debugElement.query(By.directive(ToastsComponentMock)).componentInstance;
+    const infoSpy = spyOn(toastsComponent, 'info');
+    const errorSpy = spyOn(toastsComponent, 'error');
+
+    const titleControl = fixture.debugElement.query(By.css('#txtTitle')).nativeElement;
+
+    titleControl.value = 'test';
+    titleControl.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+    fixture.componentInstance.onOkPressed();
+
+    fixture.whenStable().then(() => {
+      expect(vm.update.calls.count())
+        .withContext('update should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('update should be called once')
+        .toBe(1);
+
+      expect(errorSpy.calls.count())
+        .withContext('update should not be called')
+        .toBe(0);
+    });
+  }));
+
+  it('onOkPressed should show error', waitForAsync(() => {
+    fixture.detectChanges();
+
+    vm.update.and.returnValue(throwError(() => ''));
+
+    const toastsComponent = fixture.debugElement.query(By.directive(ToastsComponentMock)).componentInstance;
+    const infoSpy = spyOn(toastsComponent, 'info');
+    const errorSpy = spyOn(toastsComponent, 'error');
+
+    const titleControl = fixture.debugElement.query(By.css('#txtTitle')).nativeElement;
+
+    titleControl.value = 'test';
+    titleControl.dispatchEvent(new Event('input'));
+
+    fixture.detectChanges();
+    fixture.componentInstance.onOkPressed();
+
+    fixture.whenStable().then(() => {
+      expect(vm.update.calls.count())
+        .withContext('update should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('update should not be called')
+        .toBe(0);
+
+      expect(errorSpy.calls.count())
+        .withContext('update should be called once')
+        .toBe(1);
+    });
+  }));
 });
