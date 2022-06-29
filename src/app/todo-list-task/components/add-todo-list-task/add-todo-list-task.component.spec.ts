@@ -1,12 +1,15 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject, TestBed, waitForAsync, } from '@angular/core/testing';
 import { ActivatedRoute, RouterModule,  } from '@angular/router';
 
 import { of, Subscription, } from 'rxjs';
 
-import { AddTodoListTaskComponent, } from './add-todo-list-task.component';
-import { AddTodoListTaskViewModel, } from './add-todo-list-task.view-model';
+import { AddTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
+import { AddTodoListTaskComponent,  } from './add-todo-list-task.component';
+import { AddTodoListTaskViewModel,  } from './add-todo-list-task.view-model';
 
 describe('AddTodoListTaskComponent', () => {
+  const todoListId = 'test todo list id';
+
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ AddTodoListTaskComponent, ],
@@ -14,7 +17,7 @@ describe('AddTodoListTaskComponent', () => {
       providers: [{
         provide: ActivatedRoute,
         useValue: {
-          paramMap: of({ get: (key: string) => 'test', }),
+          paramMap: of({ get: (key: string) => todoListId, }),
         },
       }],
     });
@@ -23,8 +26,9 @@ describe('AddTodoListTaskComponent', () => {
       AddTodoListTaskViewModel,
       {
         useValue: jasmine.createSpyObj(
-          AddTodoListTaskViewModel,
-          [ 'add', ]),
+          'AddTodoListTaskViewModel',
+          [ 'add', ],
+          [ 'task', 'todoListId', ]),
       });
 
     TestBed.overrideProvider(
@@ -36,14 +40,57 @@ describe('AddTodoListTaskComponent', () => {
       });
   });
 
-  it('ngOnDestroy should call unsubscribe', inject([ Subscription, ], (sub: jasmine.SpyObj<Subscription>) => {
+  it('ngOnInit should initialize vm', waitForAsync(inject(
+    [Subscription, AddTodoListTaskViewModel, ],
+    (sub: jasmine.SpyObj<Subscription>,
+     vm: jasmine.SpyObj<AddTodoListTaskViewModel>) => {
+    const descs = Object.getOwnPropertyDescriptors(vm)!;
+
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+
+    const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
+    todoListIdSpy.and.returnValue(todoListId);
+
     const fixture = TestBed.createComponent(AddTodoListTaskComponent);
     fixture.detectChanges();
 
-    fixture.componentInstance.ngOnDestroy();
+    fixture.whenStable().then(() => {
+      expect(vm.todoListId)
+        .withContext('todoListId should be populated from URL')
+        .toBe(todoListId);
 
-    expect(sub.unsubscribe.calls.count())
-      .withContext('unsubscribe should be called once')
-      .toBe(1);
-  }));
+      expect(vm.task.date)
+        .withContext('date should be defined')
+        .toBeDefined();
+
+      expect(sub.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+    });
+  })));
+
+  it('ngOnDestroy should call unsubscribe', waitForAsync(inject(
+    [ Subscription, AddTodoListTaskViewModel, ],
+    (sub: jasmine.SpyObj<Subscription>,
+     vm: jasmine.SpyObj<AddTodoListTaskViewModel>) => {
+    const descs = Object.getOwnPropertyDescriptors(vm)!;
+
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+
+    const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
+    todoListIdSpy.and.returnValue(todoListId);
+
+    const fixture = TestBed.createComponent(AddTodoListTaskComponent);
+    fixture.detectChanges();
+
+    fixture.whenStable().then(() => {
+      fixture.componentInstance.ngOnDestroy();
+
+      expect(sub.unsubscribe.calls.count())
+        .withContext('unsubscribe should be called once')
+        .toBe(1);
+    });
+  })));
 });
