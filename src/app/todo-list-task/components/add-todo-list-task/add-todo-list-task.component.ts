@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
 
-import { AppClock, HOURS_IN_DAY,
+import { AppClock,
          MILLISECONDS_IN_HOUR,
          MILLISECONDS_IN_MENUTE,
          ToastsComponent,
@@ -22,6 +22,10 @@ import { AddTodoListTaskViewModel,       } from './add-todo-list-task.view-model
   ],
   providers: [
     AddTodoListTaskViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    }
   ],
 })
 export class AddTodoListTaskComponent implements OnInit, OnDestroy {
@@ -31,18 +35,16 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
-  private subsription: Subscription;
-
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
+
+    private readonly subsription: Subscription,
 
     private readonly route    : ActivatedRoute,
     private readonly clock    : AppClock,
     private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
-  ) {
-    this.subsription = new Subscription();
-  }
+  ) {}
 
   public get backLink(): any[] {
     return this.links.searchTodoListTasksLink(this.vm.todoListId);
