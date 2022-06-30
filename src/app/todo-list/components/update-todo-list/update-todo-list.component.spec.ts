@@ -1,6 +1,6 @@
 import { Component,                    } from '@angular/core';
-import { ComponentFixture, TestBed,
-         waitForAsync,                 } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync,
+         TestBed, tick,                } from '@angular/core/testing';
 import { ReactiveFormsModule,          } from '@angular/forms';
 import { By,                           } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule, } from '@angular/router';
@@ -158,33 +158,33 @@ describe('UpdateTodoListComponent', () => {
     fixture = TestBed.createComponent(UpdateTodoListComponent);
   });
 
-  it('ngOnInit should call initialize', waitForAsync(() => {
+  it('ngOnInit should call initialize', fakeAsync(() => {
     fixture.detectChanges();
 
-    fixture.whenStable().then(() => {
-      fixture.detectChanges();
+    tick();
 
-      expect(add.calls.count())
-        .withContext('add should be called twice')
-        .toBe(2);
+    expect(add.calls.count())
+      .withContext('add should be called twice')
+      .toBe(2);
 
-      expect(vm.initialize.calls.count())
-        .withContext('initialize should be called once')
-        .toBe(1);
-    })
+    expect(vm.initialize.calls.count())
+      .withContext('initialize should be called once')
+      .toBe(1);
   }));
 
-  it('ngOnDestroy should unsubscribe', () => {
+  it('ngOnDestroy should unsubscribe', fakeAsync(() => {
     fixture.detectChanges();
+
+    tick();
 
     fixture.componentInstance.ngOnDestroy();
 
     expect(unsub.calls.count())
       .withContext('unsubscribe should be called once')
       .toBe(1);
-  });
+  }));
 
-  it('onOkPressed should not call update', waitForAsync(() => {
+  it('onOkPressed should not call update', fakeAsync(() => {
     fixture.detectChanges();
 
     vm.update.and.returnValue(of(void 0));
@@ -195,16 +195,19 @@ describe('UpdateTodoListComponent', () => {
     titleControl.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
+
+    tick();
+
     fixture.componentInstance.onOkPressed();
 
-    fixture.whenStable().then(() => {
-      expect(vm.update.calls.count())
-        .withContext('update should be called once')
-        .toBe(0);
-    });
+    tick();
+
+    expect(vm.update.calls.count())
+      .withContext('update should be called once')
+      .toBe(0);
   }));
 
-  it('onOkPressed should call update', waitForAsync(() => {
+  it('onOkPressed should call update', fakeAsync(() => {
     fixture.detectChanges();
 
     vm.update.and.returnValue(of(void 0));
@@ -219,24 +222,27 @@ describe('UpdateTodoListComponent', () => {
     titleControl.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
+
+    tick();
+
     fixture.componentInstance.onOkPressed();
 
-    fixture.whenStable().then(() => {
-      expect(vm.update.calls.count())
-        .withContext('update should be called once')
-        .toBe(1);
+    tick();
 
-      expect(infoSpy.calls.count())
-        .withContext('update should be called once')
-        .toBe(1);
+    expect(vm.update.calls.count())
+      .withContext('update should be called once')
+      .toBe(1);
 
-      expect(errorSpy.calls.count())
-        .withContext('update should not be called')
-        .toBe(0);
-    });
+    expect(infoSpy.calls.count())
+      .withContext('update should be called once')
+      .toBe(1);
+
+    expect(errorSpy.calls.count())
+      .withContext('update should not be called')
+      .toBe(0);
   }));
 
-  it('onOkPressed should show error', waitForAsync(() => {
+  it('onOkPressed should show error', fakeAsync(() => {
     fixture.detectChanges();
 
     vm.update.and.returnValue(throwError(() => ''));
@@ -251,20 +257,23 @@ describe('UpdateTodoListComponent', () => {
     titleControl.dispatchEvent(new Event('input'));
 
     fixture.detectChanges();
+
+    tick();
+
     fixture.componentInstance.onOkPressed();
 
-    fixture.whenStable().then(() => {
-      expect(vm.update.calls.count())
-        .withContext('update should be called once')
-        .toBe(1);
+    tick();
 
-      expect(infoSpy.calls.count())
-        .withContext('update should not be called')
-        .toBe(0);
+    expect(vm.update.calls.count())
+      .withContext('update should be called once')
+      .toBe(1);
 
-      expect(errorSpy.calls.count())
-        .withContext('update should be called once')
-        .toBe(1);
-    });
+    expect(infoSpy.calls.count())
+      .withContext('update should not be called')
+      .toBe(0);
+
+    expect(errorSpy.calls.count())
+      .withContext('update should be called once')
+      .toBe(1);
   }));
 });

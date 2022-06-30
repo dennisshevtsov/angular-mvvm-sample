@@ -1,6 +1,6 @@
 import { Component,                 } from '@angular/core';
-import { ComponentFixture, TestBed,
-         waitForAsync,              } from '@angular/core/testing';
+import { ComponentFixture,
+         fakeAsync, TestBed, tick,  } from '@angular/core/testing';
 import { By,                        } from '@angular/platform-browser';
 import { RouterModule,              } from '@angular/router';
 
@@ -153,17 +153,18 @@ describe('SearchTodoListsComponent', () => {
     fixture = TestBed.createComponent(SearchTodoListsComponent);
   });
 
-  it('ngOnInit should call search', waitForAsync(() => {
+  it('ngOnInit should call search', fakeAsync(() => {
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
-      expect(vm.search.calls.count())
-        .withContext('search should be called once')
-        .toBe(1);
 
-      expect(add.calls.count())
-        .withContext('add should be called once')
-        .toBe(1);
-    })
+    tick();
+
+    expect(vm.search.calls.count())
+      .withContext('search should be called once')
+      .toBe(1);
+
+    expect(add.calls.count())
+      .withContext('add should be called once')
+      .toBe(1);
   }));
 
   it('ngOnDestroy should call unsubscribe', () => {
@@ -174,8 +175,10 @@ describe('SearchTodoListsComponent', () => {
       .toBe(1);
   });
 
-  it('onDeleteOkPressed should be called on delete button click', () => {
+  it('onDeleteOkPressed should be called on delete button click', fakeAsync(() => {
     fixture.detectChanges();
+
+    tick();
 
     vm.delete.and.returnValue(of(void 0));
 
@@ -198,10 +201,12 @@ describe('SearchTodoListsComponent', () => {
     expect(showSpy.calls.count())
       .withContext('show should be called once')
       .toBe(1);
-  });
+  }));
 
-  it('onDeleteOkPressed should call delete', waitForAsync(() => {
+  it('onDeleteOkPressed should call delete', fakeAsync(() => {
     fixture.detectChanges();
+
+    tick();
 
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
@@ -216,23 +221,25 @@ describe('SearchTodoListsComponent', () => {
 
     fixture.componentInstance.onDeleteOkPressed();
 
-    fixture.whenStable().then(() => {
-      expect(vm.delete.calls.count())
-        .withContext('delete should be called once')
-        .toBe(1);
+    tick();
 
-      expect(infoSpy.calls.count())
-        .withContext('info should be called once')
-        .toBe(1);
+    expect(vm.delete.calls.count())
+      .withContext('delete should be called once')
+      .toBe(1);
 
-      expect(errorSpy.calls.count())
-        .withContext('error should not be called')
-        .toBe(0);
-    });
+    expect(infoSpy.calls.count())
+      .withContext('info should be called once')
+      .toBe(1);
+
+    expect(errorSpy.calls.count())
+      .withContext('error should not be called')
+      .toBe(0);
   }));
 
-  it('onDeleteOkPressed should trigger info', waitForAsync(() => {
+  it('onDeleteOkPressed should trigger info', fakeAsync(() => {
     fixture.detectChanges();
+
+    tick();
 
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
@@ -247,19 +254,21 @@ describe('SearchTodoListsComponent', () => {
 
     fixture.componentInstance.onDeleteOkPressed();
 
-    fixture.whenStable().then(() => {
-      expect(infoSpy.calls.count())
-        .withContext('info should be called once')
-        .toBe(1);
+    tick();
 
-      expect(errorSpy.calls.count())
-        .withContext('error should not be called')
-        .toBe(0);
-    });
+    expect(infoSpy.calls.count())
+      .withContext('info should be called once')
+      .toBe(1);
+
+    expect(errorSpy.calls.count())
+      .withContext('error should not be called')
+      .toBe(0);
   }));
 
-  it('onDeleteOkPressed should trigger error', () => {
+  it('onDeleteOkPressed should trigger error', fakeAsync(() => {
     fixture.detectChanges();
+
+    tick();
 
     const selectedPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'selected')!;
     const selectedSpy = selectedPropertyDescriptor.get as jasmine.Spy<() => SearchTodoListsRecordResponseDto>;
@@ -274,6 +283,8 @@ describe('SearchTodoListsComponent', () => {
 
     fixture.componentInstance.onDeleteOkPressed();
 
+    tick();
+
     expect(infoSpy.calls.count())
       .withContext('info should not be called')
       .toBe(0);
@@ -281,5 +292,5 @@ describe('SearchTodoListsComponent', () => {
     expect(errorSpy.calls.count())
       .withContext('error should be called once')
       .toBe(1);
-  });
+  }));
 });
