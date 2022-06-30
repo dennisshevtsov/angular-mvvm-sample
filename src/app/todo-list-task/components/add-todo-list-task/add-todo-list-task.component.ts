@@ -1,5 +1,6 @@
-import { Component, OnDestroy,
-         OnInit, ViewChild,        } from '@angular/core';
+import { AfterViewInit, Component,
+         OnDestroy, OnInit,
+         ViewChild,                } from '@angular/core';
 import { ActivatedRoute, ParamMap, } from '@angular/router';
 
 import { Subscription, } from 'rxjs';
@@ -28,12 +29,14 @@ import { AddTodoListTaskViewModel,       } from './add-todo-list-task.view-model
     }
   ],
 })
-export class AddTodoListTaskComponent implements OnInit, OnDestroy {
+export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('task')
   private task!: TodoListTaskComponent;
 
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
+
+  private error: undefined | string;
 
   public constructor(
     public readonly vm: AddTodoListTaskViewModel,
@@ -44,7 +47,7 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
     private readonly clock    : AppClock,
     private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
-  ) {}
+  ) { }
 
   public get backLink(): any[] {
     return this.links.searchTodoListTasksLink(this.vm.todoListId);
@@ -59,12 +62,20 @@ export class AddTodoListTaskComponent implements OnInit, OnDestroy {
           this.vm.todoListId = todoListId;
           this.vm.task.date = this.buildDefaultTimePeriod();
         }
+        else {
+          this.error = 'An error occured.';
+        }
       },
-      error: () => this.toasts.error('An error occured.'),
     };
 
     this.subsription.add(
       this.route.paramMap.subscribe(observer));
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.error) {
+      this.toasts.error(this.error)
+    }
   }
 
   public ngOnDestroy(): void {
