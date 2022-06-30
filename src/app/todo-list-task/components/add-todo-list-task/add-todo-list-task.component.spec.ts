@@ -7,19 +7,26 @@ import { AddTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 import { AddTodoListTaskComponent,  } from './add-todo-list-task.component';
 import { AddTodoListTaskViewModel,  } from './add-todo-list-task.view-model';
 
-describe('AddTodoListTaskComponent', () => {
-  const todoListId = 'test todo list id';
+const PARAM_MAP_TOKEN = 'ParamMap';
 
+describe('AddTodoListTaskComponent', () => {
   beforeEach(() => {
+    const paramMapSpy = jasmine.createSpyObj(
+      PARAM_MAP_TOKEN, [ 'get', ]);
+
     TestBed.configureTestingModule({
       declarations: [ AddTodoListTaskComponent, ],
       imports: [ RouterModule.forRoot([]), ],
-      providers: [{
-        provide: ActivatedRoute,
-        useValue: {
-          paramMap: of({ get: (key: string) => todoListId, }),
+      providers: [
+        {
+          provide: ActivatedRoute,
+          useValue: { paramMap: of(paramMapSpy), },
         },
-      }],
+        {
+          provide: PARAM_MAP_TOKEN,
+          useValue: paramMapSpy,
+        },
+      ],
     });
 
     TestBed.overrideProvider(
@@ -41,9 +48,14 @@ describe('AddTodoListTaskComponent', () => {
   });
 
   it('ngOnInit should initialize vm', waitForAsync(inject(
-    [Subscription, AddTodoListTaskViewModel, ],
-    (sub: jasmine.SpyObj<Subscription>,
+    [ PARAM_MAP_TOKEN, Subscription, AddTodoListTaskViewModel, ],
+    (pm: jasmine.SpyObj<any>,
+     sub: jasmine.SpyObj<Subscription>,
      vm: jasmine.SpyObj<AddTodoListTaskViewModel>) => {
+    const todoListId = 'test todo list id';
+
+    pm.get.and.returnValue(of(todoListId));
+
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
     const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
@@ -71,9 +83,14 @@ describe('AddTodoListTaskComponent', () => {
   })));
 
   it('ngOnDestroy should call unsubscribe', waitForAsync(inject(
-    [ Subscription, AddTodoListTaskViewModel, ],
-    (sub: jasmine.SpyObj<Subscription>,
+    [ PARAM_MAP_TOKEN, Subscription, AddTodoListTaskViewModel, ],
+    (pm: jasmine.SpyObj<any>,
+     sub: jasmine.SpyObj<Subscription>,
      vm: jasmine.SpyObj<AddTodoListTaskViewModel>) => {
+    const todoListId = 'test todo list id';
+
+    pm.get.and.returnValue(of(todoListId));
+
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
     const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
