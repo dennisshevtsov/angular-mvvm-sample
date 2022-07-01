@@ -1,6 +1,6 @@
-import { Component, OnDestroy,
-         OnInit, ViewChild,        } from '@angular/core';
-import { ActivatedRoute, ParamMap, } from '@angular/router';
+import { AfterViewInit, Component,
+         OnDestroy, OnInit, ViewChild, } from '@angular/core';
+import { ActivatedRoute, ParamMap,     } from '@angular/router';
 
 import { mergeMap, Subscription, throwError, } from 'rxjs';
 
@@ -19,7 +19,7 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
     SearchTodoListTasksViewModel,
   ],
 })
-export class SearchTodoListTasksComponent implements OnInit, OnDestroy {
+export class SearchTodoListTasksComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('modal')
   private modal!: ModalComponent;
 
@@ -27,6 +27,8 @@ export class SearchTodoListTasksComponent implements OnInit, OnDestroy {
   private toasts!: ToastsComponent;
 
   private subscription: Subscription;
+
+  private error: undefined | string;
 
   public constructor(
     public readonly vm: SearchTodoListTasksViewModel,
@@ -58,12 +60,18 @@ export class SearchTodoListTasksComponent implements OnInit, OnDestroy {
       return throwError(() => new Error('There is no TODO list ID parameter in the URL.'));
     };
     const observer = {
-      error: () => this.toasts.error('An error occured.'),
+      error: () => this.error = 'An error occured.',
     };
 
     this.subscription.add(
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.error) {
+      this.toasts.error(this.error);
+    }
   }
 
   public ngOnDestroy(): void {
