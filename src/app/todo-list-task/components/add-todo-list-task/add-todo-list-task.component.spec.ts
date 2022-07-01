@@ -5,7 +5,7 @@ import { ActivatedRoute, RouterModule,     } from '@angular/router';
 
 import { of, Subscription, } from 'rxjs';
 
-import { PageComponent,             } from 'src/app/core';
+import { PageComponent, TodoListTaskNavigator,             } from 'src/app/core';
 import { AddTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 import { AddTodoListTaskComponent,  } from './add-todo-list-task.component';
 import { AddTodoListTaskViewModel,  } from './add-todo-list-task.view-model';
@@ -51,6 +51,10 @@ describe('AddTodoListTaskComponent', () => {
         {
           provide: PARAM_MAP_TOKEN,
           useValue: paramMapSpy,
+        },
+        {
+          provide: TodoListTaskNavigator,
+          useValue: jasmine.createSpyObj(TodoListTaskNavigator, [ 'navigateToUpdateTodoListTask', ]),
         },
       ],
     });
@@ -201,13 +205,15 @@ describe('AddTodoListTaskComponent', () => {
       valid: false,
     });
 
+    sub.add.calls.reset();
+
     fixture.componentInstance.onOkPressed();
 
     tick();
 
     expect(sub.add.calls.count())
-      .withContext('add should be called once')
-      .toBe(1);
+      .withContext('add should not be called')
+      .toBe(0);
 
     expect(vm.add.calls.count())
       .withContext('add should not be called')
@@ -219,6 +225,70 @@ describe('AddTodoListTaskComponent', () => {
 
     expect(formSpy.calls.count())
       .withContext('form should be called')
+      .toBe(1);
+  })));
+
+  it('onOkPressed should navigate to update', fakeAsync(inject(
+    [ PARAM_MAP_TOKEN, Subscription, AddTodoListTaskViewModel, TodoListTaskNavigator, ],
+    (pm: jasmine.SpyObj<any>,
+     sub: jasmine.SpyObj<Subscription>,
+     vm: jasmine.SpyObj<AddTodoListTaskViewModel>,
+     tltn: jasmine.SpyObj<TodoListTaskNavigator>) => {
+    const todoListId = 'test todo list id';
+
+    pm.get.and.returnValue(todoListId);
+
+    const descs = Object.getOwnPropertyDescriptors(vm)!;
+
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+
+    const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
+    todoListIdSpy.and.returnValue(todoListId);
+
+    const fixture = TestBed.createComponent(AddTodoListTaskComponent);
+    fixture.detectChanges();
+
+    tick();
+
+    let validateFormSpy: jasmine.Spy<any>;
+    let formSpy: jasmine.Spy<jasmine.Func>;
+
+    const todoListTaskComponent = fixture.debugElement.query(By.directive(TodoListTaskComponentMock)).componentInstance;
+
+    validateFormSpy = spyOn(todoListTaskComponent, 'validateForm');
+    formSpy = spyOnProperty(todoListTaskComponent, 'form');
+
+    formSpy.and.returnValue({
+      valid: true,
+    });
+
+    sub.add.calls.reset();
+
+    vm.add.and.returnValue(of(void 0));
+
+    fixture.componentInstance.onOkPressed();
+
+    tick();
+
+    expect(sub.add.calls.count())
+      .withContext('add should be called once')
+      .toBe(1);
+
+    expect(vm.add.calls.count())
+      .withContext('add should be called once')
+      .toBe(1);
+
+    expect(validateFormSpy.calls.count())
+      .withContext('validateForm should be called')
+      .toBe(1);
+
+    expect(formSpy.calls.count())
+      .withContext('form should be called')
+      .toBe(1);
+
+    expect(tltn.navigateToUpdateTodoListTask.calls.count())
+      .withContext('navigateToUpdateTodoListTask should be called')
       .toBe(1);
   })));
 });
