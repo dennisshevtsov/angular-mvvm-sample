@@ -5,7 +5,8 @@ import { ActivatedRoute, RouterModule,     } from '@angular/router';
 
 import { of, Subscription, throwError, } from 'rxjs';
 
-import { PageComponent, TodoListTaskNavigator,             } from 'src/app/core';
+import { PageComponent,
+         TodoListTaskNavigator,     } from 'src/app/core';
 import { AddTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
 import { AddTodoListTaskComponent,  } from './add-todo-list-task.component';
 import { AddTodoListTaskViewModel,  } from './add-todo-list-task.view-model';
