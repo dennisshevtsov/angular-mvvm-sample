@@ -17,6 +17,10 @@ import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.
   ],
   providers: [
     SearchTodoListTasksViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
 export class SearchTodoListTasksComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -26,19 +30,17 @@ export class SearchTodoListTasksComponent implements OnInit, AfterViewInit, OnDe
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
-  private subscription: Subscription;
-
   private error: undefined | string;
 
   public constructor(
     public readonly vm: SearchTodoListTasksViewModel,
 
+    private readonly subscription: Subscription,
+
     private readonly route            : ActivatedRoute,
     private readonly todoListLinks    : TodoListLinks,
     private readonly todoListTaskLinks: TodoListTaskLinks,
-  ) {
-    this.subscription = new Subscription();
-  }
+  ) { }
 
   public get backLink(): any[] {
     return this.todoListLinks.searchTodoListsLink();
