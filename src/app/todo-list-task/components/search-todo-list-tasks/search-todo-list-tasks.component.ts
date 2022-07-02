@@ -56,10 +56,11 @@ export class SearchTodoListTasksComponent implements OnInit, AfterViewInit, OnDe
 
       if (todoListId) {
         this.vm.todoListId = todoListId;
+
         return this.vm.search();
       }
 
-      return throwError(() => new Error('There is no TODO list ID parameter in the URL.'));
+      return throwError(() => 'An error occured.');
     };
     const observer = {
       error: () => this.error = 'An error occured.',
