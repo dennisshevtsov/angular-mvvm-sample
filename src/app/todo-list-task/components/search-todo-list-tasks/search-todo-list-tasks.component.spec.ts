@@ -3,7 +3,7 @@ import { fakeAsync, inject, TestBed, tick,     } from '@angular/core/testing';
 import { By,                                   } from '@angular/platform-browser';
 import { ActivatedRoute, RouterModule,         } from '@angular/router';
 
-import { of, Subscription, throwError,                     } from 'rxjs';
+import { of, Subscription, throwError,         } from 'rxjs';
 
 import { TodoListLinks, TodoListTaskLinks,     } from 'src/app/core';
 import { SearchTodoListTasksRecordResponseDto,
@@ -22,6 +22,13 @@ class ToastsComponentMock {
   public error(message: string): void {}
 }
 
+@Component({
+  selector: 'app-modal',
+})
+class ModalComponentMock {
+  public show(): void {}
+}
+
 describe('SearchTodoListTasksComponent', () => {
   beforeEach(() => {
     const paramMapSpy = jasmine.createSpyObj(
@@ -30,7 +37,8 @@ describe('SearchTodoListTasksComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         SearchTodoListTasksComponent,
-        ToastsComponentMock, ],
+        ToastsComponentMock,
+        ModalComponentMock, ],
       imports: [ RouterModule.forRoot([]), ],
       providers: [
         {
@@ -373,5 +381,48 @@ describe('SearchTodoListTasksComponent', () => {
        expect(errorSpy.calls.first().args[0])
         .withContext('error should be called with message')
         .toBe('An error occured.');
+  })));
+
+  it('onDeletePressed should show modal', fakeAsync(inject(
+    [ PARAM_MAP_TOKEN, Subscription, SearchTodoListTasksViewModel, ],
+    (pmSpy : jasmine.SpyObj<any>,
+     subSpy: jasmine.SpyObj<Subscription>,
+     vmSpy : jasmine.SpyObj<SearchTodoListTasksViewModel>) => {
+      const todoListId = 'test id';
+
+      pmSpy.get.and.returnValue(todoListId);
+
+      vmSpy.search.and.returnValue(of(void 0));
+
+      const fixture = TestBed.createComponent(SearchTodoListTasksComponent);
+
+      const modalComponent = fixture.debugElement.query(By.directive(ModalComponentMock)).componentInstance;
+      const showSpy = spyOn(modalComponent, 'show');
+
+      fixture.detectChanges();
+
+      tick();
+
+      const recordDto = new SearchTodoListTasksRecordResponseDto(
+        'test todo list task id',
+        true,
+        'test todo list task title',
+        'test todo list task description',
+        new TodoListTaskDateDto());
+
+      const descs = Object.getOwnPropertyDescriptors(vmSpy);
+      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
+
+      fixture.componentInstance.onDeletePressed(recordDto);
+
+      tick();
+
+      expect(setSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(showSpy.calls.count())
+        .withContext('show should be called once')
+        .toBe(1);
   })));
 });
