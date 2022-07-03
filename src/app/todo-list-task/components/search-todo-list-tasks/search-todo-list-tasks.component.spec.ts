@@ -1,15 +1,15 @@
-import { Component,                    } from '@angular/core';
-import { fakeAsync, inject, TestBed,
-         tick,                         } from '@angular/core/testing';
-import { By,                           } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule, } from '@angular/router';
+import { Component,                            } from '@angular/core';
+import { fakeAsync, inject, TestBed, tick,     } from '@angular/core/testing';
+import { By,                                   } from '@angular/platform-browser';
+import { ActivatedRoute, RouterModule,         } from '@angular/router';
 
-import { of, Subscription,             } from 'rxjs';
+import { of, Subscription, throwError,                     } from 'rxjs';
 
-import { TodoListLinks,
-         TodoListTaskLinks,            } from 'src/app/core';
-import { SearchTodoListTasksComponent, } from './search-todo-list-tasks.component';
-import { SearchTodoListTasksViewModel, } from './search-todo-list-tasks.view-model';
+import { TodoListLinks, TodoListTaskLinks,     } from 'src/app/core';
+import { SearchTodoListTasksRecordResponseDto,
+         TodoListTaskDateDto,                  } from 'src/app/todo-list-task/api';
+import { SearchTodoListTasksComponent,         } from './search-todo-list-tasks.component';
+import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
 const PARAM_MAP_TOKEN = 'ParamMap';
 
@@ -63,7 +63,8 @@ describe('SearchTodoListTasksComponent', () => {
       {
         useValue: jasmine.createSpyObj(
           'SearchTodoListTasksViewModel',
-           [ 'search', ], [ 'todoListId', ]),
+           [ 'search', 'complete', 'uncomplete', ],
+           [ 'todoListId', 'selected', ]),
       });
   });
 
@@ -138,5 +139,102 @@ describe('SearchTodoListTasksComponent', () => {
       expect(errorSpy.calls.count())
         .withContext('error should not be called')
         .toBe(0);
+  })));
+
+  it('onCompletedChanged should call complete', fakeAsync(inject(
+    [ PARAM_MAP_TOKEN, Subscription, SearchTodoListTasksViewModel, ],
+    (pmSpy : jasmine.SpyObj<any>,
+     subSpy: jasmine.SpyObj<Subscription>,
+     vmSpy : jasmine.SpyObj<SearchTodoListTasksViewModel>) => {
+      const todoListId = 'test id';
+
+      pmSpy.get.and.returnValue(todoListId);
+
+      vmSpy.search.and.returnValue(of(void 0));
+
+      const fixture = TestBed.createComponent(SearchTodoListTasksComponent);
+
+      const toastsComponent = fixture.debugElement.query(By.directive(ToastsComponentMock)).componentInstance;
+      const errorSpy = spyOn(toastsComponent, 'error');
+      const infoSpy = spyOn(toastsComponent, 'info');
+
+      fixture.detectChanges();
+
+      tick();
+
+      subSpy.add.calls.reset();
+      errorSpy.calls.reset();
+      infoSpy.calls.reset();
+
+      const recordDto = new SearchTodoListTasksRecordResponseDto(
+        'test todo list task id',
+        false,
+        'test todo list task title',
+        'test todo list task description',
+        new TodoListTaskDateDto());
+
+      const descs = Object.getOwnPropertyDescriptors(vmSpy);
+      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
+      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
+
+      getSelectedSpy.and.returnValue(recordDto);
+
+      vmSpy.complete.and.returnValue(of(void 0));
+
+      fixture.componentInstance.onCompletedChanged(recordDto);
+
+      tick();
+
+      expect(setSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(subSpy.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+
+      expect(vmSpy.complete.calls.count())
+        .withContext('complete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should be called onde')
+        .toBe(1);
+
+       expect(errorSpy.calls.count())
+        .withContext('error should not be called onde')
+        .toBe(0);
+
+      subSpy.add.calls.reset();
+      vmSpy.complete.calls.reset();
+      setSelectedSpy.calls.reset();
+      errorSpy.calls.reset();
+      infoSpy.calls.reset();
+
+      vmSpy.complete.and.returnValue(throwError(() => 'error'));
+
+      fixture.componentInstance.onCompletedChanged(recordDto);
+
+      tick();
+
+      expect(setSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(subSpy.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+
+      expect(vmSpy.complete.calls.count())
+        .withContext('complete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should not be called onde')
+        .toBe(0);
+
+       expect(errorSpy.calls.count())
+        .withContext('error should be called onde')
+        .toBe(1);
   })));
 });
