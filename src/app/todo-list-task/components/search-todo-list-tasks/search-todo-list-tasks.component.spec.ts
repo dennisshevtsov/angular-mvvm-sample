@@ -71,7 +71,7 @@ describe('SearchTodoListTasksComponent', () => {
       {
         useValue: jasmine.createSpyObj(
           'SearchTodoListTasksViewModel',
-           [ 'search', 'complete', 'uncomplete', ],
+           [ 'search', 'complete', 'uncomplete', 'delete', ],
            [ 'todoListId', 'selected', ]),
       });
   });
@@ -210,7 +210,7 @@ describe('SearchTodoListTasksComponent', () => {
         .toBe(0);
 
       expect(infoSpy.calls.count())
-        .withContext('info should be called onde')
+        .withContext('info should be called once')
         .toBe(1);
 
       expect(infoSpy.calls.first().args[0])
@@ -222,7 +222,7 @@ describe('SearchTodoListTasksComponent', () => {
         .toContain(recordDto.title);
 
       expect(errorSpy.calls.count())
-        .withContext('error should not be called onde')
+        .withContext('error should not be called once')
         .toBe(0);
 
       subSpy.add.calls.reset();
@@ -254,11 +254,11 @@ describe('SearchTodoListTasksComponent', () => {
         .toBe(0);
 
       expect(infoSpy.calls.count())
-        .withContext('info should not be called onde')
+        .withContext('info should not be called once')
         .toBe(0);
 
       expect(errorSpy.calls.count())
-        .withContext('error should be called onde')
+        .withContext('error should be called once')
         .toBe(1);
 
       expect(errorSpy.calls.first().args[0])
@@ -327,7 +327,7 @@ describe('SearchTodoListTasksComponent', () => {
         .toBe(1);
 
       expect(infoSpy.calls.count())
-        .withContext('info should be called onde')
+        .withContext('info should be called once')
         .toBe(1);
 
       expect(infoSpy.calls.first().args[0])
@@ -339,7 +339,7 @@ describe('SearchTodoListTasksComponent', () => {
         .toContain(recordDto.title);
 
       expect(errorSpy.calls.count())
-        .withContext('error should not be called onde')
+        .withContext('error should not be called once')
         .toBe(0);
 
       subSpy.add.calls.reset();
@@ -375,7 +375,7 @@ describe('SearchTodoListTasksComponent', () => {
         .toBe(0);
 
        expect(errorSpy.calls.count())
-        .withContext('error should be called onde')
+        .withContext('error should be called once')
         .toBe(1);
 
        expect(errorSpy.calls.first().args[0])
@@ -424,5 +424,113 @@ describe('SearchTodoListTasksComponent', () => {
       expect(showSpy.calls.count())
         .withContext('show should be called once')
         .toBe(1);
+  })));
+
+  it('onDeleteOkPressed should call delete', fakeAsync(inject(
+    [ PARAM_MAP_TOKEN, Subscription, SearchTodoListTasksViewModel, ],
+    (pmSpy : jasmine.SpyObj<any>,
+     subSpy: jasmine.SpyObj<Subscription>,
+     vmSpy : jasmine.SpyObj<SearchTodoListTasksViewModel>) => {
+      const todoListId = 'test id';
+
+      pmSpy.get.and.returnValue(todoListId);
+
+      vmSpy.search.and.returnValue(of(void 0));
+
+      const fixture = TestBed.createComponent(SearchTodoListTasksComponent);
+
+      const toastsComponent = fixture.debugElement.query(By.directive(ToastsComponentMock)).componentInstance;
+      const errorSpy = spyOn(toastsComponent, 'error');
+      const infoSpy = spyOn(toastsComponent, 'info');
+
+      fixture.detectChanges();
+
+      tick();
+
+      subSpy.add.calls.reset();
+      errorSpy.calls.reset();
+      infoSpy.calls.reset();
+
+      const recordDto = new SearchTodoListTasksRecordResponseDto(
+        'test todo list task id',
+        true,
+        'test todo list task title',
+        'test todo list task description',
+        new TodoListTaskDateDto());
+
+      const descs = Object.getOwnPropertyDescriptors(vmSpy);
+      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
+
+      getSelectedSpy.and.returnValue(recordDto);
+
+      vmSpy.delete.and.returnValue(of(void 0));
+
+      fixture.componentInstance.onDeleteOkPressed();
+
+      tick();
+
+      expect(getSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(subSpy.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+
+      expect(vmSpy.delete.calls.count())
+        .withContext('delete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toContain('delete');
+
+      expect(infoSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toContain(recordDto.title);
+
+      expect(errorSpy.calls.count())
+        .withContext('error should not be called once')
+        .toBe(0);
+
+      getSelectedSpy.calls.reset();
+      subSpy.add.calls.reset();
+      vmSpy.delete.calls.reset();
+      errorSpy.calls.reset();
+      infoSpy.calls.reset();
+
+      vmSpy.delete.and.returnValue(throwError(() => 'error'));
+
+      fixture.componentInstance.onDeleteOkPressed();
+
+      tick();
+
+      expect(getSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(subSpy.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+
+      expect(vmSpy.delete.calls.count())
+        .withContext('delete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should not be called')
+        .toBe(0);
+
+      expect(errorSpy.calls.count())
+        .withContext('error should be called once')
+        .toBe(1);
+
+      expect(errorSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toBe('An error occured.');
   })));
 });
