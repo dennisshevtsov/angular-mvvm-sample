@@ -205,7 +205,15 @@ describe('SearchTodoListTasksComponent', () => {
         .withContext('info should be called onde')
         .toBe(1);
 
-       expect(errorSpy.calls.count())
+      expect(infoSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toContain(' complete');
+
+      expect(infoSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toContain(recordDto.title);
+
+      expect(errorSpy.calls.count())
         .withContext('error should not be called onde')
         .toBe(0);
 
@@ -241,9 +249,13 @@ describe('SearchTodoListTasksComponent', () => {
         .withContext('info should not be called onde')
         .toBe(0);
 
-       expect(errorSpy.calls.count())
+      expect(errorSpy.calls.count())
         .withContext('error should be called onde')
         .toBe(1);
+
+      expect(errorSpy.calls.first().args[0])
+        .withContext('error should be called with message')
+        .toBe('An error occured.');
   })));
 
   it('onCompletedChanged should call uncomplete', fakeAsync(inject(
@@ -310,7 +322,15 @@ describe('SearchTodoListTasksComponent', () => {
         .withContext('info should be called onde')
         .toBe(1);
 
-       expect(errorSpy.calls.count())
+      expect(infoSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toContain('uncomplete');
+
+      expect(infoSpy.calls.first().args[0])
+        .withContext('info should be called with message')
+        .toContain(recordDto.title);
+
+      expect(errorSpy.calls.count())
         .withContext('error should not be called onde')
         .toBe(0);
 
@@ -349,5 +369,9 @@ describe('SearchTodoListTasksComponent', () => {
        expect(errorSpy.calls.count())
         .withContext('error should be called onde')
         .toBe(1);
+
+       expect(errorSpy.calls.first().args[0])
+        .withContext('error should be called with message')
+        .toBe('An error occured.');
   })));
 });
