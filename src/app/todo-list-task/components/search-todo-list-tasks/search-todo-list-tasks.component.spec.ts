@@ -194,8 +194,12 @@ describe('SearchTodoListTasksComponent', () => {
         .toBe(1);
 
       expect(vmSpy.complete.calls.count())
-        .withContext('complete should be called once')
+        .withContext('complete should be called')
         .toBe(1);
+
+      expect(vmSpy.uncomplete.calls.count())
+        .withContext('uncomplete should not be called')
+        .toBe(0);
 
       expect(infoSpy.calls.count())
         .withContext('info should be called onde')
@@ -226,11 +230,120 @@ describe('SearchTodoListTasksComponent', () => {
         .toBe(1);
 
       expect(vmSpy.complete.calls.count())
-        .withContext('complete should be called once')
+        .withContext('complete should be called')
         .toBe(1);
+
+      expect(vmSpy.uncomplete.calls.count())
+        .withContext('uncomplete should not be called')
+        .toBe(0);
 
       expect(infoSpy.calls.count())
         .withContext('info should not be called onde')
+        .toBe(0);
+
+       expect(errorSpy.calls.count())
+        .withContext('error should be called onde')
+        .toBe(1);
+  })));
+
+  it('onCompletedChanged should call uncomplete', fakeAsync(inject(
+    [ PARAM_MAP_TOKEN, Subscription, SearchTodoListTasksViewModel, ],
+    (pmSpy : jasmine.SpyObj<any>,
+     subSpy: jasmine.SpyObj<Subscription>,
+     vmSpy : jasmine.SpyObj<SearchTodoListTasksViewModel>) => {
+      const todoListId = 'test id';
+
+      pmSpy.get.and.returnValue(todoListId);
+
+      vmSpy.search.and.returnValue(of(void 0));
+
+      const fixture = TestBed.createComponent(SearchTodoListTasksComponent);
+
+      const toastsComponent = fixture.debugElement.query(By.directive(ToastsComponentMock)).componentInstance;
+      const errorSpy = spyOn(toastsComponent, 'error');
+      const infoSpy = spyOn(toastsComponent, 'info');
+
+      fixture.detectChanges();
+
+      tick();
+
+      subSpy.add.calls.reset();
+      errorSpy.calls.reset();
+      infoSpy.calls.reset();
+
+      const recordDto = new SearchTodoListTasksRecordResponseDto(
+        'test todo list task id',
+        true,
+        'test todo list task title',
+        'test todo list task description',
+        new TodoListTaskDateDto());
+
+      const descs = Object.getOwnPropertyDescriptors(vmSpy);
+      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
+      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
+
+      getSelectedSpy.and.returnValue(recordDto);
+
+      vmSpy.uncomplete.and.returnValue(of(void 0));
+
+      fixture.componentInstance.onCompletedChanged(recordDto);
+
+      tick();
+
+      expect(setSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(subSpy.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+
+      expect(vmSpy.complete.calls.count())
+        .withContext('complete should not be called')
+        .toBe(0);
+
+      expect(vmSpy.uncomplete.calls.count())
+        .withContext('uncomplete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should be called onde')
+        .toBe(1);
+
+       expect(errorSpy.calls.count())
+        .withContext('error should not be called onde')
+        .toBe(0);
+
+      subSpy.add.calls.reset();
+      vmSpy.uncomplete.calls.reset();
+      setSelectedSpy.calls.reset();
+      errorSpy.calls.reset();
+      infoSpy.calls.reset();
+
+      vmSpy.uncomplete.and.returnValue(throwError(() => 'error'));
+
+      fixture.componentInstance.onCompletedChanged(recordDto);
+
+      tick();
+
+      expect(setSelectedSpy.calls.count())
+        .withContext('selected should be called once')
+        .toBe(1);
+
+      expect(subSpy.add.calls.count())
+        .withContext('add should be called once')
+        .toBe(1);
+
+      expect(vmSpy.complete.calls.count())
+        .withContext('complete should not be called once')
+        .toBe(0);
+
+      expect(vmSpy.uncomplete.calls.count())
+        .withContext('uncomplete should be called once')
+        .toBe(1);
+
+      expect(infoSpy.calls.count())
+        .withContext('info should not be called')
         .toBe(0);
 
        expect(errorSpy.calls.count())
