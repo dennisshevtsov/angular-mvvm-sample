@@ -32,19 +32,20 @@ import { timePeriodValidator, } from 'src/app/todo-list-task/validators';
       multi: true,
       useExisting: TodoListTaskPeriodComponent,
     },
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
 export class TodoListTaskPeriodComponent
   extends FormComponentBase
   implements OnInit, OnDestroy, ControlValueAccessor, Validator {
-  private readonly subscription: Subscription;
-
   public constructor(
+    private readonly subscription: Subscription,
     private readonly fb : FormBuilder,
   ) {
     super();
-
-    this.subscription = new Subscription();
   }
 
   public ngOnInit(): void {
