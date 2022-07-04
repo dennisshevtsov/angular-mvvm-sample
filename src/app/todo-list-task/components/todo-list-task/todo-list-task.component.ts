@@ -1,7 +1,5 @@
-import { Component, Input,
-         OnDestroy, OnInit,      } from '@angular/core';
-import { FormBuilder, FormGroup,
-         Validators,             } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit, } from '@angular/core';
+import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
@@ -16,6 +14,12 @@ import { AddTodoListTaskRequestDto,
   styleUrls: [
     './todo-list-task.component.scss',
   ],
+  providers: [
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
+  ],
 })
 export class TodoListTaskComponent
   extends FormComponentBase
@@ -23,14 +27,11 @@ export class TodoListTaskComponent
   @Input()
   public task!: AddTodoListTaskRequestDto | UpdateTodoListTaskRequestDto;
 
-  private readonly subscription: Subscription;
-
   public constructor(
+    private readonly subscription: Subscription,
     private readonly fb : FormBuilder,
   ) {
     super();
-
-    this.subscription = new Subscription();
   }
 
   public ngOnInit(): void {
@@ -50,9 +51,7 @@ export class TodoListTaskComponent
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
   }
 
   protected buildForm(): FormGroup {
