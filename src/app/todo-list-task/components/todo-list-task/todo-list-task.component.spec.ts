@@ -64,4 +64,49 @@ describe('TodoListTaskComponent', () => {
       .withContext('add should be called')
       .toBe(1);
   }));
+
+  it('ngOnDestroy should unsubscribe', inject(
+    [ Subscription, FormBuilder, ],
+    (subSpy: jasmine.SpyObj<Subscription>,
+     fbSpy : jasmine.SpyObj<FormBuilder>) => {
+    const requestDto = new AddTodoListTaskRequestDto(
+      'test todo list id',
+      'test todo list title',
+      'test todo list description',
+      new TodoListTaskDateDto());
+
+    const formSpy: jasmine.SpyObj<FormGroup> =
+      jasmine.createSpyObj('FormGroup', [ 'setValue', 'get', ], [ 'valueChanges', ]);
+
+    fbSpy.group.and.returnValue(formSpy);
+
+    const descs = Object.getOwnPropertyDescriptors(formSpy);
+    const vcSpy = descs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
+
+    vcSpy.and.returnValue(of(requestDto));
+
+    const fixture = TestBed.createComponent(TodoListTaskComponent);
+
+    fixture.componentInstance.task = requestDto;
+
+    fixture.detectChanges();
+
+    expect(formSpy.setValue.calls.count())
+      .withContext('setValue should be called')
+      .toBe(1);
+
+    expect(vcSpy.calls.count())
+      .withContext('valueChanges should be subscribed')
+      .toBe(1);
+
+    expect(subSpy.add.calls.count())
+      .withContext('add should be called')
+      .toBe(1);
+
+    fixture.componentInstance.ngOnDestroy();
+
+    expect(subSpy.unsubscribe.calls.count())
+      .withContext('unsubscribe should be called')
+      .toBe(1);
+  }));
 });
