@@ -7,22 +7,22 @@ import { Observable, of, Subscription, } from 'rxjs';
 import { TodoListTaskPeriodComponent,  } from './todo-list-task-period.component';
 
 describe('TodoListTaskPeriodComponent', () => {
-  const controlSpy: jasmine.SpyObj<AbstractControl> = jasmine.createSpyObj('AbstractControl', [], [ 'valueChanges', ])
-  const controlSpyDescs = Object.getOwnPropertyDescriptors(controlSpy);
-  const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
-  valueChangesSpy.and.returnValue(of({}));
-
-  const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj('FormGroup', [ 'get', ], [ 'value', ]);
-  const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
-  const valueSpy = formSpyDescs.value.get! as jasmine.Spy<() => any>;
-
-  formSpy.get.and.returnValue(controlSpy);
-  valueSpy.and.returnValue({});
-
-  const fbSpy : jasmine.SpyObj<FormBuilder> = jasmine.createSpyObj(FormBuilder, [ 'group', ]);
-  fbSpy.group.and.returnValue(formSpy);
-
   beforeEach(() => {
+    const controlSpy: jasmine.SpyObj<AbstractControl> = jasmine.createSpyObj('AbstractControl', [], [ 'valueChanges', ])
+    const controlSpyDescs = Object.getOwnPropertyDescriptors(controlSpy);
+    const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
+    valueChangesSpy.and.returnValue(of({}));
+
+    const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj('FormGroup', [ 'get', ], [ 'value', ]);
+    const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
+    const valueSpy = formSpyDescs.value.get! as jasmine.Spy<() => any>;
+
+    formSpy.get.and.returnValue(controlSpy);
+    valueSpy.and.returnValue({});
+
+    const fbSpy : jasmine.SpyObj<FormBuilder> = jasmine.createSpyObj(FormBuilder, [ 'group', ]);
+    fbSpy.group.and.returnValue(formSpy);
+
     TestBed.configureTestingModule({
       declarations: [ TodoListTaskPeriodComponent, ],
       providers: [
@@ -46,7 +46,8 @@ describe('TodoListTaskPeriodComponent', () => {
       .withContext('add should be called')
       .toBe(1);
 
-      const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
+    const controlSpyDescs = Object.getOwnPropertyDescriptors(controlSpy);
+    const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
 
     expect(valueChangesSpy.calls.count())
       .withContext('valueChanges should be subscribed')
