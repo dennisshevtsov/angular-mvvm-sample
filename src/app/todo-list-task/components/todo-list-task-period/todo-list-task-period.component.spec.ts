@@ -53,4 +53,27 @@ describe('TodoListTaskPeriodComponent', () => {
       .withContext('valueChanges should be subscribed')
       .toBe(1);
   }));
+
+  it('ngOnDestroy should unsubscribe',
+     inject(
+      [Subscription, AbstractControl],
+      (subSpy    : jasmine.SpyObj<Subscription>,
+       controlSpy: jasmine.SpyObj<AbstractControl>) => {
+    const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
+
+    fixture.detectChanges();
+
+    subSpy.add.calls.reset();
+    subSpy.unsubscribe.calls.reset();
+
+    fixture.componentInstance.ngOnDestroy();
+
+    expect(subSpy.add.calls.count())
+      .withContext('add should not be called')
+      .toBe(0);
+
+    expect(subSpy.unsubscribe.calls.count())
+      .withContext('add should be called')
+      .toBe(1);
+  }));
 });
