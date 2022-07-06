@@ -95,5 +95,27 @@ describe('TodoListTaskPeriodComponent', () => {
     expect(formSpy.setValue.calls.count())
       .withContext('setValue should be called')
       .toBe(1);
+
+    const setValueParam: any = formSpy.setValue.calls.first().args[0];
+
+    expect(setValueParam)
+      .withContext('setValue should be called with defined param')
+      .toBeDefined();
+
+    expect(setValueParam.day)
+      .withContext('setValue should be called with correct day')
+      .toBe(periodDto.day);
+
+    expect(setValueParam.fullDay)
+      .withContext('setValue should be called with correct fullDay')
+      .toBe(periodDto.fullDay);
+
+    expect(setValueParam.start)
+      .withContext('setValue should be called with correct start')
+      .toBe(periodDto.start);
+
+    expect(setValueParam.end)
+      .withContext('setValue should be called with correct end')
+      .toBe(periodDto.end);
   }));
 });
