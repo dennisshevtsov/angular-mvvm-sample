@@ -79,9 +79,9 @@ export class TodoListTaskPeriodComponent
 
       fn(period);
     };
-    const subscription = this.form.valueChanges.subscribe(onChange);
 
-    this.subscription.add(subscription);
+    this.subscription.add(
+      this.form.valueChanges.subscribe(onChange));
   }
 
   public registerOnTouched(fn: any): void {

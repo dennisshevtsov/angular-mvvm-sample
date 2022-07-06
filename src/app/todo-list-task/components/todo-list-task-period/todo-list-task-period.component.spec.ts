@@ -14,7 +14,7 @@ describe('TodoListTaskPeriodComponent', () => {
     const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
     valueChangesSpy.and.returnValue(of({}));
 
-    const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj('FormGroup', [ 'get', 'setValue', ], [ 'value', ]);
+    const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj('FormGroup', [ 'get', 'setValue', ], [ 'value', 'valueChanges', ]);
     const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
     const valueSpy = formSpyDescs.value.get! as jasmine.Spy<() => any>;
 
@@ -117,5 +117,35 @@ describe('TodoListTaskPeriodComponent', () => {
     expect(setValueParam.end)
       .withContext('setValue should be called with correct end')
       .toBe(periodDto.end);
+  }));
+
+  it('registerOnChange should populate form',
+     inject(
+      [Subscription, FormGroup],
+      (subSpy: jasmine.SpyObj<Subscription>,
+       formSpy: jasmine.SpyObj<FormGroup>) => {
+    const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
+
+    fixture.detectChanges();
+
+    const fn = (value: any) => {};
+
+    const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
+    const valueChangesSpy = formSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
+
+    valueChangesSpy.and.returnValue(of({}));
+
+    subSpy.add.calls.reset();
+    valueChangesSpy.calls.reset();
+
+    fixture.componentInstance.registerOnChange(fn);
+
+    expect(subSpy.add.calls.count())
+      .withContext('add should be called')
+      .toBe(1);
+
+    expect(valueChangesSpy.calls.count())
+      .withContext('valueChanges should be called')
+      .toBe(1);
   }));
 });
