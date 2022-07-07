@@ -148,4 +148,34 @@ describe('TodoListTaskPeriodComponent', () => {
       .withContext('valueChanges should be called')
       .toBe(1);
   }));
+
+  it('registerOnTouched should subscribe valueChanges',
+     inject(
+      [Subscription, FormGroup],
+      (subSpy: jasmine.SpyObj<Subscription>,
+       formSpy: jasmine.SpyObj<FormGroup>) => {
+    const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
+
+    fixture.detectChanges();
+
+    const fn = () => {};
+
+    const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
+    const valueChangesSpy = formSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
+
+    valueChangesSpy.and.returnValue(of({}));
+
+    subSpy.add.calls.reset();
+    valueChangesSpy.calls.reset();
+
+    fixture.componentInstance.registerOnTouched(fn);
+
+    expect(subSpy.add.calls.count())
+      .withContext('add should be called')
+      .toBe(1);
+
+    expect(valueChangesSpy.calls.count())
+      .withContext('valueChanges should be called')
+      .toBe(1);
+  }));
 });
