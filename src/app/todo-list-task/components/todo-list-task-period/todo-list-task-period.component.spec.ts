@@ -14,7 +14,10 @@ describe('TodoListTaskPeriodComponent', () => {
     const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
     valueChangesSpy.and.returnValue(of({}));
 
-    const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj('FormGroup', [ 'get', 'setValue', ], [ 'value', 'valueChanges', ]);
+    const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj(
+      'FormGroup',
+      [ 'get', 'setValue', 'enable', 'disable', ],
+      [ 'value', 'valueChanges', ]);
     const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
     const valueSpy = formSpyDescs.value.get! as jasmine.Spy<() => any>;
 
@@ -37,7 +40,7 @@ describe('TodoListTaskPeriodComponent', () => {
 
   it('ngOnInit should subscribe validation to full day control',
      inject(
-      [Subscription, AbstractControl],
+      [ Subscription, AbstractControl, ],
       (subSpy    : jasmine.SpyObj<Subscription>,
        controlSpy: jasmine.SpyObj<AbstractControl>) => {
     const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
@@ -57,7 +60,7 @@ describe('TodoListTaskPeriodComponent', () => {
   }));
 
   it('ngOnDestroy should unsubscribe',
-     inject([Subscription], (subSpy: jasmine.SpyObj<Subscription>) => {
+     inject([ Subscription, ], (subSpy: jasmine.SpyObj<Subscription>) => {
     const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
 
     fixture.detectChanges();
@@ -77,7 +80,7 @@ describe('TodoListTaskPeriodComponent', () => {
   }));
 
   it('writeValue should populate form',
-     inject([FormGroup], (formSpy: jasmine.SpyObj<FormGroup>) => {
+     inject([ FormGroup, ], (formSpy: jasmine.SpyObj<FormGroup>) => {
     const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
 
     fixture.detectChanges();
@@ -121,7 +124,7 @@ describe('TodoListTaskPeriodComponent', () => {
 
   it('registerOnChange should populate form',
      inject(
-      [Subscription, FormGroup],
+      [ Subscription, FormGroup, ],
       (subSpy: jasmine.SpyObj<Subscription>,
        formSpy: jasmine.SpyObj<FormGroup>) => {
     const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
@@ -151,7 +154,7 @@ describe('TodoListTaskPeriodComponent', () => {
 
   it('registerOnTouched should subscribe valueChanges',
      inject(
-      [Subscription, FormGroup],
+      [ Subscription, FormGroup, ],
       (subSpy: jasmine.SpyObj<Subscription>,
        formSpy: jasmine.SpyObj<FormGroup>) => {
     const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
@@ -177,5 +180,35 @@ describe('TodoListTaskPeriodComponent', () => {
     expect(valueChangesSpy.calls.count())
       .withContext('valueChanges should be called')
       .toBe(1);
+  }));
+
+  it('setDisabledState should subscribe disabled form',
+     inject( [ FormGroup, ], (formSpy: jasmine.SpyObj<FormGroup>) => {
+    const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
+
+    fixture.detectChanges();
+
+    fixture.componentInstance.setDisabledState(true);
+
+    expect(formSpy.enable.calls.count())
+      .withContext('enable should not be called')
+      .toBe(0);
+
+    expect(formSpy.disable.calls.count())
+      .withContext('disable should be called')
+      .toBe(1);
+
+    formSpy.enable.calls.reset();
+    formSpy.disable.calls.reset();
+
+    fixture.componentInstance.setDisabledState(false);
+
+    expect(formSpy.enable.calls.count())
+      .withContext('enable should be called')
+      .toBe(1);
+
+    expect(formSpy.disable.calls.count())
+      .withContext('disable should not be called')
+      .toBe(0);
   }));
 });
