@@ -93,6 +93,8 @@ export class TodoListTaskPeriodComponent
           subscription.unsubscribe();
         }
       });
+
+      this.subscription.add(subscription);
     }
   }
 
