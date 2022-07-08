@@ -18,6 +18,10 @@ import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view
   ],
   providers: [
     UpdateTodoListTaskViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
 export class UpdateTodoListTaskComponent
@@ -28,16 +32,14 @@ export class UpdateTodoListTaskComponent
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
-  private subscription: Subscription;
-
   public constructor(
     public readonly vm: UpdateTodoListTaskViewModel,
 
-    private readonly route    : ActivatedRoute,
-    private readonly links    : TodoListTaskLinks,
-  ) {
-    this.subscription = new Subscription();
-  }
+    private readonly subscription: Subscription,
+
+    private readonly route: ActivatedRoute,
+    private readonly links: TodoListTaskLinks,
+  ) {}
 
   public get backLink(): any[] {
     return this.links.searchTodoListTasksLink(this.vm.task.todoListId);
