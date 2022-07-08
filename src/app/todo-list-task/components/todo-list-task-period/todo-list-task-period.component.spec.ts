@@ -1,6 +1,6 @@
 import { inject, TestBed,              } from '@angular/core/testing';
 import { AbstractControl, FormBuilder,
-         FormGroup                     } from '@angular/forms';
+         FormGroup, ValidationErrors,  } from '@angular/forms';
 
 import { Observable, of, Subscription, } from 'rxjs';
 
@@ -17,7 +17,7 @@ describe('TodoListTaskPeriodComponent', () => {
     const formSpy : jasmine.SpyObj<FormGroup> = jasmine.createSpyObj(
       'FormGroup',
       [ 'get', 'setValue', 'enable', 'disable', ],
-      [ 'value', 'valueChanges', ]);
+      [ 'value', 'valueChanges', 'controls', ]);
     const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
     const valueSpy = formSpyDescs.value.get! as jasmine.Spy<() => any>;
 
@@ -210,5 +210,50 @@ describe('TodoListTaskPeriodComponent', () => {
     expect(formSpy.disable.calls.count())
       .withContext('disable should not be called')
       .toBe(0);
+  }));
+
+  it('validate should return control validation errors',
+   inject( [ FormGroup, ], (formSpy: jasmine.SpyObj<FormGroup>) => {
+    const errors: ValidationErrors = {
+      'errorKey0': 'error0',
+      'errorKey1': 'error1',
+    };
+
+    const controlSpy: jasmine.SpyObj<AbstractControl> =
+      jasmine.createSpyObj('AbstractControl', [], ['errors']);
+    const controlSpyDescs = Object.getOwnPropertyDescriptors(controlSpy);
+    const errorsSpy = controlSpyDescs.errors.get! as jasmine.Spy<() => null | ValidationErrors>;
+
+    errorsSpy.and.returnValue(errors);
+
+    const formSpyDescs = Object.getOwnPropertyDescriptors(formSpy);
+    const controlsSpy = formSpyDescs.controls.get! as jasmine.Spy<() => { [key: string]: AbstractControl; }>;
+
+    const controlName = 'control0';
+    const controls = { 'control0': controlSpy, };
+
+    controlsSpy.and.returnValue(controls);
+
+    const fixture = TestBed.createComponent(TodoListTaskPeriodComponent);
+
+    fixture.detectChanges();
+
+    const actualErrors = fixture.componentInstance.validate(formSpy);
+
+    expect(controlsSpy.calls.count())
+      .withContext('form.controls should be called')
+      .toBe(Object.keys(controls).length + 1);
+
+    expect(actualErrors)
+      .withContext('validate should return defined control errors')
+      .toBeDefined();
+
+    expect(Object.keys(actualErrors!).length)
+      .withContext('validate should return all control errors')
+      .toEqual(1);
+
+    expect(actualErrors![controlName])
+      .withContext('validate should return corrent control errors')
+      .toEqual(errors);
   }));
 });
