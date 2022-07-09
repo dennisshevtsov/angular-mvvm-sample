@@ -1,16 +1,14 @@
-import { AfterViewInit, Component,
-         OnDestroy, OnInit, ViewChild, } from '@angular/core';
-import { ActivatedRoute, ParamMap,     } from '@angular/router';
+import { AfterViewInit, Component, OnDestroy,
+         OnInit, ViewChild,                   } from '@angular/core';
+import { ActivatedRoute, ParamMap,            } from '@angular/router';
 
-import { mergeMap, Subscription,
-         takeWhile, throwError,        } from 'rxjs';
+import { mergeMap, Subscription, throwError,  } from 'rxjs';
 
 import { RouteCleaner, ToastsComponent,
-         TodoListLinks,
-         TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { TodoListComponent,            } from '../todo-list/todo-list.component';
-import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
+         TodoListLinks, TodoListTaskLinks,
+         TODO_LIST_ROUTE_ID_PARAMETER,        } from 'src/app/core';
+import { TodoListComponent,                   } from '../todo-list/todo-list.component';
+import { UpdateTodoListViewModel,             } from './update-todo-list.view-model';
 
 @Component({
   templateUrl: './update-todo-list.component.html',
@@ -79,11 +77,12 @@ export class UpdateTodoListComponent
                          .subscribe(observer));
 
     this.subscription.add(
-      this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
-                         .subscribe(() => {
-                           this.routeCleaner.clean();
-                           this.added = true;
-                         }));
+      this.route.fragment.subscribe((fragment) => {
+        if (fragment === 'added') {
+          this.routeCleaner.clean();
+          this.added = true;
+        }
+      }));
   }
 
   public ngAfterViewInit(): void {
