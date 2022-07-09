@@ -55,11 +55,12 @@ export class UpdateTodoListTaskComponent
 
   public ngOnInit(): void {
     this.subscription.add(
-      this.route.fragment.pipe(filter(fragment => fragment === 'added'))
-                         .subscribe(() => {
-                           this.routeCleaner.clean();
-                           this.added = true;
-                         }));
+      this.route.fragment.subscribe((fragment) => {
+        if (fragment === 'added') {
+          this.routeCleaner.clean();
+          this.added = true;
+        }
+      }));
     this.subscription.add(
       this.route.paramMap.subscribe(params => {
         const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
