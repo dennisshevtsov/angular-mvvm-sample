@@ -2,9 +2,9 @@ import { AfterViewInit, Component,
          OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { ActivatedRoute,               } from '@angular/router';
 
-import { Subscription, takeWhile, } from 'rxjs';
+import { filter, Subscription, takeWhile, } from 'rxjs';
 
-import { ToastsComponent,
+import { RouteCleaner, ToastsComponent,
          TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
@@ -32,13 +32,16 @@ export class UpdateTodoListTaskComponent
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
+  private added: undefined | boolean;
+
   public constructor(
     public readonly vm: UpdateTodoListTaskViewModel,
 
     private readonly subscription: Subscription,
 
-    private readonly route: ActivatedRoute,
-    private readonly links: TodoListTaskLinks,
+    private readonly route       : ActivatedRoute,
+    private readonly routeCleaner: RouteCleaner,
+    private readonly links       : TodoListTaskLinks,
   ) {}
 
   public get backLink(): any[] {
@@ -51,6 +54,12 @@ export class UpdateTodoListTaskComponent
   }
 
   public ngOnInit(): void {
+    this.subscription.add(
+      this.route.fragment.pipe(filter(fragment => fragment === 'added'))
+                         .subscribe(() => {
+                           this.routeCleaner.clean();
+                           this.added = true;
+                         }));
     this.subscription.add(
       this.route.paramMap.subscribe(params => {
         const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
@@ -72,9 +81,9 @@ export class UpdateTodoListTaskComponent
   }
 
   public ngAfterViewInit(): void {
-    this.subscription.add(
-      this.route.fragment.pipe(takeWhile(fragment => fragment === 'added'))
-                         .subscribe(() => this.toasts.info('The TODO list task is added.')));
+    if (this.added) {
+      this.toasts.info('The TODO list task is added.');
+    }
   }
 
   public ngOnDestroy(): void {
