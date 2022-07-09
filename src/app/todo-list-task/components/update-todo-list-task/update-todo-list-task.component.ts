@@ -2,7 +2,7 @@ import { AfterViewInit, Component,
          OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { ActivatedRoute,               } from '@angular/router';
 
-import { filter, Subscription, takeWhile, } from 'rxjs';
+import { Subscription, } from 'rxjs';
 
 import { RouteCleaner, ToastsComponent,
          TodoListTaskLinks,
