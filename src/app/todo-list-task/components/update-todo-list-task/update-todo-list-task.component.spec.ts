@@ -238,5 +238,40 @@ describe('UpdateTodoListTaskComponent', () => {
     expect(errorSpy.calls.count())
       .withContext('error should not be called')
       .toBe(0);
+
+    validateFormSpy.calls.reset();
+    formSpy.calls.reset();
+
+    formSpy.and.returnValue({
+      valid: true,
+    });
+
+    vmSpy.update.and.returnValue(of(void 0));
+
+    fixture.componentInstance.onOkPressed();
+
+    expect(validateFormSpy.calls.count())
+      .withContext('validateForm should be called')
+      .toBe(1);
+
+    expect(formSpy.calls.count())
+      .withContext('form should be called')
+      .toBe(1);
+
+    expect(subSpy.add.calls.count())
+      .withContext('subscritpion.add should be called')
+      .toBe(1);
+
+    expect(vmSpy.update.calls.count())
+      .withContext('vm.update should be called')
+      .toBe(1);
+
+    expect(infoSpy.calls.count())
+      .withContext('info should be called')
+      .toBe(1);
+
+    expect(errorSpy.calls.count())
+      .withContext('error should not be called')
+      .toBe(0);
   })));
 });
