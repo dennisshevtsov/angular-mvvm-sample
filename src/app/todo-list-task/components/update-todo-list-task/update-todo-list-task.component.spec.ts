@@ -3,7 +3,7 @@ import { fakeAsync, inject, TestBed, tick,  } from '@angular/core/testing';
 import { By,                                } from '@angular/platform-browser';
 import { ActivatedRoute, ParamMap,          } from '@angular/router';
 
-import { of, Subscription,                  } from 'rxjs';
+import { of, Subscription, throwError,      } from 'rxjs';
 
 import { PageComponent, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
@@ -273,5 +273,39 @@ describe('UpdateTodoListTaskComponent', () => {
     expect(errorSpy.calls.count())
       .withContext('error should not be called')
       .toBe(0);
+
+    validateFormSpy.calls.reset();
+    formSpy.calls.reset();
+    subSpy.add.calls.reset();
+    vmSpy.update.calls.reset();
+    infoSpy.calls.reset();
+
+    vmSpy.update.and.returnValue(throwError(() => 'error'));
+
+    fixture.componentInstance.onOkPressed();
+
+    expect(validateFormSpy.calls.count())
+      .withContext('validateForm should be called')
+      .toBe(1);
+
+    expect(formSpy.calls.count())
+      .withContext('form should be called')
+      .toBe(1);
+
+    expect(subSpy.add.calls.count())
+      .withContext('subscritpion.add should be called')
+      .toBe(1);
+
+    expect(vmSpy.update.calls.count())
+      .withContext('vm.update should be called')
+      .toBe(1);
+
+    expect(infoSpy.calls.count())
+      .withContext('info should not be called')
+      .toBe(0);
+
+    expect(errorSpy.calls.count())
+      .withContext('error should be called')
+      .toBe(1);
   })));
 });
