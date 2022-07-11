@@ -1,7 +1,7 @@
-import { inject, TestBed,              } from '@angular/core/testing';
-import { Formatter,            } from 'src/app/core';
-import { TodoListTaskDateDto } from '../api';
+import { inject, TestBed,      } from '@angular/core/testing';
 
+import { Formatter,            } from 'src/app/core';
+import { TodoListTaskDateDto,  } from 'src/app/todo-list-task/api';
 import { TodoListTaskTimePipe, } from './todo-list-task-time.pipe';
 
 describe('TodoListTaskTimePipe', () => {
