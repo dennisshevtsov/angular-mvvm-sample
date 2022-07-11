@@ -97,5 +97,13 @@ describe('timePeriodValidator', () => {
     expect(timePeriodPristinePropSpy.calls.count())
       .withContext('timePeriod.pristine should be called')
       .toBe(1);
+
+    expect(timePeriodTouchedPropSpy.calls.count())
+      .withContext('timePeriod.touched should be called')
+      .toBe(1);
+
+    expect(timePeriodDirtyPropSpy.calls.count())
+      .withContext('timePeriod.dirty should be called')
+      .toBe(1);
   });
 });
