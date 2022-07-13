@@ -73,5 +73,18 @@ describe('DateComponent', () => {
       expect(formatterSpy.fromLocalDate.calls.count())
         .withContext('fromLocalDate should not be called')
         .toBe(0);
+
+      fixture.componentInstance.setDisabledState(false);
+      fixture.detectChanges();
+
+      fixture.componentInstance.value = formattedDate;
+
+      expect(formatterSpy.fromLocalDate.calls.count())
+        .withContext('fromLocalDate should be called')
+        .toBe(1);
+
+      expect(formatterSpy.fromLocalDate.calls.first().args[0])
+        .withContext('fromLocalDate should take correct param')
+        .toBe(formattedDate);
   }));
 });
