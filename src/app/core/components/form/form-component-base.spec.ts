@@ -44,7 +44,25 @@ describe('FormComponentBase', () => {
     component.validateForm();
 
     expect(component.controlsPropSpy.calls.count())
-      .withContext('controls prop should be called')
+      .withContext('form.controls should be called')
+      .toBe(1);
+
+    expect(component.formSpy.get.calls.count())
+      .withContext('form.get should be called')
+      .toBe(1);
+
+    expect(component.controlSpy.markAsTouched.calls.count())
+      .withContext('control.markAsTouched should be called')
+      .toBe(1);
+
+    expect(component.controlSpy.markAsTouched.calls.first().args[0])
+      .withContext('control.markAsTouched should be called with correct param')
+      .toEqual({
+        onlySelf: true,
+      });
+
+    expect(component.controlSpy.updateValueAndValidity.calls.count())
+      .withContext('control.updateValueAndValidity should be called')
       .toBe(1);
   });
 });
