@@ -24,7 +24,10 @@ class TestFormComponent extends FormComponentBase {
 
     const formSpyDescs = Object.getOwnPropertyDescriptors(this.formSpy);
 
-    this.controlSpyValue = jasmine.createSpyObj(AbstractControl, ['markAsTouched', 'updateValueAndValidity']);
+    this.controlSpyValue = jasmine.createSpyObj(
+      'AbstractControl',
+      ['markAsTouched', 'updateValueAndValidity'],
+      ['pristine', 'touched', 'dirty']);
 
     this.formSpy.get.and.returnValue(this.controlSpy);
 
@@ -65,4 +68,39 @@ describe('FormComponentBase', () => {
       .withContext('control.updateValueAndValidity should be called')
       .toBe(1);
   });
+
+  it('isValid return valid state of control', () => {
+    const component = new TestFormComponent();
+    component.form;
+
+    const controlSpyDescs = Object.getOwnPropertyDescriptors(component.controlSpy);
+
+    const pristinePropSpy = controlSpyDescs.pristine.get as jasmine.Spy<() => boolean>;
+    const touchedPropSpy = controlSpyDescs.touched.get as jasmine.Spy<() => boolean>;
+    const dirtyPropSpy = controlSpyDescs.dirty.get as jasmine.Spy<() => boolean>;
+
+    pristinePropSpy.and.returnValue(true);
+    touchedPropSpy.and.returnValue(false);
+    dirtyPropSpy.and.returnValue(false);
+
+    expect(component.isValid('test'))
+      .withContext('control with pristin value should be valid')
+      .toBe(true);
+
+    expect(pristinePropSpy.calls.count())
+      .withContext('control.pristin should be called')
+      .toBe(1);
+
+    expect(touchedPropSpy.calls.count())
+      .withContext('control.touched should be called')
+      .toBe(1);
+
+    expect(dirtyPropSpy.calls.count())
+      .withContext('control.dirty should be called')
+      .toBe(1);
+
+    pristinePropSpy.calls.reset();
+    touchedPropSpy.calls.reset();
+    dirtyPropSpy.calls.reset();
+  })
 });
