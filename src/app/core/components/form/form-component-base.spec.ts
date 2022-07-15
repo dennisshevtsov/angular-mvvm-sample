@@ -27,7 +27,7 @@ class TestFormComponent extends FormComponentBase {
     this.controlSpyValue = jasmine.createSpyObj(
       'AbstractControl',
       ['markAsTouched', 'updateValueAndValidity'],
-      ['pristine', 'touched', 'dirty']);
+      ['pristine', 'touched', 'dirty', 'valid']);
 
     this.formSpy.get.and.returnValue(this.controlSpy);
 
@@ -78,10 +78,12 @@ describe('FormComponentBase', () => {
     const pristinePropSpy = controlSpyDescs.pristine.get as jasmine.Spy<() => boolean>;
     const touchedPropSpy = controlSpyDescs.touched.get as jasmine.Spy<() => boolean>;
     const dirtyPropSpy = controlSpyDescs.dirty.get as jasmine.Spy<() => boolean>;
+    const validPropSpy = controlSpyDescs.valid.get as jasmine.Spy<() => boolean>;
 
     pristinePropSpy.and.returnValue(true);
     touchedPropSpy.and.returnValue(false);
     dirtyPropSpy.and.returnValue(false);
+    validPropSpy.and.returnValue(false);
 
     expect(component.isValid('test'))
       .withContext('control with pristin value should be valid')
@@ -97,6 +99,40 @@ describe('FormComponentBase', () => {
 
     expect(dirtyPropSpy.calls.count())
       .withContext('control.dirty should be called')
+      .toBe(1);
+
+    expect(validPropSpy.calls.count())
+      .withContext('control.valid should not be called')
+      .toBe(0);
+
+    pristinePropSpy.calls.reset();
+    touchedPropSpy.calls.reset();
+    dirtyPropSpy.calls.reset();
+    validPropSpy.calls.reset();
+
+    pristinePropSpy.and.returnValue(true);
+    touchedPropSpy.and.returnValue(true);
+    dirtyPropSpy.and.returnValue(false);
+    validPropSpy.and.returnValue(false);
+
+    expect(component.isValid('test'))
+      .withContext('control with pristin and touched value should be invalid')
+      .toBe(false);
+
+    expect(pristinePropSpy.calls.count())
+      .withContext('control.pristin should be called')
+      .toBe(1);
+
+    expect(touchedPropSpy.calls.count())
+      .withContext('control.touched should be called')
+      .toBe(1);
+
+    expect(dirtyPropSpy.calls.count())
+      .withContext('control.dirty should not be called')
+      .toBe(0);
+
+    expect(validPropSpy.calls.count())
+      .withContext('control.valid should be called')
       .toBe(1);
 
     pristinePropSpy.calls.reset();
