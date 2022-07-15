@@ -138,5 +138,36 @@ describe('FormComponentBase', () => {
     pristinePropSpy.calls.reset();
     touchedPropSpy.calls.reset();
     dirtyPropSpy.calls.reset();
+    validPropSpy.calls.reset();
+
+    pristinePropSpy.and.returnValue(true);
+    touchedPropSpy.and.returnValue(false);
+    dirtyPropSpy.and.returnValue(true);
+    validPropSpy.and.returnValue(false);
+
+    expect(component.isValid('test'))
+      .withContext('control with pristin and dirty value should be invalid')
+      .toBe(false);
+
+    expect(pristinePropSpy.calls.count())
+      .withContext('control.pristin should be called')
+      .toBe(1);
+
+    expect(touchedPropSpy.calls.count())
+      .withContext('control.touched should be called')
+      .toBe(1);
+
+    expect(dirtyPropSpy.calls.count())
+      .withContext('control.dirty should be called')
+      .toBe(1);
+
+    expect(validPropSpy.calls.count())
+      .withContext('control.valid should be called')
+      .toBe(1);
+
+    pristinePropSpy.calls.reset();
+    touchedPropSpy.calls.reset();
+    dirtyPropSpy.calls.reset();
+    validPropSpy.calls.reset();
   })
 });
