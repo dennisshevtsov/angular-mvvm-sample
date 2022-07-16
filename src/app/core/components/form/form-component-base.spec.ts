@@ -215,5 +215,21 @@ describe('FormComponentBase', () => {
     expect(component.hasErrors('test'))
       .withContext('control with pristin value should not have errors')
       .toBe(false);
+
+    expect(pristinePropSpy.calls.count())
+      .withContext('control.pristin should not be called')
+      .toBe(1);
+
+    expect(touchedPropSpy.calls.count())
+      .withContext('control.touched should be called')
+      .toBe(1);
+
+    expect(dirtyPropSpy.calls.count())
+      .withContext('control.dirty should be called')
+      .toBe(1);
+
+    expect(errorsPropSpy.calls.count())
+      .withContext('control.erorrs should note be called')
+      .toBe(0);
   });
 });
