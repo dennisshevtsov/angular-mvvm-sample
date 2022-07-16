@@ -261,5 +261,35 @@ describe('FormComponentBase', () => {
     expect(errorsPropSpy.calls.count())
       .withContext('control.erorrs should note be called')
       .toBe(1);
+
+    pristinePropSpy.calls.reset();
+    touchedPropSpy.calls.reset();
+    dirtyPropSpy.calls.reset();
+    errorsPropSpy.calls.reset();
+
+    pristinePropSpy.and.returnValue(false);
+    touchedPropSpy.and.returnValue(false);
+    dirtyPropSpy.and.returnValue(false);
+    errorsPropSpy.and.returnValue(null);
+
+    expect(component.hasErrors('test'))
+      .withContext('control with unpristin value should check errors')
+      .toBe(false);
+
+    expect(pristinePropSpy.calls.count())
+      .withContext('control.pristin should not be called')
+      .toBe(1);
+
+    expect(touchedPropSpy.calls.count())
+      .withContext('control.touched should be called')
+      .toBe(0);
+
+    expect(dirtyPropSpy.calls.count())
+      .withContext('control.dirty should be called')
+      .toBe(0);
+
+    expect(errorsPropSpy.calls.count())
+      .withContext('control.erorrs should note be called')
+      .toBe(1);
   });
 });
