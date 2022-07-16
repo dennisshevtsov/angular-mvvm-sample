@@ -1,4 +1,4 @@
-import { AbstractControl, FormGroup, } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, } from '@angular/forms';
 
 import { FormComponentBase,          } from './form-component-base';
 
@@ -27,7 +27,7 @@ class TestFormComponent extends FormComponentBase {
     this.controlSpyValue = jasmine.createSpyObj(
       'AbstractControl',
       ['markAsTouched', 'updateValueAndValidity'],
-      ['pristine', 'touched', 'dirty', 'valid']);
+      ['pristine', 'touched', 'dirty', 'valid', 'errors']);
 
     this.formSpy.get.and.returnValue(this.controlSpy);
 
@@ -194,5 +194,26 @@ describe('FormComponentBase', () => {
     expect(validPropSpy.calls.count())
       .withContext('control.valid should be called')
       .toBe(1);
-  })
+  });
+
+  it('hasErrors return valid state of control', () => {
+    const component = new TestFormComponent();
+    component.form;
+
+    const controlSpyDescs = Object.getOwnPropertyDescriptors(component.controlSpy);
+
+    const pristinePropSpy = controlSpyDescs.pristine.get as jasmine.Spy<() => boolean>;
+    const touchedPropSpy = controlSpyDescs.touched.get as jasmine.Spy<() => boolean>;
+    const dirtyPropSpy = controlSpyDescs.dirty.get as jasmine.Spy<() => boolean>;
+    const errorsPropSpy = controlSpyDescs.errors.get as jasmine.Spy<() => ValidationErrors | null>;
+
+    pristinePropSpy.and.returnValue(true);
+    touchedPropSpy.and.returnValue(false);
+    dirtyPropSpy.and.returnValue(false);
+    errorsPropSpy.and.returnValue({'test': true});
+
+    expect(component.hasErrors('test'))
+      .withContext('control with pristin value should not have errors')
+      .toBe(false);
+  });
 });
