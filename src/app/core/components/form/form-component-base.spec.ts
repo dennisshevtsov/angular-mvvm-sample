@@ -26,7 +26,7 @@ class TestFormComponent extends FormComponentBase {
 
     this.controlSpyValue = jasmine.createSpyObj(
       'AbstractControl',
-      ['markAsTouched', 'updateValueAndValidity'],
+      ['markAsTouched', 'updateValueAndValidity', 'hasError'],
       ['pristine', 'touched', 'dirty', 'valid', 'errors']);
 
     this.formSpy.get.and.returnValue(this.controlSpy);
@@ -291,5 +291,23 @@ describe('FormComponentBase', () => {
     expect(errorsPropSpy.calls.count())
       .withContext('control.erorrs should note be called')
       .toBe(1);
+  });
+
+  it('hasError return valid state of control', () => {
+    const component = new TestFormComponent();
+    component.form;
+
+    component.controlSpy.hasError.and.returnValue(true);
+
+    expect(component.hasError('test', 'test'))
+      .withContext('hasError should return true')
+      .toBe(true);
+
+
+    component.controlSpy.hasError.and.returnValue(fail);
+
+    expect(component.hasError('test', 'test'))
+      .withContext('hasError should return false')
+      .toBe(false);
   });
 });
