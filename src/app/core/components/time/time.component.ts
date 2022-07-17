@@ -69,14 +69,8 @@ export class TimeComponent implements ControlValueAccessor {
   }
 
   public set day(day: string) {
-    if (!this.disabled) {
-      let value = this.dateTimeValue.value;
-
-      value %= HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
-
-      if (day) {
-        value += this.formatter.fromLocalDate(day);
-      }
+    if (!this.disabled && day) {
+      let value = this.formatter.fromLocalDate(day);
 
       this.dateTimeValue.day = value;
 

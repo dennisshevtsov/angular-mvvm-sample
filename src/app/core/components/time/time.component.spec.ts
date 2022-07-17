@@ -18,7 +18,7 @@ describe('TimeComponent', () => {
     })
   });
 
-  it('', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
+  it('day should returns days in datetime value', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
     const component = TestBed.createComponent(TimeComponent);
 
     const days = 3;
@@ -36,5 +36,53 @@ describe('TimeComponent', () => {
     expect(formatterSpy.toLocalDate.calls.count())
       .withContext('toLocalDate should be called')
       .toBeGreaterThan(1);
+  }));
+
+  it('day should set days in datetime value', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
+    const component = TestBed.createComponent(TimeComponent);
+
+    formatterSpy.fromLocalDate.and.returnValue(0);
+
+    const onChangeSpy = jasmine.createSpy('onChange', () => {});
+    component.componentInstance.registerOnChange(onChangeSpy);
+
+    const onTouchedSpy = jasmine.createSpy('onTouched', () => {});
+    component.componentInstance.registerOnTouched(onTouchedSpy);
+
+    const days = 3;
+    const dateTimeValue = days * 24 * 60 * 60 * 1000;
+
+    component.componentInstance.writeValue(dateTimeValue);
+    component.detectChanges();
+
+    component.componentInstance.setDisabledState(true);
+    component.componentInstance.day = days.toString();
+
+    expect(formatterSpy.fromLocalDate.calls.count())
+      .withContext('fromLocalDate should not be called')
+      .toBe(0);
+
+    expect(onChangeSpy.calls.count())
+      .withContext('onChange should not be called')
+      .toBe(0);
+
+    expect(onTouchedSpy.calls.count())
+      .withContext('onTouched should not be called')
+      .toBe(0);
+
+    component.componentInstance.setDisabledState(false);
+    component.componentInstance.day = days.toString();
+
+    expect(formatterSpy.fromLocalDate.calls.count())
+      .withContext('fromLocalDate should be called')
+      .toBe(1);
+
+    expect(onChangeSpy.calls.count())
+      .withContext('onChange should be called')
+      .toBe(1);
+
+    expect(onTouchedSpy.calls.count())
+      .withContext('onTouched should be called')
+      .toBe(1);
   }));
 });
