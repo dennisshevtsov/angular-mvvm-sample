@@ -303,8 +303,7 @@ describe('FormComponentBase', () => {
       .withContext('hasError should return true')
       .toBe(true);
 
-
-    component.controlSpy.hasError.and.returnValue(fail);
+    component.controlSpy.hasError.and.returnValue(false);
 
     expect(component.hasError('test', 'test'))
       .withContext('hasError should return false')
