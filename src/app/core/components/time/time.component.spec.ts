@@ -85,4 +85,29 @@ describe('TimeComponent', () => {
       .withContext('onTouched should be called')
       .toBe(1);
   }));
+
+  it('hours should return hours', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
+    const component = TestBed.createComponent(TimeComponent);
+
+    const hours = 5;
+    formatterSpy.toLocalHours.and.returnValue(hours);
+
+    const dateTimeValue = 1000;
+    component.componentInstance.writeValue(dateTimeValue);
+    component.detectChanges();
+
+    formatterSpy.toLocalHours.calls.reset();
+
+    expect(component.componentInstance.hours)
+      .withContext('hours should return correct value')
+      .toBe(hours);
+
+    expect(formatterSpy.toLocalHours.calls.count())
+      .withContext('toLocalHours should not be called')
+      .toBe(1);
+
+    expect(formatterSpy.toLocalHours.calls.first().args[0])
+      .withContext('toLocalHours should take datetime value')
+      .toBe(dateTimeValue);
+  }));
 });
