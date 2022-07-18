@@ -110,4 +110,29 @@ describe('TimeComponent', () => {
       .withContext('toLocalHours should take datetime value')
       .toBe(dateTimeValue);
   }));
+
+  it('minutes should return minutes', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
+    const component = TestBed.createComponent(TimeComponent);
+
+    const minutes = 5;
+    formatterSpy.toLocalMinutes.and.returnValue(minutes);
+
+    const dateTimeValue = 1000;
+    component.componentInstance.writeValue(dateTimeValue);
+    component.detectChanges();
+
+    formatterSpy.toLocalMinutes.calls.reset();
+
+    expect(component.componentInstance.minutes)
+      .withContext('hours should return correct value')
+      .toBe(minutes);
+
+    expect(formatterSpy.toLocalMinutes.calls.count())
+      .withContext('toLocalMinutes should not be called')
+      .toBe(1);
+
+    expect(formatterSpy.toLocalMinutes.calls.first().args[0])
+      .withContext('toLocalMinutes should take datetime value')
+      .toBe(dateTimeValue);
+  }));
 });
