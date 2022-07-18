@@ -135,4 +135,56 @@ describe('TimeComponent', () => {
       .withContext('toLocalMinutes should take datetime value')
       .toBe(dateTimeValue);
   }));
+
+  it('increaseHours should add 1 hour to datetime value', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
+    const component = TestBed.createComponent(TimeComponent);
+
+    const onChangeSpy = jasmine.createSpy('onChange', () => {});
+    component.componentInstance.registerOnChange(onChangeSpy);
+
+    const onTouchedSpy = jasmine.createSpy('onTouched', () => {});
+    component.componentInstance.registerOnTouched(onTouchedSpy);
+
+    const hours = 7;
+    const dateTimeValue = hours * 60 * 60 * 1000;
+
+    component.componentInstance.writeValue(dateTimeValue);
+    component.detectChanges();
+
+    component.componentInstance.setDisabledState(true);
+    component.componentInstance.increaseHours();
+
+    formatterSpy.toLocalHours.calls.reset();
+    component.componentInstance.hours;
+
+    expect(formatterSpy.toLocalHours.calls.first().args[0])
+      .withContext('toLocalHours should take datetime value')
+      .toBe(dateTimeValue);
+
+    expect(onChangeSpy.calls.count())
+      .withContext('onChange should not be called')
+      .toBe(0);
+
+    expect(onTouchedSpy.calls.count())
+      .withContext('onTouched should not be called')
+      .toBe(0);
+
+    component.componentInstance.setDisabledState(false);
+    component.componentInstance.increaseHours();
+
+    formatterSpy.toLocalHours.calls.reset();
+    component.componentInstance.hours;
+
+    expect(formatterSpy.toLocalHours.calls.first().args[0])
+      .withContext('hours should be added 1 hour to')
+      .toBe((hours + 1) * 60 * 60 * 1000);
+
+    expect(onChangeSpy.calls.count())
+      .withContext('onChange should be called')
+      .toBe(1);
+
+    expect(onTouchedSpy.calls.count())
+      .withContext('onTouched should be called')
+      .toBe(1);
+  }));
 });
