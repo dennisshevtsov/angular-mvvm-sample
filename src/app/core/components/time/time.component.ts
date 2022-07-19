@@ -144,7 +144,7 @@ export class TimeComponent implements ControlValueAccessor {
     this.disabledValue = disabled;
   }
 
-  public setTouchedState(): void {
+  private setTouchedState(): void {
     if (!this.touchedValue) {
       this.touchedValue = true;
       this.onTouched();
