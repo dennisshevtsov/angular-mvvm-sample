@@ -176,7 +176,7 @@ describe('TimeComponent', () => {
     component.componentInstance.hours;
 
     expect(formatterSpy.toLocalHours.calls.first().args[0])
-      .withContext('1 hour should be added from datetime value')
+      .withContext('1 hour should be added to datetime value')
       .toBe((hours + 1) * 60 * 60 * 1000);
 
     expect(onChangeSpy.calls.count())
@@ -230,6 +230,60 @@ describe('TimeComponent', () => {
     expect(formatterSpy.toLocalHours.calls.first().args[0])
       .withContext('1 hour should be removed from datetime value')
       .toBe((hours - 1) * 60 * 60 * 1000);
+
+    expect(onChangeSpy.calls.count())
+      .withContext('onChange should be called')
+      .toBe(1);
+
+    expect(onTouchedSpy.calls.count())
+      .withContext('onTouched should be called')
+      .toBe(1);
+  }));
+
+  it('increaseMinutes should add step minutes to datetime value', inject([Formatter], (formatterSpy: jasmine.SpyObj<Formatter>) => {
+    const component = TestBed.createComponent(TimeComponent);
+
+    const onChangeSpy = jasmine.createSpy('onChange', () => {});
+    component.componentInstance.registerOnChange(onChangeSpy);
+
+    const onTouchedSpy = jasmine.createSpy('onTouched', () => {});
+    component.componentInstance.registerOnTouched(onTouchedSpy);
+
+    const menutesStep = 10;
+    const minutes = 23;
+    const dateTimeValue = minutes * 60 * 1000;
+
+    component.componentInstance.menutesStep = menutesStep;
+    component.componentInstance.writeValue(dateTimeValue);
+    component.detectChanges();
+
+    component.componentInstance.setDisabledState(true);
+    component.componentInstance.increaseMinutes();
+
+    formatterSpy.toLocalMinutes.calls.reset();
+    component.componentInstance.minutes;
+
+    expect(formatterSpy.toLocalMinutes.calls.first().args[0])
+      .withContext('datetime value should be kept')
+      .toBe(dateTimeValue);
+
+    expect(onChangeSpy.calls.count())
+      .withContext('onChange should not be called')
+      .toBe(0);
+
+    expect(onTouchedSpy.calls.count())
+      .withContext('onTouched should not be called')
+      .toBe(0);
+
+    component.componentInstance.setDisabledState(false);
+    component.componentInstance.increaseMinutes();
+
+    formatterSpy.toLocalMinutes.calls.reset();
+    component.componentInstance.minutes;
+
+    expect(formatterSpy.toLocalMinutes.calls.first().args[0])
+      .withContext('step minutes should be added to datetime value')
+      .toBe((minutes + menutesStep) * 60 * 1000);
 
     expect(onChangeSpy.calls.count())
       .withContext('onChange should be called')
