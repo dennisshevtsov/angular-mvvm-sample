@@ -1,4 +1,5 @@
 import { inject, TestBed, } from '@angular/core/testing';
+import { Subscription } from 'rxjs';
 
 import { ToastComponent,  } from './toast.component';
 
@@ -25,9 +26,16 @@ describe('ToastComponent', () => {
         {
           provide : TOAST_INST_TOKEN,
           useValue: toastInstanceSpy,
-        }
+        },
       ],
     });
+
+    TestBed.overrideProvider(
+      Subscription,
+      {
+        useValue: jasmine.createSpyObj(
+          Subscription, ['add', 'unsubscribe']),
+      });
   });
 
   it('ngAfterViewInit should initialize toast', inject(
@@ -56,6 +64,28 @@ describe('ToastComponent', () => {
 
       expect(toastInstanceSpy.show.calls.count())
         .withContext('show should be created')
+        .toBe(1);
+  }));
+
+  it('ngOnDestroy should dispose resources', inject(
+    [
+      Subscription,
+      TOAST_INST_TOKEN,
+    ],
+    (
+      subscriptionSpy: jasmine.SpyObj<Subscription>,
+      toastInstanceSpy: jasmine.SpyObj<any>,
+    ) => {
+      const component = TestBed.createComponent(ToastComponent);
+      component.detectChanges();
+      component.componentInstance.ngOnDestroy();
+
+      expect(subscriptionSpy.unsubscribe.calls.count())
+      .withContext('unsubscribe should be called')
+      .toBe(1);
+
+      expect(toastInstanceSpy.dispose.calls.count())
+        .withContext('dispose should be created')
         .toBe(1);
   }));
 });
