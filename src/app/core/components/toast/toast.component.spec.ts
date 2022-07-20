@@ -94,4 +94,39 @@ describe('ToastComponent', () => {
         .withContext('dispose should be created')
         .toBe(1);
   }));
+
+  it('message should contain info/error', inject([TOAST_INST_TOKEN], (toastInstanceSpy: jasmine.SpyObj<any>) => {
+    const component = TestBed.createComponent(ToastComponent);
+    component.detectChanges();
+
+    const infoMessage = 'info test test test';
+    component.componentInstance.info(infoMessage);
+
+    expect(component.componentInstance.isInfo)
+      .withContext('component should contain info')
+      .toBeTrue();
+
+    expect(component.componentInstance.isError)
+      .withContext('component should not contain error')
+      .toBeFalse();
+
+    expect(component.componentInstance.message)
+      .withContext('component should contain info message')
+      .toBe(infoMessage);
+
+    const errorMessage = 'error test test test';
+    component.componentInstance.error(errorMessage);
+
+    expect(component.componentInstance.isInfo)
+      .withContext('component should not contain info')
+      .toBeFalse();
+
+    expect(component.componentInstance.isError)
+      .withContext('component should contain error')
+      .toBeTrue();
+
+    expect(component.componentInstance.message)
+      .withContext('component should contain error message')
+      .toBe(errorMessage);
+  }));
 });
