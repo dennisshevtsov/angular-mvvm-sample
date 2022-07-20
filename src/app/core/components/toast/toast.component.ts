@@ -19,12 +19,16 @@ const TOAST_OPTIONS = {
   styleUrls: [
     './toast.component.scss',
   ],
+  providers: [
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
+  ],
 })
 export class ToastComponent implements AfterViewInit, OnDestroy {
   @Output()
   public readonly hidden: EventEmitter<void>;
-
-  private subscription: undefined | Subscription;
 
   private isErrorValue: undefined | boolean;
   private messageValue: undefined | string;
@@ -33,7 +37,7 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
   private toastElement!: ElementRef<HTMLDivElement>;
   private toast        : any;
 
-  public constructor() {
+  public constructor(private readonly subscription: Subscription) {
     this.hidden = new EventEmitter<void>();
   }
 
@@ -55,15 +59,16 @@ export class ToastComponent implements AfterViewInit, OnDestroy {
     this.toast = bootstrap.Toast.getOrCreateInstance(
       element, TOAST_OPTIONS);
 
-    this.subscription = fromEvent(element, 'hidden.bs.toast').subscribe(
-      () => this.hidden.emit());
+    this.subscription.add(
+      fromEvent(element, 'hidden.bs.toast').subscribe(
+        () => this.hidden.emit()));
 
     this.toast.show();
   }
 
   public ngOnDestroy(): void {
     this.toast.dispose();
-    this.subscription?.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   public info(message: string): void {
