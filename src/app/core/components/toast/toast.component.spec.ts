@@ -40,10 +40,12 @@ describe('ToastComponent', () => {
 
   it('ngAfterViewInit should initialize toast', inject(
     [
+      Subscription,
       TOAST_TOKEN,
       TOAST_INST_TOKEN,
     ],
     (
+      subscriptionSpy: jasmine.SpyObj<Subscription>,
       toastSpy: jasmine.SpyObj<any>,
       toastInstanceSpy: jasmine.SpyObj<any>,
     ) => {
@@ -64,6 +66,10 @@ describe('ToastComponent', () => {
 
       expect(toastInstanceSpy.show.calls.count())
         .withContext('show should be created')
+        .toBe(1);
+
+      expect(subscriptionSpy.add.calls.count())
+        .withContext('subscription add should be called')
         .toBe(1);
   }));
 
