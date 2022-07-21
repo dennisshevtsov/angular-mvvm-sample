@@ -1,8 +1,10 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { ViewContainerRef, } from '@angular/core';
+import { inject, TestBed,  } from '@angular/core/testing';
+import { By,               } from '@angular/platform-browser';
 
-import { Subscription,    } from 'rxjs';
+import { Subscription,     } from 'rxjs';
 
-import { ToastsComponent, } from './toasts.component';
+import { ToastsComponent,  } from './toasts.component';
 
 describe('ToastsComponent', () => {
   beforeEach(() => {
@@ -19,10 +21,17 @@ describe('ToastsComponent', () => {
     const component = TestBed.createComponent(ToastsComponent);
     component.detectChanges();
 
+    const container = (component.componentInstance as any).viewContainerRef;
+    const clearSpy = spyOn(container, 'clear');
+
     component.componentInstance.ngOnDestroy();
 
     expect(subscription.unsubscribe.calls.count())
-      .withContext('subscription.unsubsribe should be called')
+      .withContext('subscription.unsubscribe should be called')
+      .toBe(1);
+
+    expect(clearSpy.calls.count())
+      .withContext('container.clear should be called')
       .toBe(1);
   }));
 });
