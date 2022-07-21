@@ -14,10 +14,15 @@ import { ToastComponent, } from '../toast/toast.component';
     './toasts.component.scss',
   ],
   encapsulation: ViewEncapsulation.None,
+  providers: [
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
+  ],
 })
 export class ToastsComponent implements OnDestroy {
-  private readonly subscription: Subscription;
-  private readonly components  : ComponentRef<ToastComponent>[];
+  private readonly components: ComponentRef<ToastComponent>[];
 
   @ViewChild(
     'container',
@@ -27,8 +32,9 @@ export class ToastsComponent implements OnDestroy {
   )
   private viewContainerRef!: ViewContainerRef;
 
-  public constructor() {
-    this.subscription = new Subscription();
+  public constructor(
+    private readonly subscription: Subscription
+  ) {
     this.components = [];
   }
 
