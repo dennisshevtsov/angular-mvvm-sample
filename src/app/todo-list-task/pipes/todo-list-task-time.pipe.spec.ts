@@ -11,7 +11,7 @@ describe('TodoListTaskTimePipe', () => {
         TodoListTaskTimePipe,
         {
           provide: Formatter,
-          useValue: jasmine.createSpyObj(Formatter, ['toLocalDate', 'toLocalTime']),
+          useValue: jasmine.createSpyObj(Formatter, ['toLocalDate', 'toLocalDateTime']),
         },
       ],
     });
@@ -55,33 +55,31 @@ describe('TodoListTaskTimePipe', () => {
       formatterSpy: jasmine.SpyObj<Formatter>,
       pipe        : TodoListTaskTimePipe,
     ) => {
-      const date = 'day';
-      const time = 'time';
+      const time = 'datetime';
 
-      formatterSpy.toLocalDate.and.returnValue(date);
-      formatterSpy.toLocalTime.and.returnValue(time);
+      formatterSpy.toLocalDateTime.and.returnValue(time);
 
       const unformatted = new TodoListTaskDateDto(1000, false, 2000, 3000);
       const formatted = pipe.transform(unformatted);
 
       expect(formatted)
         .withContext('transform should return date')
-        .toBe('day time-time');
+        .toBe('datetime - datetime');
 
       expect(formatterSpy.toLocalDate.calls.count())
-        .withContext('toLocalDate should be called')
-        .toBe(1);
+        .withContext('toLocalDate should not be called')
+        .toBe(0);
 
-      expect(formatterSpy.toLocalTime.calls.count())
-        .withContext('toLocalTime should be called')
+      expect(formatterSpy.toLocalDateTime.calls.count())
+        .withContext('toLocalDateTime should be called')
         .toBe(2);
 
-      expect(formatterSpy.toLocalDate.calls.first().args[0])
-        .withContext('toLocalDate should be called with correct params')
-        .toBe(unformatted.day);
+      expect(formatterSpy.toLocalDateTime.calls.first().args[0])
+        .withContext('toLocalDateTime should be called with correct params')
+        .toBe(unformatted.start);
 
-      expect(formatterSpy.toLocalDate.calls.mostRecent().args[0])
-        .withContext('toLocalDate should be called with correct params')
-        .toBe(unformatted.day);
+      expect(formatterSpy.toLocalDateTime.calls.mostRecent().args[0])
+        .withContext('toLocalDateTime should be called with correct params')
+        .toBe(unformatted.end);
   }));
 });

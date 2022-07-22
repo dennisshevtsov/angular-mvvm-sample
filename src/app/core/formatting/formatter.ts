@@ -6,11 +6,14 @@ import { HOURS_IN_DAY,
          MILLISECONDS_IN_MENUTE,
          MINUTES_IN_HOUR,        } from '../date';
 
-export const DATE_FORMAT: string = 'yyyy-MM-dd';
-export const DATE_LOCALE: string = 'en-US';
+export const DATE_FORMAT = 'yyyy-MM-dd';
+export const DATE_LOCALE = 'en-US';
 
-export const TIME_FORMAT: string = 'HH:mm';
-export const TIME_LOCALE: string = DATE_LOCALE;
+export const TIME_FORMAT = 'HH:mm';
+export const TIME_LOCALE = DATE_LOCALE;
+
+export const DATE_TIME_FORMAT = `${DATE_FORMAT} ${TIME_FORMAT}`;
+export const DATE_TIME_LOCALE = DATE_LOCALE;
 
 export const UTC_SHIFT: number = (new Date().getTimezoneOffset() / MINUTES_IN_HOUR) >> 0;
 
@@ -66,5 +69,9 @@ export class Formatter {
     formatted >>= 0;
 
     return formatted;
+  }
+
+  public toLocalDateTime(date: number): string {
+    return formatDate(date, DATE_TIME_FORMAT, DATE_TIME_LOCALE);
   }
 }

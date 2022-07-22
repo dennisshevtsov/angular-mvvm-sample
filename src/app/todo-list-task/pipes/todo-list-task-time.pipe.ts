@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform, } from '@angular/core';
 
-import { Formatter, } from 'src/app/core/formatting';
+import { Formatter,           } from 'src/app/core/formatting';
 
 @Pipe({
   name: 'todoListTaskTime',
@@ -11,15 +11,13 @@ export class TodoListTaskTimePipe implements PipeTransform {
   ) {}
 
   public transform(value: any): any {
-    const day = this.formatter.toLocalDate(value.day);
-
     if (value.fullDay) {
-      return day;
+      return this.formatter.toLocalDate(value.day);
     }
 
-    const start = this.formatter.toLocalTime(value.start);
-    const end = this.formatter.toLocalTime(value.end);
+    const start = this.formatter.toLocalDateTime(value.start);
+    const end   = this.formatter.toLocalDateTime(value.end);
 
-    return `${day} ${start}-${end}`;
+    return `${start} - ${end}`;
   }
 }
