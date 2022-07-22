@@ -32,4 +32,40 @@ describe('AppClock', () => {
       .withContext('getUTCMinutes should be called')
       .toBe(1);
   }));
+
+  it('date should combine year, hours, and minutes in UTC', inject([AppClock], (appClock: AppClock) => {
+    const date = new Date();
+
+    const year = 2000;
+    const getUTCFullYearSpy = spyOn(date, 'getUTCFullYear');
+    getUTCFullYearSpy.and.returnValue(year);
+
+    const month = 5;
+    const getUTCMonthSpy = spyOn(date, 'getUTCMonth');
+    getUTCMonthSpy.and.returnValue(month);
+
+    const day = 11;
+    const getUTCDateSpy = spyOn(date, 'getUTCDate');
+    getUTCDateSpy.and.returnValue(day);
+
+    const utc = 12345;
+    const utcSpy = spyOn(Date, 'UTC');
+    utcSpy.and.returnValue(utc);
+
+    expect(appClock.date(date))
+      .withContext('date should return UTC value')
+      .toBe(utc);
+
+    expect(getUTCFullYearSpy.calls.count())
+      .withContext('getUTCFullYear should be called')
+      .toBe(1);
+
+    expect(getUTCDateSpy.calls.count())
+      .withContext('getUTCDate should be called')
+      .toBe(1);
+
+    expect(getUTCDateSpy.calls.count())
+      .withContext('getUTCDate should be called')
+      .toBe(1);
+  }));
 });
