@@ -14,7 +14,7 @@ export const MILLISECONDS_IN_DAY    = 1 * HOURS_IN_DAY * MILLISECONDS_IN_HOUR;
 })
 export class AppClock {
   public time(date: Date = new Date()): number {
-    return date.getUTCHours() * MILLISECONDS_IN_HOUR +
+    return date.getUTCHours()   * MILLISECONDS_IN_HOUR +
            date.getUTCMinutes() * MILLISECONDS_IN_MENUTE;
   }
 
