@@ -67,5 +67,9 @@ describe('AppClock', () => {
     expect(getUTCDateSpy.calls.count())
       .withContext('getUTCDate should be called')
       .toBe(1);
+
+    expect(utcSpy.calls.count())
+      .withContext('Date.UTC should be called')
+      .toBe(1);
   }));
 });
