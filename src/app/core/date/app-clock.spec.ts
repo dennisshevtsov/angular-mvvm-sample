@@ -72,4 +72,26 @@ describe('AppClock', () => {
       .withContext('Date.UTC should be called')
       .toBe(1);
   }));
+
+  it('date should combine year, hours, and minutes in UTC', inject([AppClock], (appClock: AppClock) => {
+    const date = 12345;
+    const dateSpy = spyOn(appClock, 'date');
+    dateSpy.and.returnValue(date);
+
+    const time = 67890;
+    const timeSpy = spyOn(appClock, 'time');
+    timeSpy.and.returnValue(time);
+
+    expect(appClock.now())
+      .withContext('now should return currect value')
+      .toBe(date + time);
+
+    expect(dateSpy.calls.count())
+      .withContext('date should be called')
+      .toBe(1);
+
+    expect(timeSpy.calls.count())
+      .withContext('time should be called')
+      .toBe(1);
+  }));
 });
