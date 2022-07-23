@@ -20,4 +20,10 @@ describe('Formatter', () => {
       .withContext('toLocalDate should use local datetime value')
       .toBe(formatted);
   }));
+
+  it('fromLocalDate return date', inject([Formatter], (formatter: Formatter) => {
+    expect(formatter.fromLocalDate('2022-02-28'))
+      .withContext('fromLocalDate should return parsed date')
+      .toBe(Date.UTC(2022, 1, 28, 0, 0, 0, 0));
+  }));
 });
