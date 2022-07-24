@@ -36,7 +36,7 @@ export class Formatter {
   public fromLocalTime(date: string): number {
     const dateParts = date.split(':');
 
-    const hours = parseInt(dateParts[0]);
+    const hours   = parseInt(dateParts[0]);
     const minutes = parseInt(dateParts[1]);
 
     const time = new Date();
@@ -44,7 +44,7 @@ export class Formatter {
     time.setHours(hours);
     time.setMinutes(minutes);
 
-    const utc = time.getUTCHours() * MILLISECONDS_IN_HOUR +
+    const utc = time.getUTCHours()   * MILLISECONDS_IN_HOUR +
                 time.getUTCMinutes() * MILLISECONDS_IN_MENUTE;
 
     return utc;

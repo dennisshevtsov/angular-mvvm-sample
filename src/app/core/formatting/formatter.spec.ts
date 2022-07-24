@@ -36,4 +36,16 @@ describe('Formatter', () => {
       .withContext('toLocalTime should use local time value')
       .toBe(formatted);
   }));
+
+  it('fromLocalTime return time', inject([Formatter], (formatter: Formatter) => {
+    const timezone       = new Date().getTimezoneOffset() * 60 * 1000;
+    const datetimeValue  = 14 * 60 * 60 * 1000 +
+                           17 * 60 * 1000 +
+                           timezone;
+    const datetimeString = '14:17';
+    
+    expect(formatter.fromLocalTime(datetimeString))
+      .withContext('fromLocalTime should return parsed time')
+      .toBe(datetimeValue);
+  }));
 });
