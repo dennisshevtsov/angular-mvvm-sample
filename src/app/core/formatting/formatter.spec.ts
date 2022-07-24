@@ -23,4 +23,17 @@ describe('Formatter', () => {
       .withContext('fromLocalDate should return parsed date')
       .toBe(Date.UTC(2022, 1, 28, 0, 0, 0, 0));
   }));
+
+  it('toLocalTime return formatted time', inject([Formatter], (formatter: Formatter) => {
+    const utcDateValue = Date.UTC(2022, 1, 28, 23, 59, 33, 0);
+    const original = new Date(utcDateValue);
+
+    const formattedHours = (original.getHours()).toLocaleString(undefined, {minimumIntegerDigits: 2});
+    const formattedMinutes = original.getMinutes().toLocaleString(undefined, {minimumIntegerDigits: 2});
+    const formatted = `${formattedHours}:${formattedMinutes}`;
+
+    expect(formatter.toLocalTime(utcDateValue))
+      .withContext('toLocalTime should use local time value')
+      .toBe(formatted);
+  }));
 });
