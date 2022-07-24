@@ -51,16 +51,43 @@ describe('Formatter', () => {
 
   it('toLocalHours return hours in local time', inject([Formatter], (formatter: Formatter) => {
     const utcHours         = 14;
-    const utcMinuets       = 17;
+    const utcMinutes       = 17;
     const utcDatetimeValue = utcHours   * 60 * 60 * 1000 +
-                             utcMinuets * 60 * 1000 +
+                             utcMinutes * 60 * 1000 +
                              123;
 
     const timezoneInMinutes = new Date().getTimezoneOffset();
-    const localHours = (((utcHours * 60 + utcMinuets - timezoneInMinutes) / 60) % 24) >> 0;
+    const localHours = (((utcHours * 60 + utcMinutes - timezoneInMinutes) / 60) % 24) >> 0;
 
     expect(formatter.toLocalHours(utcDatetimeValue))
       .withContext('toLocalHours should return hours in local time')
       .toBe(localHours);
+  }));
+
+  it('toLocalMinutes return hours in local time', inject([Formatter], (formatter: Formatter) => {
+    const utcMinutes       = 17;
+    const utcDatetimeValue = 123 * 24   * 60 * 60 * 1000 +
+                             14         * 60 * 60 * 1000 +
+                             utcMinutes * 60 * 1000 +
+                             123;
+
+    expect(formatter.toLocalMinutes(utcDatetimeValue))
+      .withContext('toLocalMinutes should return minutes in local time')
+      .toBe(utcMinutes);
+  }));
+
+  it('toLocalDateTime return formatted datetime', inject([Formatter], (formatter: Formatter) => {
+    const utcDateValue = Date.UTC(2022, 1, 28, 23, 59, 0, 0);
+    const original = new Date(utcDateValue);
+
+    const formattedMonth = (original.getMonth() + 1).toLocaleString(undefined, {minimumIntegerDigits: 2});
+    const formattedDay = original.getDate().toLocaleString(undefined, {minimumIntegerDigits: 2});
+    const formattedHours = (original.getHours()).toLocaleString(undefined, {minimumIntegerDigits: 2});
+    const formattedMinutes = original.getMinutes().toLocaleString(undefined, {minimumIntegerDigits: 2});
+    const formatted = `${original.getFullYear()}-${formattedMonth}-${formattedDay} ${formattedHours}:${formattedMinutes}`;
+
+    expect(formatter.toLocalDateTime(utcDateValue))
+      .withContext('toLocalDateTime should return local datetime value')
+      .toBe(formatted);
   }));
 });
