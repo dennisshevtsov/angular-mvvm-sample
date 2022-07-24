@@ -43,9 +43,24 @@ describe('Formatter', () => {
                            17 * 60 * 1000 +
                            timezone;
     const datetimeString = '14:17';
-    
+
     expect(formatter.fromLocalTime(datetimeString))
       .withContext('fromLocalTime should return parsed time')
       .toBe(datetimeValue);
+  }));
+
+  it('toLocalHours return hours in local time', inject([Formatter], (formatter: Formatter) => {
+    const utcHours         = 14;
+    const utcMinuets       = 17;
+    const utcDatetimeValue = utcHours   * 60 * 60 * 1000 +
+                             utcMinuets * 60 * 1000 +
+                             123;
+
+    const timezoneInMinutes = new Date().getTimezoneOffset();
+    const localHours = (((utcHours * 60 + utcMinuets - timezoneInMinutes) / 60) % 24) >> 0;
+
+    expect(formatter.toLocalHours(utcDatetimeValue))
+      .withContext('toLocalHours should return hours in local time')
+      .toBe(localHours);
   }));
 });
