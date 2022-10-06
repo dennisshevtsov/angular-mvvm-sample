@@ -1,3 +1,4 @@
+import { HttpClient, } from '@angular/common/http';
 import { Injectable, } from '@angular/core';
 
 import { Observable, of, throwError, } from 'rxjs';
@@ -15,6 +16,8 @@ import { AddTodoListRequestDto,
   providedIn: 'root',
 })
 export class TodoListService {
+  private readonly todoListRoute: string = 'http://localhost:5295/api/todo-list';
+
   private todoLists: {
     todoListId: number,
     title: string,
@@ -25,27 +28,20 @@ export class TodoListService {
     { todoListId: 3, title: 'Remove old components.', description: 'Remove components that are already unused.', },
   ];
 
+  public constructor(
+    private readonly http: HttpClient,
+  ) {}
+
   public getTodoList(
     requestDto: GetTodoListRequestDto)
     : Observable<GetTodoListResponseDto> {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
-
-    if (index > -1) {
-      const todoList =  this.todoLists[index];
-
-      return of({ ...todoList, });
-    }
-
-    return throwError(() => 'Not Found.');
+    return this.http.get<GetTodoListResponseDto>(`${this.todoListRoute}/${requestDto.todoListId}`);
   }
 
   public searchTodoList(
     requestDto: SearchTodoListsRequestDto)
     : Observable<SearchTodoListsRecordResponseDto[]> {
-    return of(this.todoLists.map(todoList => new SearchTodoListsRecordResponseDto(
-      todoList.todoListId,
-      todoList.title,
-      todoList.description)));
+    return this.http.get<SearchTodoListsRecordResponseDto[]>(this.todoListRoute);
   }
 
   public addTodoList(
