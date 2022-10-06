@@ -1,5 +1,5 @@
 export class DeleteTodoListRequestDto {
   public constructor(
-    public todoListId: number | string = 0,
+    public todoListId: string = '',
   ) {}
 }

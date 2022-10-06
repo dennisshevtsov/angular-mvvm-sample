@@ -38,7 +38,7 @@ describe('SearchTodoListsComponent', () => {
   let fixture: ComponentFixture<SearchTodoListsComponent>;
 
   const recordDto = new SearchTodoListsRecordResponseDto(
-    1,
+    'd21117b2-34b1-4b7c-b695-a11dc8051071',
     'test todo list title 0',
     'test todo list description 0',
   );
@@ -119,12 +119,12 @@ describe('SearchTodoListsComponent', () => {
     const redordDtos = [
       recordDto,
       new SearchTodoListsRecordResponseDto(
-        2,
+        '46e18819-ac91-4890-94a1-23400ed3a104',
         'test todo list title 1',
         'test todo list description 1',
       ),
       new SearchTodoListsRecordResponseDto(
-        3,
+        '76f72f11-5095-4b56-929f-4e49b21adf59',
         'test todo list title 2',
         'test todo list description 2',
       ),
@@ -188,7 +188,7 @@ describe('SearchTodoListsComponent', () => {
     const modalComponent = fixture.debugElement.query(By.css('app-modal')).componentInstance;
     const showSpy = spyOn(modalComponent, 'show');
 
-    fixture.debugElement.query(By.css('#btnDelete-1')).nativeElement.dispatchEvent(new Event('click'));
+    fixture.debugElement.query(By.css('#btnDelete-d21117b2-34b1-4b7c-b695-a11dc8051071')).nativeElement.dispatchEvent(new Event('click'));
 
     expect(selectedSpy.calls.count())
       .withContext('selected should be called once')

@@ -1,6 +1,6 @@
 export class AddTodoListRequestDto {
   public constructor(
-    public title: string = '',
+    public title      : string = '',
     public description: string = '',
   ) {}
 }

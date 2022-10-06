@@ -1,6 +1,6 @@
 export class UpdateTodoListRequestDto {
   public constructor(
-    public todoListId : number | string = 0,
+    public todoListId : string = '',
     public title      : string = '',
     public description: string = '',
   ) {}

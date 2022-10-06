@@ -17,11 +17,11 @@ export class SearchTodoListsViewModel {
   ) {}
 
   public get hasSelection(): boolean {
-    return this.selected.todoListId != 0;
+    return !!this.selected.todoListId;
   }
 
   public get selected(): SearchTodoListsRecordResponseDto {
-    return this.selectedValue ?? (this.selectedValue = new SearchTodoListsRecordResponseDto(0, '', ''));
+    return this.selectedValue ?? (this.selectedValue = new SearchTodoListsRecordResponseDto('', '', ''));
   }
 
   public set selected(record: SearchTodoListsRecordResponseDto) {
