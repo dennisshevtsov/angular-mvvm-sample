@@ -1,7 +1,7 @@
-import { HttpClient, } from '@angular/common/http';
-import { Injectable, } from '@angular/core';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
+import { Injectable,              } from '@angular/core';
 
-import { Observable, of, throwError, } from 'rxjs';
+import { Observable, } from 'rxjs';
 
 import { AddTodoListRequestDto,
          AddTodoListResponseDto,
@@ -17,16 +17,6 @@ import { AddTodoListRequestDto,
 })
 export class TodoListService {
   private readonly todoListRoute: string = 'http://localhost:5295/api/todo-list';
-
-  private todoLists: {
-    todoListId: number,
-    title: string,
-    description: string,
-  }[] = [
-    { todoListId: 1, title: 'Create mock data.', description: 'You have to create mock data in the DB.', },
-    { todoListId: 2, title: 'Add task list in search todo lists screen.', description: 'You have to change the search todo lists component.', },
-    { todoListId: 3, title: 'Remove old components.', description: 'Remove components that are already unused.', },
-  ];
 
   public constructor(
     private readonly http: HttpClient,
@@ -47,58 +37,34 @@ export class TodoListService {
   public addTodoList(
     requestDto: AddTodoListRequestDto)
     : Observable<AddTodoListResponseDto> {
-    const newTodoListId = this.getTodoListId(this.todoLists);
+    const url     = this.todoListRoute;
+    const body    = JSON.stringify(requestDto);
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
 
-    this.todoLists.push({
-      todoListId: newTodoListId,
-      title: requestDto.title,
-      description: requestDto.description,
-    });
-
-    return of(new AddTodoListResponseDto(newTodoListId));
+    return this.http.post<AddTodoListResponseDto>(url, body, options);
   }
 
   public updateTodoList(
     requestDto: UpdateTodoListRequestDto)
     : Observable<void> {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
-
-    if (index >= 0) {
-      const todoList =  this.todoLists[index];
-
-      todoList.title = requestDto.title;
-      todoList.description = requestDto.description;
-    }
-
-    return of(void 0);
+      const url     = `${this.todoListRoute}/${requestDto.todoListId}`;
+      const body    = JSON.stringify(requestDto);
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
+  
+      return this.http.put<void>(url, body, options);
   }
 
   public deleteTodoList(
     requestDto: DeleteTodoListRequestDto)
     : Observable<void> {
-    const index = this.todoLists.findIndex(todoList => todoList.todoListId == requestDto.todoListId);
-
-    if (index >= 0) {
-      this.todoLists.splice(index, 1);
-    }
-
-    return of(void 0);
-  }
-
-  private getTodoListId(
-    todoLists: {
-      todoListId: number,
-      title: string,
-      description: string,
-    }[]) {
-    let todoListId = 1;
-
-    if (todoLists.length) {
-      const lastTodoList = todoLists[todoLists.length -1];
-
-      todoListId = lastTodoList.todoListId + 1;
-    }
-
-    return todoListId;
+    return this.http.delete<void>(`${this.todoListRoute}/${requestDto.todoListId}`);
   }
 }
