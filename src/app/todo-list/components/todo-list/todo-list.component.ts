@@ -17,8 +17,7 @@ import { AddTodoListRequestDto,
 export class TodoListComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
-  @Input()
-  public todoList!: AddTodoListRequestDto | UpdateTodoListRequestDto;
+  private todoListValue!: AddTodoListRequestDto | UpdateTodoListRequestDto;
 
   private readonly subscription: Subscription;
 
@@ -29,11 +28,6 @@ export class TodoListComponent
   }
 
   public ngOnInit(): void {
-    this.form.setValue({
-      'title'      : this.todoList.title,
-      'description': this.todoList.description,
-    });
-
     this.subscription.add(
       this.form.valueChanges.subscribe(value => {
         this.todoList.title = value.title;
@@ -45,6 +39,19 @@ export class TodoListComponent
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  @Input()
+  public set todoList(value: AddTodoListRequestDto | UpdateTodoListRequestDto) {
+    this.todoListValue = value;
+    this.form.setValue({
+      'title'      : value.title,
+      'description': value.description,
+    });
+  }
+
+  public get todoList(): AddTodoListRequestDto | UpdateTodoListRequestDto {
+    return this.todoListValue;
   }
 
   protected buildForm(): FormGroup {

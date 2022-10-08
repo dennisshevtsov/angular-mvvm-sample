@@ -19,12 +19,19 @@ export class UpdateTodoListViewModel {
     return this.todoListValue ?? (this.todoListValue = new UpdateTodoListRequestDto());
   }
 
+  public set todoList(value: UpdateTodoListRequestDto) {
+    this.todoListValue = value;
+  }
+
   public initialize(): Observable<void> {
     const requestDto = new GetTodoListRequestDto(this.todoList.todoListId);
 
     const project = (responseDto: GetTodoListResponseDto) => {
-      this.todoList.title = responseDto.title;
-      this.todoList.description = responseDto.description;
+      this.todoListValue = new UpdateTodoListRequestDto(
+        this.todoList.todoListId,
+        responseDto.title,
+        responseDto.description,
+      );
     };
 
     return this.service.getTodoList(requestDto)
