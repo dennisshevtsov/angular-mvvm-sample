@@ -7,28 +7,28 @@ import { AddTodoListTaskRequestDto,
 
 @Injectable()
 export class AddTodoListTaskViewModel {
-  private todoListIdValue    : undefined | number | string;
-  private todoListTaskIdValue: undefined | number | string;
+  private todoListIdValue    : undefined | string;
+  private todoListTaskIdValue: undefined | string;
   private taskValue          : undefined | AddTodoListTaskRequestDto;
 
   public constructor(
     private readonly service: TodoListTaskService,
   ) {}
 
-  public get todoListId(): number | string {
-    return this.todoListIdValue ?? 0;
+  public get todoListId(): string {
+    return this.todoListIdValue ?? '';
   }
 
-  public set todoListId(todoListId: number | string) {
+  public set todoListId(todoListId: string) {
     this.todoListIdValue = todoListId;
     this.task.todoListId = todoListId;
   }
 
-  public get todoListTaskId(): number | string {
-    return this.todoListTaskIdValue ?? 0;
+  public get todoListTaskId(): string {
+    return this.todoListTaskIdValue ?? '';
   }
 
-  public set todoListTaskId(todoListTaskId: number | string) {
+  public set todoListTaskId(todoListTaskId:string) {
     this.todoListTaskIdValue = todoListTaskId;
   }
 

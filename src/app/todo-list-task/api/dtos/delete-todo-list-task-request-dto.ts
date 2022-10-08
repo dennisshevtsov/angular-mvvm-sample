@@ -1,6 +1,6 @@
 export class DeleteTodoListTaskRequestDto {
   public constructor(
-    public readonly todoListId:     number | string,
-    public readonly todoListTaskId: number | string,
+    public readonly todoListId:     string,
+    public readonly todoListTaskId: string,
   ) {}
 }

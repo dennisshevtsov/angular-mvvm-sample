@@ -1,6 +1,6 @@
 export class UncompleteTodoListTaskRequestDto {
   public constructor(
-    public todoListId    : number | string,
-    public todoListTaskId: number | string,
+    public todoListId    : string,
+    public todoListTaskId: string,
   ) { }
 }

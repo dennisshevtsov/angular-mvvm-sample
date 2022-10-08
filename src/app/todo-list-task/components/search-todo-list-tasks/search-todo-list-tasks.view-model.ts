@@ -11,7 +11,7 @@ import { CompleteTodoListTaskRequestDto,
 
 @Injectable()
 export class SearchTodoListTasksViewModel {
-  private todoListIdValue: undefined | number | string;
+  private todoListIdValue: undefined | string;
   private recordValue    : undefined | SearchTodoListTasksRecordResponseDto;
   private tasksValue     : undefined | SearchTodoListTasksRecordResponseDto[];
 
@@ -19,16 +19,16 @@ export class SearchTodoListTasksViewModel {
     private readonly service: TodoListTaskService,
   ) {}
 
-  public get todoListId(): number | string {
-    return this.todoListIdValue ?? 0;
+  public get todoListId(): string {
+    return this.todoListIdValue ?? '';
   }
 
-  public set todoListId(todoListId: number | string) {
+  public set todoListId(todoListId: string) {
     this.todoListIdValue = todoListId;
   }
 
   public get selected(): SearchTodoListTasksRecordResponseDto {
-    return this.recordValue ?? new SearchTodoListTasksRecordResponseDto(0);
+    return this.recordValue ?? new SearchTodoListTasksRecordResponseDto();
   }
 
   public set selected(record: SearchTodoListTasksRecordResponseDto) {

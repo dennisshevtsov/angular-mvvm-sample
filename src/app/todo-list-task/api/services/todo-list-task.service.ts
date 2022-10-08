@@ -1,6 +1,7 @@
-import { Injectable, } from '@angular/core';
+import { HttpClient, HttpHeaders, } from '@angular/common/http';
+import { Injectable,              } from '@angular/core';
 
-import { Observable, of, throwError, } from 'rxjs';
+import { Observable, } from 'rxjs';
 
 import { AddTodoListTaskRequestDto,
          AddTodoListTaskResponseDto,
@@ -17,181 +18,75 @@ import { AddTodoListTaskRequestDto,
   providedIn: 'root',
 })
 export class TodoListTaskService {
-  private readonly todoListTasksMap : Map<number | string, {
-    todoListTaskId: number | string,
-    completed     : boolean,
-    title         : string,
-    description   : string,
-    date: {
-      day    : number,
-      fullDay: boolean,
-      start  : number,
-      end    : number,
-    },
-  }[]> = new Map();
+  private readonly todoRoute: string = 'http://localhost:5295/api/todo-list';
 
-  public constructor() { }
+  public constructor(
+    private readonly http: HttpClient,
+  ) { }
 
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
     : Observable<GetTodoListTaskResponseDto> {
-    const todoListTasks = this.todoListTasksMap.get(query.todoListId);
-
-    if (todoListTasks) {
-      const todoListTaskIndex = todoListTasks.findIndex(
-        todoListTask => todoListTask.todoListTaskId == query.todoListTaskId);
-
-      if (todoListTaskIndex > -1) {
-        const todoListTask = todoListTasks[todoListTaskIndex];
-
-        return of({ ...todoListTask });
-      }
-    }
-
-    return throwError(() => new Error('The TODO list task is not found.'));
+    return this.http.get<GetTodoListTaskResponseDto>(`${this.todoRoute}/${query.todoListId}/list/${query.todoListTaskId}`);
   }
 
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
     : Observable<SearchTodoListTasksRecordResponseDto[]> {
-    const todoListTasks = this.todoListTasksMap.get(query.todoListId);
-
-    if (todoListTasks) {
-      return of(todoListTasks.map(todoListTask => new SearchTodoListTasksRecordResponseDto(
-        todoListTask.todoListTaskId,
-        todoListTask.completed,
-        todoListTask.title,
-        todoListTask.description,
-        { ...todoListTask.date, },
-      )));
-    }
-
-    return of([]);
+    return this.http.get<SearchTodoListTasksRecordResponseDto[]>(`${this.todoRoute}/${query.todoListId}/list`);
   }
 
   public addTodoListTask(
     command: AddTodoListTaskRequestDto)
     : Observable<AddTodoListTaskResponseDto> {
-    if (!this.todoListTasksMap.has(command.todoListId)) {
-      this.todoListTasksMap.set(command.todoListId, []);
-    }
+    const url  = `${this.todoRoute}/${command.todoListId}/list`;
+    const body = JSON.stringify(command);
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
 
-    const todoListTasks = this.todoListTasksMap.get(command.todoListId)!;
-    const newTodoListTaskId = this.getNewTodoListTaskId(todoListTasks);
-
-    todoListTasks.push({
-      todoListTaskId: newTodoListTaskId,
-      completed: false,
-      title: command.title,
-      description: command.description,
-      date: { ...command.date, },
-    });
-
-    return of(new AddTodoListTaskResponseDto(newTodoListTaskId));
+    return this.http.post<AddTodoListTaskResponseDto>(url, body, options);
   }
 
   public updateTodoListTask(
     command: UpdateTodoListTaskRequestDto)
     : Observable<void> {
-    const todoListTasks = this.todoListTasksMap.get(command.todoListId)!;
-    const todoListTaskIndex = todoListTasks.findIndex(todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
+      const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}`;
+      const body = JSON.stringify(command);
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+      };
 
-    if (todoListTaskIndex > -1) {
-      const todoListTask = todoListTasks[todoListTaskIndex];
-
-      todoListTask.title = command.title;
-      todoListTask.description = command.description;
-      todoListTask.date = { ...command.date, };
-    }
-
-    return of();
+    return this.http.put<void>(url, body, options);
   }
 
   public completeTodoListTask(
     command: CompleteTodoListTaskRequestDto)
     : Observable<void> {
-    const todoListTasks = this.todoListTasksMap.get(
-      command.todoListId)!;
+    const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}/complete`;
+    const body = JSON.stringify(command);
 
-    if (todoListTasks) {
-      const todoListTaskIndex = todoListTasks.findIndex(
-        todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
-
-      if (todoListTaskIndex > -1) {
-        const todoListTask = todoListTasks[todoListTaskIndex];
-
-        todoListTask.completed = true;
-      }
-      else {
-        return throwError(() => new Error('There is no TODO list task with such ID.'));
-      }
-    }
-    else {
-      return throwError(() => new Error('There is no TODO list with such ID.'));
-    }
-
-    return of(void 0);
+    return this.http.post<void>(url, body);
   }
 
   public uncompleteTodoListTask(
     command: UncompleteTodoListTaskRequestDto)
     : Observable<void> {
-    const todoListTasks = this.todoListTasksMap.get(
-      command.todoListId)!;
+    const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}/uncomplete`;
+    const body = JSON.stringify(command);
 
-    if (todoListTasks) {
-      const todoListTaskIndex = todoListTasks.findIndex(
-        todoListTask => todoListTask.todoListTaskId === command.todoListTaskId);
-
-      if (todoListTaskIndex > -1) {
-        const todoListTask = todoListTasks[todoListTaskIndex];
-
-        todoListTask.completed = false;
-      }
-    }
-
-    return of(void 0);
+    return this.http.post<void>(url, body);
   }
 
   public deleteTodoListTask(
     command: DeleteTodoListTaskRequestDto)
     : Observable<void> {
-      const todoListTasks = this.todoListTasksMap.get(
-        command.todoListId);
+    const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}`;
 
-      if (todoListTasks) {
-        const todoListTaskIndex = todoListTasks.findIndex(
-          todoListTask => todoListTask.todoListTaskId == command.todoListTaskId);
-
-        if (todoListTaskIndex > -1) {
-          todoListTasks.splice(todoListTaskIndex, 1);
-        }
-      }
-
-      return of(void 0);
-  }
-
-  private getNewTodoListTaskId(
-    todoListTasks: {
-      todoListTaskId: number | string,
-      completed     : boolean,
-      title         : string,
-      description   : string,
-      date: {
-        day    : number,
-        fullDay: boolean,
-        start  : number,
-        end    : number,
-      },
-    }[]) {
-    let todoListTaskId = 1;
-
-    if (todoListTasks.length > 0) {
-      const lastTodoListTask = todoListTasks[todoListTasks.length - 1];
-
-      todoListTaskId = +lastTodoListTask.todoListTaskId + 1;
-    }
-
-    return todoListTaskId;
+    return this.http.delete<void>(url);
   }
 }

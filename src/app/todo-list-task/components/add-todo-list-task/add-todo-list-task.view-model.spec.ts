@@ -40,7 +40,7 @@ describe('AddTodoListTaskViewModel', () => {
 
         expect(vm.todoListTaskId)
           .withContext('todoListTaskId should return default value')
-          .toBe(0);
+          .toBe('');
 
         vm.add().subscribe(() => {
           expect(srv.addTodoListTask.calls.count())
