@@ -3,10 +3,11 @@ import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,            } from 'src/app/core';
-import { AddTodoListTaskRequestDto,
+import { FormComponentBase,               } from 'src/app/core';
+import { AddTodoListDayTaskRequestDto,
+         AddTodoListPeriodTaskRequestDto,
          TodoListTaskDateDto,
-         UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
+         UpdateTodoListTaskRequestDto,    } from 'src/app/todo-list-task/api';
 
 @Component({
   selector: 'todo-list-task',
@@ -25,7 +26,9 @@ export class TodoListTaskComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
   @Input()
-  public task!: AddTodoListTaskRequestDto | UpdateTodoListTaskRequestDto;
+  public task!: AddTodoListDayTaskRequestDto    |
+                AddTodoListPeriodTaskRequestDto |
+                UpdateTodoListTaskRequestDto;
 
   public constructor(
     private readonly subscription: Subscription,
@@ -38,14 +41,12 @@ export class TodoListTaskComponent
     this.form.setValue({
       'title'      : this.task.title,
       'description': this.task.description,
-      'date'       : this.task.date,
     });
 
     this.subscription.add(
       this.form.valueChanges.subscribe(value => {
         this.task.title       = value.title;
         this.task.description = value.description;
-        this.task.date        = value.date;
       })
     );
   }
@@ -58,7 +59,6 @@ export class TodoListTaskComponent
     return this.fb.group({
       'title'      : this.fb.control('', Validators.required),
       'description': '',
-      'date'       : new TodoListTaskDateDto(),
     });
   }
 }

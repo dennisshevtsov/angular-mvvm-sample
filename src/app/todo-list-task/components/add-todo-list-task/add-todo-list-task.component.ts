@@ -44,7 +44,6 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
     private readonly subsription: Subscription,
 
     private readonly route    : ActivatedRoute,
-    private readonly clock    : AppClock,
     private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
   ) { }
@@ -60,7 +59,6 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
 
         if (todoListId) {
           this.vm.todoListId = todoListId;
-          this.vm.task.date = this.buildDefaultTimePeriod();
         }
         else {
           this.error = 'An error occured.';
@@ -94,14 +92,5 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
 
       this.subsription.add(this.vm.add().subscribe(observer));
     }
-  }
-
-  private buildDefaultTimePeriod(): TodoListTaskDateDto {
-    const now = this.clock.now();
-    const step = 15 * MILLISECONDS_IN_MENUTE;
-    const start = now - (now % step) + step;
-    const end = start + MILLISECONDS_IN_HOUR;
-
-    return new TodoListTaskDateDto(now, false, start, end);
   }
 }

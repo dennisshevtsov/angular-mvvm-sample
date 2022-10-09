@@ -3,7 +3,8 @@ import { Injectable,              } from '@angular/core';
 
 import { Observable, } from 'rxjs';
 
-import { AddTodoListTaskRequestDto,
+import { AddTodoListDayTaskRequestDto,
+         AddTodoListPeriodTaskRequestDto,
          AddTodoListTaskResponseDto,
          CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
@@ -37,7 +38,7 @@ export class TodoListTaskService {
   }
 
   public addTodoListTask(
-    command: AddTodoListTaskRequestDto)
+    command: AddTodoListDayTaskRequestDto | AddTodoListPeriodTaskRequestDto)
     : Observable<AddTodoListTaskResponseDto> {
     const url  = `${this.todoRoute}/${command.todoListId}/list`;
     const body = JSON.stringify(command);
