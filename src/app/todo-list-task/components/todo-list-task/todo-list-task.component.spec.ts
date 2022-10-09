@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup,       } from '@angular/forms';
 
 import { Observable, of, Subscription, } from 'rxjs';
 
-import { AddTodoListTaskRequestDto,
+import { AddTodoListDayTaskRequestDto,
          TodoListTaskDateDto,          } from 'src/app/todo-list-task/api';
 import { TodoListTaskComponent,        } from './todo-list-task.component';
 
@@ -30,11 +30,10 @@ describe('TodoListTaskComponent', () => {
     [ Subscription, FormBuilder, ],
     (subSpy: jasmine.SpyObj<Subscription>,
      fbSpy : jasmine.SpyObj<FormBuilder>) => {
-    const requestDto = new AddTodoListTaskRequestDto(
+    const requestDto = new AddTodoListDayTaskRequestDto(
       'test todo list id',
       'test todo list title',
-      'test todo list description',
-      new TodoListTaskDateDto());
+      'test todo list description');
 
     const formSpy: jasmine.SpyObj<FormGroup> =
       jasmine.createSpyObj('FormGroup', [ 'setValue', 'get', ], [ 'valueChanges', ]);
@@ -69,11 +68,10 @@ describe('TodoListTaskComponent', () => {
     [ Subscription, FormBuilder, ],
     (subSpy: jasmine.SpyObj<Subscription>,
      fbSpy : jasmine.SpyObj<FormBuilder>) => {
-    const requestDto = new AddTodoListTaskRequestDto(
+    const requestDto = new AddTodoListDayTaskRequestDto(
       'test todo list id',
       'test todo list title',
-      'test todo list description',
-      new TodoListTaskDateDto());
+      'test todo list description');
 
     const formSpy: jasmine.SpyObj<FormGroup> =
       jasmine.createSpyObj('FormGroup', [ 'setValue', 'get', ], [ 'valueChanges', ]);

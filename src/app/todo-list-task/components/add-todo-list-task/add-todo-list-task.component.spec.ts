@@ -6,10 +6,10 @@ import { ActivatedRoute, RouterModule,     } from '@angular/router';
 import { of, Subscription, throwError, } from 'rxjs';
 
 import { PageComponent,
-         TodoListTaskNavigator,     } from 'src/app/core';
-import { AddTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
-import { AddTodoListTaskComponent,  } from './add-todo-list-task.component';
-import { AddTodoListTaskViewModel,  } from './add-todo-list-task.view-model';
+         TodoListTaskNavigator,        } from 'src/app/core';
+import { AddTodoListDayTaskRequestDto, } from 'src/app/todo-list-task/api';
+import { AddTodoListTaskComponent,     } from './add-todo-list-task.component';
+import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 const PARAM_MAP_TOKEN = 'ParamMap';
 
@@ -89,8 +89,8 @@ describe('AddTodoListTaskComponent', () => {
 
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
-    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
-    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListDayTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListDayTaskRequestDto());
 
     const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
     todoListIdSpy.and.returnValue(todoListId);
@@ -104,7 +104,7 @@ describe('AddTodoListTaskComponent', () => {
       .withContext('todoListId should be populated from URL')
       .toBe(todoListId);
 
-    expect(vm.task.date)
+    expect((vm.task as AddTodoListDayTaskRequestDto).date)
       .withContext('date should be defined')
       .toBeDefined();
 
@@ -122,8 +122,8 @@ describe('AddTodoListTaskComponent', () => {
 
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
-    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
-    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListDayTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListDayTaskRequestDto());
 
     const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
     todoListIdSpy.and.returnValue('');
@@ -154,8 +154,8 @@ describe('AddTodoListTaskComponent', () => {
 
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
-    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
-    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListDayTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListDayTaskRequestDto());
 
     const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
     todoListIdSpy.and.returnValue(todoListId);
@@ -183,8 +183,8 @@ describe('AddTodoListTaskComponent', () => {
 
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
-    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
-    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListDayTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListDayTaskRequestDto());
 
     const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
     todoListIdSpy.and.returnValue(todoListId);
@@ -241,8 +241,8 @@ describe('AddTodoListTaskComponent', () => {
 
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
-    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
-    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListDayTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListDayTaskRequestDto());
 
     const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
     todoListIdSpy.and.returnValue(todoListId);
@@ -305,8 +305,8 @@ describe('AddTodoListTaskComponent', () => {
 
     const descs = Object.getOwnPropertyDescriptors(vm)!;
 
-    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListTaskRequestDto>;
-    taskSpy.and.returnValue(new AddTodoListTaskRequestDto());
+    const taskSpy = descs.task.get as jasmine.Spy<() => AddTodoListDayTaskRequestDto>;
+    taskSpy.and.returnValue(new AddTodoListDayTaskRequestDto());
 
     const todoListIdSpy = descs.todoListId.get as jasmine.Spy<() => number | string>;
     todoListIdSpy.and.returnValue(todoListId);
