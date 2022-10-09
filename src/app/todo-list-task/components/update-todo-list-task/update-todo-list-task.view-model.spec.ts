@@ -47,6 +47,7 @@ describe('UpdateTodoListTaskViewModel', () => {
         const todoListId = 'test todo list id';
         const todoListTaskId = 'test todo list id';
 
+        vm.fullDay = true;
         vm.task.todoListId = todoListId;
         vm.task.todoListTaskId = todoListTaskId;
 
@@ -64,8 +65,24 @@ describe('UpdateTodoListTaskViewModel', () => {
           )
 
           expect(vm.task)
-            .withContext('task should be populated')
-            .toEqual(task);
+            .withContext('task should be defined')
+            .toBeDefined();
+
+          expect(vm.task.todoListId)
+            .withContext('task todoListId should be populated')
+            .toEqual(task.todoListId);
+
+          expect(vm.task.todoListTaskId)
+            .withContext('task todoListTaskId should be populated')
+            .toEqual(task.todoListTaskId);
+
+          expect(vm.task.title)
+            .withContext('task title should be populated')
+            .toEqual(task.title);
+
+          expect(vm.task.description)
+            .withContext('task description should be populated')
+            .toEqual(task.description);
 
           expect(srv.getTodoListTask.calls.count())
             .withContext('getTodoListTask should be called once');
@@ -101,6 +118,7 @@ describe('UpdateTodoListTaskViewModel', () => {
           'test todo list task title',
           'test todo list task description');
 
+        vm.fullDay = true;
         vm.task.todoListId = dto.todoListId;
         vm.task.todoListTaskId = dto.todoListTaskId;
         vm.task.title = dto.title;

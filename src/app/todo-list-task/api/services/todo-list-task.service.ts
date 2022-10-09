@@ -13,7 +13,8 @@ import { AddTodoListDayTaskRequestDto,
          SearchTodoListTasksRecordResponseDto,
          SearchTodoListTasksRequestDto,
          UncompleteTodoListTaskRequestDto,
-         UpdateTodoListTaskRequestDto,         } from '../dtos';
+         UpdateTodoListDayTaskRequestDto,
+         UpdateTodoListPeriodTaskRequestDto,   } from '../dtos';
 
 @Injectable({
   providedIn: 'root',
@@ -52,7 +53,7 @@ export class TodoListTaskService {
   }
 
   public updateTodoListTask(
-    command: UpdateTodoListTaskRequestDto)
+    command: UpdateTodoListDayTaskRequestDto | UpdateTodoListPeriodTaskRequestDto)
     : Observable<void> {
       const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}`;
       const body = JSON.stringify(command);

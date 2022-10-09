@@ -3,11 +3,11 @@ import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,               } from 'src/app/core';
+import { FormComponentBase,                 } from 'src/app/core';
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
-         TodoListTaskDateDto,
-         UpdateTodoListTaskRequestDto,    } from 'src/app/todo-list-task/api';
+         UpdateTodoListDayTaskRequestDto,
+         UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
 
 @Component({
   selector: 'todo-list-task',
@@ -26,9 +26,10 @@ export class TodoListTaskComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
   @Input()
-  public task!: AddTodoListDayTaskRequestDto    |
-                AddTodoListPeriodTaskRequestDto |
-                UpdateTodoListTaskRequestDto;
+  public task!: AddTodoListDayTaskRequestDto      |
+                AddTodoListPeriodTaskRequestDto   |
+                UpdateTodoListDayTaskRequestDto   |
+                UpdateTodoListPeriodTaskRequestDto;
 
   public constructor(
     private readonly subscription: Subscription,
