@@ -3,7 +3,6 @@ export class AddTodoListDayTaskRequestDto {
     public todoListId : string  = '',
     public title      : string  = '',
     public description: string  = '',
-    public completed  : boolean = false,
     public date       : number  = Date.now(),
   ) { }
 }

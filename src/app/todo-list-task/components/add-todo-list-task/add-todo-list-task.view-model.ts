@@ -48,7 +48,6 @@ export class AddTodoListTaskViewModel {
           this.todoListId,
           this.task.title,
           this.task.description,
-          this.task.completed,
           this.clock.now());
       }
       else {
@@ -61,7 +60,8 @@ export class AddTodoListTaskViewModel {
           this.todoListId,
           this.task.title,
           this.task.description,
-          this.task.completed);
+          start,
+          end);
       }
 
       this.fullDayValue = value;

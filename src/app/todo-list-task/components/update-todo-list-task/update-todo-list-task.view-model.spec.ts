@@ -5,8 +5,8 @@ import { of, } from 'rxjs';
 import { GetTodoListTaskResponseDto,
          TodoListTaskDateDto,
          TodoListTaskService,
-         UpdateTodoListTaskRequestDto, } from 'src/app/todo-list-task/api';
-import { UpdateTodoListTaskViewModel,  } from './update-todo-list-task.view-model';
+         UpdateTodoListDayTaskRequestDto, } from 'src/app/todo-list-task/api';
+import { UpdateTodoListTaskViewModel,     } from './update-todo-list-task.view-model';
 
 describe('UpdateTodoListTaskViewModel', () => {
   beforeEach(() => {
@@ -55,12 +55,12 @@ describe('UpdateTodoListTaskViewModel', () => {
             .withContext('task should be defined')
             .toBeDefined();
 
-          const task = new UpdateTodoListTaskRequestDto(
+          const task = new UpdateTodoListDayTaskRequestDto(
             todoListId,
             todoListTaskId,
             responseDto.title,
             responseDto.description,
-            responseDto.date,
+            responseDto.date.day,
           )
 
           expect(vm.task)
@@ -95,18 +95,17 @@ describe('UpdateTodoListTaskViewModel', () => {
       ) => {
         srv.updateTodoListTask.and.returnValue(of(void 0));
 
-        const dto = new UpdateTodoListTaskRequestDto(
+        const dto = new UpdateTodoListDayTaskRequestDto(
           'test todo list id',
           'test todo list task id',
           'test todo list task title',
-          'test todo list task description',
-          new TodoListTaskDateDto(0, true));
+          'test todo list task description');
 
         vm.task.todoListId = dto.todoListId;
         vm.task.todoListTaskId = dto.todoListTaskId;
         vm.task.title = dto.title;
         vm.task.description = dto.description;
-        vm.task.date = dto.date;
+        (vm.task as UpdateTodoListDayTaskRequestDto).date = (dto as UpdateTodoListDayTaskRequestDto).date;
 
         vm.update().subscribe(() => {
           expect(srv.updateTodoListTask.calls.count())
