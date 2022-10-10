@@ -6,15 +6,13 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 import { Subscription, } from 'rxjs';
 
 import { AppClock,
-         MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE,
          ToastsComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
-         TODO_LIST_ROUTE_ID_PARAMETER,   } from 'src/app/core';
-import { TodoListTaskComponent,          } from 'src/app/todo-list-task/components/todo-list-task';
-import { TodoListTaskDateDto,            } from '../../api';
-import { AddTodoListTaskViewModel,       } from './add-todo-list-task.view-model';
+         TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { TodoListTaskComponent,        } from 'src/app/todo-list-task/components/todo-list-task';
+import { AddTodoListDayTaskRequestDto, } from '../../api';
+import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
   templateUrl: './add-todo-list-task.component.html',
@@ -43,6 +41,7 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
 
     private readonly subsription: Subscription,
 
+    private readonly clock    : AppClock,
     private readonly route    : ActivatedRoute,
     private readonly links    : TodoListTaskLinks,
     private readonly navigator: TodoListTaskNavigator,
@@ -58,7 +57,7 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
         const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
 
         if (todoListId) {
-          this.vm.todoListId = todoListId;
+          this.initialize(this.vm.task as AddTodoListDayTaskRequestDto, todoListId);
         }
         else {
           this.error = 'An error occured.';
@@ -92,5 +91,10 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
 
       this.subsription.add(this.vm.add().subscribe(observer));
     }
+  }
+
+  private initialize(task: AddTodoListDayTaskRequestDto, todoListId: string): void {
+    task.todoListId = todoListId;
+    task.date = this.clock.now();
   }
 }
