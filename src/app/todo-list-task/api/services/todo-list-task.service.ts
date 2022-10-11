@@ -29,66 +29,56 @@ export class TodoListTaskService {
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
     : Observable<GetTodoListTaskResponseDto> {
-    return this.http.get<GetTodoListTaskResponseDto>(`${this.todoRoute}/${query.todoListId}/list/${query.todoListTaskId}`);
+    return this.http.get<GetTodoListTaskResponseDto>(`${this.todoRoute}/${query.todoListId}/task/${query.todoListTaskId}`);
   }
 
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
     : Observable<SearchTodoListTasksRecordResponseDto[]> {
-    return this.http.get<SearchTodoListTasksRecordResponseDto[]>(`${this.todoRoute}/${query.todoListId}/list`);
+    return this.http.get<SearchTodoListTasksRecordResponseDto[]>(`${this.todoRoute}/${query.todoListId}/task`);
   }
 
   public addTodoListTask(
     command: AddTodoListDayTaskRequestDto | AddTodoListPeriodTaskRequestDto)
     : Observable<AddTodoListTaskResponseDto> {
-    const url  = `${this.todoRoute}/${command.todoListId}/list`;
-    const body = JSON.stringify(command);
+    const url  = `${this.todoRoute}/${command.todoListId}/task`;
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
     };
 
-    return this.http.post<AddTodoListTaskResponseDto>(url, body, options);
+    return this.http.post<AddTodoListTaskResponseDto>(url, command, options);
   }
 
   public updateTodoListTask(
     command: UpdateTodoListDayTaskRequestDto | UpdateTodoListPeriodTaskRequestDto)
     : Observable<void> {
-      const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}`;
-      const body = JSON.stringify(command);
+      const url  = `${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}`;
       const options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
         }),
       };
 
-    return this.http.put<void>(url, body, options);
+    return this.http.put<void>(url, command, options);
   }
 
   public completeTodoListTask(
     command: CompleteTodoListTaskRequestDto)
     : Observable<void> {
-    const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}/complete`;
-    const body = JSON.stringify(command);
-
-    return this.http.post<void>(url, body);
+    return this.http.post<void>(`${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}/complete`, null);
   }
 
   public uncompleteTodoListTask(
     command: UncompleteTodoListTaskRequestDto)
     : Observable<void> {
-    const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}/uncomplete`;
-    const body = JSON.stringify(command);
-
-    return this.http.post<void>(url, body);
+    return this.http.post<void>(`${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}/uncomplete`, null);
   }
 
   public deleteTodoListTask(
     command: DeleteTodoListTaskRequestDto)
     : Observable<void> {
-    const url  = `${this.todoRoute}/${command.todoListId}/list/${command.todoListTaskId}`;
-
-    return this.http.delete<void>(url);
+    return this.http.delete<void>(`${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}`);
   }
 }
