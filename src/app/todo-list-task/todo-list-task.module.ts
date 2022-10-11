@@ -8,6 +8,7 @@ import { AddTodoListTaskComponent,
          TodoListTaskPeriodComponent,
          TodoListTaskComponent,
          UpdateTodoListTaskComponent,  } from './components';
+import { httpInterceptorProviders,     } from './interceptors';
 import { TodoListTaskTimePipe,         } from './pipes';
 import { TodoListTaskRoutingModule,    } from './todo-list-task-routing.module';
 
@@ -26,6 +27,7 @@ import { TodoListTaskRoutingModule,    } from './todo-list-task-routing.module';
 
     CoreModule,
     TodoListTaskRoutingModule,
-  ]
+  ],
+  providers: [ httpInterceptorProviders, ],
 })
 export class TodoListTaskModule { }
