@@ -13,7 +13,7 @@
       <span *ngIf="hasError('title', 'required')">Please enter a title.</span>
     </span>
   </div>
-  <todo-list-task-period [formGroup]="form">
+  <todo-list-task-period formControlName="period">
   </todo-list-task-period>
   <div class="form-group">
     <label for="txtDescription" class="form-label">Description</label>

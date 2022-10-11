@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,                 } from 'src/app/core';
+import { FormComponentBase,                  } from 'src/app/core';
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
+         TodoListTaskDateDto,
          UpdateTodoListDayTaskRequestDto,
          UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
 
@@ -42,6 +43,7 @@ export class TodoListTaskComponent
     this.form.setValue({
       'title'      : this.task.title,
       'description': this.task.description,
+      'period'     : this.buildPeriod(),
     });
 
     this.subscription.add(
@@ -60,6 +62,17 @@ export class TodoListTaskComponent
     return this.fb.group({
       'title'      : this.fb.control('', Validators.required),
       'description': '',
+      'period'     : new TodoListTaskDateDto(),
     });
+  }
+
+  private buildPeriod(): TodoListTaskDateDto {
+    console.log(this.task);
+    if (this.task instanceof AddTodoListDayTaskRequestDto ||
+        this.task instanceof UpdateTodoListDayTaskRequestDto) {
+      return new TodoListTaskDateDto(this.task.date, true);
+    }
+
+    return new TodoListTaskDateDto(undefined, false, this.task.begin, this.task.end);
   }
 }

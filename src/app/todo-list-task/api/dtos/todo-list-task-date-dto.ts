@@ -1,8 +1,8 @@
 export class TodoListTaskDateDto {
   public constructor(
-    public day     : number  = Date.now(),
+    public day     : number  = 0,
     public fullDay : boolean = false,
-    public start   : number  = Date.now(),
-    public end     : number  = Date.now(),
+    public start   : number  = 0,
+    public end     : number  = 0,
   ) {}
 }
