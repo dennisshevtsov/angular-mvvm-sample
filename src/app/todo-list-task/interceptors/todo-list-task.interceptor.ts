@@ -25,7 +25,7 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
       return next.handle(req.clone({
         body: {
           ...req.body,
-          type: 1,
+          type: 2,
         }
       }));
     }
