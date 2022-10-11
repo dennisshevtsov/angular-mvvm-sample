@@ -4,43 +4,44 @@ import { map, Observable, } from 'rxjs';
 
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
-         TodoListTaskService,             } from 'src/app/todo-list-task/api';
+         TodoListTaskService,          } from 'src/app/todo-list-task/api';
+import { TodoListTaskViewModel,        } from 'src/app/todo-list-task/components/todo-list-task/todo-list-task.view-model';
 
 @Injectable()
 export class AddTodoListTaskViewModel {
-  private todoListIdValue    : undefined | string;
-  private todoListTaskIdValue: undefined | string;
-  private taskValue          : undefined | AddTodoListDayTaskRequestDto | AddTodoListPeriodTaskRequestDto;
+  private taskValue          : undefined | TodoListTaskViewModel;
 
   public constructor(
     private readonly service: TodoListTaskService,
   ) {}
 
-  public get todoListId(): string {
-    return this.todoListIdValue ?? '';
-  }
-
-  public set todoListId(todoListId: string) {
-    this.todoListIdValue = todoListId;
-    this.task.todoListId = todoListId;
-  }
-
-  public get todoListTaskId(): string {
-    return this.todoListTaskIdValue ?? '';
-  }
-
-  public set todoListTaskId(todoListTaskId:string) {
-    this.todoListTaskIdValue = todoListTaskId;
-  }
-
-  public get task(): AddTodoListDayTaskRequestDto | AddTodoListPeriodTaskRequestDto {
-    return this.taskValue ?? new AddTodoListDayTaskRequestDto();
+  public get task(): TodoListTaskViewModel {
+    return this.taskValue ?? (this.taskValue = new TodoListTaskViewModel());
   }
 
   public add(): Observable<void> {
-    return this.service.addTodoListTask(this.task)
+    return this.service.addTodoListTask(this.buildRequestDto())
                        .pipe(map(responseDto => {
-                         this.todoListTaskId = responseDto.todoListTaskId;
+                         this.task.todoListTaskId = responseDto.todoListTaskId;
                        }));
+  }
+
+  private buildRequestDto(): AddTodoListDayTaskRequestDto | AddTodoListPeriodTaskRequestDto {
+    if (this.task.period.fullDay) {
+      return new AddTodoListDayTaskRequestDto(
+        this.task.todoListId,
+        this.task.title,
+        this.task.description,
+        '2022-09-01T00:00:00',//this.task.period.day,
+      );
+    }
+
+    return new AddTodoListPeriodTaskRequestDto(
+      this.task.todoListId,
+      this.task.title,
+      this.task.description,
+      this.task.period.start,
+      this.task.period.end,
+    );
   }
 }

@@ -48,7 +48,7 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
   ) { }
 
   public get backLink(): any[] {
-    return this.links.searchTodoListTasksLink(this.vm.todoListId);
+    return this.links.searchTodoListTasksLink(this.vm.task.todoListId);
   }
 
   public ngOnInit(): void {
@@ -57,7 +57,9 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
         const todoListId = params.get(TODO_LIST_ROUTE_ID_PARAMETER);
 
         if (todoListId) {
-          this.initialize(this.vm.task as AddTodoListDayTaskRequestDto, todoListId);
+          this.vm.task.todoListId     = todoListId;
+          this.vm.task.period.day     = this.clock.now();
+          this.vm.task.period.fullDay = true;
         }
         else {
           this.error = 'An error occured.';
@@ -85,16 +87,11 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
     if (this.task.form.valid) {
       const observer = {
         complete: () => this.navigator.navigateToUpdateTodoListTask(
-          this.vm.todoListId, this.vm.todoListTaskId),
+          this.vm.task.todoListId, this.vm.task.todoListTaskId),
         error   : () => this.toasts.error('An error occured.'),
       };
 
       this.subsription.add(this.vm.add().subscribe(observer));
     }
-  }
-
-  private initialize(task: AddTodoListDayTaskRequestDto, todoListId: string): void {
-    task.todoListId = todoListId;
-    task.date = this.clock.now();
   }
 }
