@@ -38,7 +38,7 @@ describe('AddTodoListTaskViewModel', () => {
         srv.addTodoListTask.and.returnValue(
           of(new AddTodoListTaskResponseDto(todoListTaskId)));
 
-        expect(vm.todoListTaskId)
+        expect(vm.task.todoListTaskId)
           .withContext('todoListTaskId should return default value')
           .toBe('');
 
@@ -47,7 +47,7 @@ describe('AddTodoListTaskViewModel', () => {
             .withContext('addTodoListTask should be called once')
             .toBe(1);
 
-          expect(vm.todoListTaskId)
+          expect(vm.task.todoListTaskId)
             .withContext('todoListTaskId should be populated')
             .toBe(todoListTaskId);
         });

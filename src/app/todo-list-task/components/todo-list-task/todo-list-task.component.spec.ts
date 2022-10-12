@@ -1,11 +1,10 @@
-import { inject, TestBed,              } from '@angular/core/testing';
-import { FormBuilder, FormGroup,       } from '@angular/forms';
+import { inject, TestBed,        } from '@angular/core/testing';
+import { FormBuilder, FormGroup, } from '@angular/forms';
 
 import { Observable, of, Subscription, } from 'rxjs';
 
-import { AddTodoListDayTaskRequestDto,
-         TodoListTaskDateDto,          } from 'src/app/todo-list-task/api';
-import { TodoListTaskComponent,        } from './todo-list-task.component';
+import { TodoListTaskComponent, } from './todo-list-task.component';
+import { TodoListTaskViewModel, } from './todo-list-task.view-model';
 
 describe('TodoListTaskComponent', () => {
   beforeEach(() => {
@@ -30,7 +29,7 @@ describe('TodoListTaskComponent', () => {
     [ Subscription, FormBuilder, ],
     (subSpy: jasmine.SpyObj<Subscription>,
      fbSpy : jasmine.SpyObj<FormBuilder>) => {
-    const requestDto = new AddTodoListDayTaskRequestDto(
+    const requestDto = new TodoListTaskViewModel(
       'test todo list id',
       'test todo list title',
       'test todo list description');
@@ -68,7 +67,7 @@ describe('TodoListTaskComponent', () => {
     [ Subscription, FormBuilder, ],
     (subSpy: jasmine.SpyObj<Subscription>,
      fbSpy : jasmine.SpyObj<FormBuilder>) => {
-    const requestDto = new AddTodoListDayTaskRequestDto(
+    const requestDto = new TodoListTaskViewModel(
       'test todo list id',
       'test todo list title',
       'test todo list description');
