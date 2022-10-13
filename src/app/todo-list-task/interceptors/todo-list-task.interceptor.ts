@@ -9,8 +9,8 @@ import { AddTodoListDayTaskRequestDto,
          UpdateTodoListDayTaskRequestDto,
          UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
 
-const DAY_TASK    = 1;
-const PERIOD_TASK = 2;
+export const DAY_TASK    = 1;
+export const PERIOD_TASK = 2;
 
 @Injectable()
 export class TodoListTaskInterceptor implements HttpInterceptor {
