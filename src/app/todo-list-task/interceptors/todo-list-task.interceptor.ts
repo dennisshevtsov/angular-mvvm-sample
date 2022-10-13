@@ -7,7 +7,10 @@ import { Observable, } from 'rxjs';
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
          UpdateTodoListDayTaskRequestDto,
-         UpdateTodoListPeriodTaskRequestDto, } from '../api';
+         UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
+
+const DAY_TASK    = 1;
+const PERIOD_TASK = 2;
 
 @Injectable()
 export class TodoListTaskInterceptor implements HttpInterceptor {
@@ -17,7 +20,7 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
       return next.handle(req.clone({
         body: {
           ...req.body,
-          type: 1,
+          type: DAY_TASK,
         }
       }));
     } else if (req.body instanceof AddTodoListPeriodTaskRequestDto ||
@@ -25,7 +28,7 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
       return next.handle(req.clone({
         body: {
           ...req.body,
-          type: 2,
+          type: PERIOD_TASK,
         }
       }));
     }

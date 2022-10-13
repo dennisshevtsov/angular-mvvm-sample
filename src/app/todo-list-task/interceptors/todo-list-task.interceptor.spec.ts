@@ -3,7 +3,7 @@ import { HttpHandler, HttpRequest, } from '@angular/common/http';
 import { TodoListTaskInterceptor, } from './todo-list-task.interceptor';
 
 describe('TodoListTaskInterceptor', () => {
-  it('intercept should update request body', () => {
+  it('intercept should modify request body', () => {
     const req : jasmine.SpyObj<HttpRequest<any>> = jasmine.createSpyObj('HttpRequest', ['clone'], ['body']);
     const next: jasmine.SpyObj<HttpHandler>      = jasmine.createSpyObj('HttpHandler', ['handle']);
 
