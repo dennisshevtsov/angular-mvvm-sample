@@ -17,19 +17,23 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (req.body instanceof AddTodoListDayTaskRequestDto ||
         req.body instanceof UpdateTodoListDayTaskRequestDto) {
+      const { todoListId, ...body } = req.body;
+
       return next.handle(req.clone({
         body: {
-          ...req.body,
+          ...body,
           type: DAY_TASK,
-        }
+        },
       }));
     } else if (req.body instanceof AddTodoListPeriodTaskRequestDto ||
                req.body instanceof UpdateTodoListPeriodTaskRequestDto) {
+      const { todoListId, ...body } = req.body;
+
       return next.handle(req.clone({
         body: {
-          ...req.body,
+          ...body,
           type: PERIOD_TASK,
-        }
+        },
       }));
     }
 
