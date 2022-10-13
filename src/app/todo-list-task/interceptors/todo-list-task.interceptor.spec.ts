@@ -59,7 +59,9 @@ describe('TodoListTaskInterceptor', () => {
       .withContext('req.clone should be called with modified body')
       .toEqual({
         body: {
-          ...dayTaskRequestDto,
+          title: dayTaskRequestDto.title,
+          description: dayTaskRequestDto.description,
+          date: dayTaskRequestDto.date,
           type: DAY_TASK,
         },
       });
@@ -94,7 +96,10 @@ describe('TodoListTaskInterceptor', () => {
       .withContext('req.clone should be called with modified body')
       .toEqual({
         body: {
-          ...periodTaskRequestDto,
+          title: periodTaskRequestDto.title,
+          description: periodTaskRequestDto.description,
+          begin: periodTaskRequestDto.begin,
+          end: periodTaskRequestDto.end,
           type: PERIOD_TASK,
         },
       });
