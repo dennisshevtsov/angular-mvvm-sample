@@ -25,8 +25,10 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
           type: DAY_TASK,
         },
       }));
-    } else if (req.body instanceof AddTodoListPeriodTaskRequestDto ||
-               req.body instanceof UpdateTodoListPeriodTaskRequestDto) {
+    }
+
+    if (req.body instanceof AddTodoListPeriodTaskRequestDto ||
+        req.body instanceof UpdateTodoListPeriodTaskRequestDto) {
       const { todoListId, ...body } = req.body;
 
       return next.handle(req.clone({

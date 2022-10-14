@@ -1,11 +1,11 @@
 import { HTTP_INTERCEPTORS, } from '@angular/common/http';
 
-import { TodoListTaskInterceptor, } from './todo-list-task.interceptor';
+import { TodoListInterceptor, } from './todo-list.interceptor';
 
 export const httpInterceptorProviders = [
   {
     provide : HTTP_INTERCEPTORS,
-    useClass: TodoListTaskInterceptor,
+    useClass: TodoListInterceptor,
     multi   : true,
   },
 ];
