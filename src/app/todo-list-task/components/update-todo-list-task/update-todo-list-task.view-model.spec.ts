@@ -61,7 +61,7 @@ describe('UpdateTodoListTaskViewModel', () => {
             todoListTaskId,
             responseDto.title,
             responseDto.description,
-            responseDto.date.day,
+            '', //responseDto.date.day,
           )
 
           expect(vm.task)

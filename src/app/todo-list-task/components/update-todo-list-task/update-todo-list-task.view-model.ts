@@ -32,7 +32,7 @@ export class UpdateTodoListTaskViewModel {
           this.task.todoListTaskId,
           this.task.title,
           this.task.description,
-          this.clock.now(),
+          '', //this.clock.now(),
         );
       }
       else {
@@ -46,8 +46,8 @@ export class UpdateTodoListTaskViewModel {
           this.task.todoListTaskId,
           this.task.title,
           this.task.description,
-          start,
-          end,
+          '', //start,
+          '', //end,
         );
       }
 

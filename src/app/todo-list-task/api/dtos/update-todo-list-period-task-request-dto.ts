@@ -4,7 +4,7 @@ export class UpdateTodoListPeriodTaskRequestDto {
     public todoListTaskId: string = '',
     public title         : string = '',
     public description   : string = '',
-    public begin         : number = 0,
-    public end           : number = 0,
+    public begin         : string = '',
+    public end           : string = '',
   ) {}
 }
