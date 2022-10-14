@@ -15,8 +15,7 @@ export const PERIOD_TASK = 2;
 @Injectable()
 export class TodoListTaskInterceptor implements HttpInterceptor {
   public intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (req.body instanceof AddTodoListDayTaskRequestDto ||
-        req.body instanceof UpdateTodoListDayTaskRequestDto) {
+    if (req.body instanceof AddTodoListDayTaskRequestDto) {
       const { todoListId, ...body } = req.body;
 
       return next.handle(req.clone({
@@ -27,9 +26,30 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
       }));
     }
 
-    if (req.body instanceof AddTodoListPeriodTaskRequestDto ||
-        req.body instanceof UpdateTodoListPeriodTaskRequestDto) {
+    if (req.body instanceof UpdateTodoListDayTaskRequestDto) {
+      const { todoListId, todoListTaskId, ...body } = req.body;
+
+      return next.handle(req.clone({
+        body: {
+          ...body,
+          type: DAY_TASK,
+        },
+      }));
+    }
+
+    if (req.body instanceof AddTodoListPeriodTaskRequestDto) {
       const { todoListId, ...body } = req.body;
+
+      return next.handle(req.clone({
+        body: {
+          ...body,
+          type: PERIOD_TASK,
+        },
+      }));
+    }
+
+    if (req.body instanceof UpdateTodoListPeriodTaskRequestDto) {
+      const { todoListId, todoListTaskId, ...body } = req.body;
 
       return next.handle(req.clone({
         body: {
