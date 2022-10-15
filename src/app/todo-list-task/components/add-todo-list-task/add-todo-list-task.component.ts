@@ -6,12 +6,13 @@ import { ActivatedRoute, ParamMap, } from '@angular/router';
 import { Subscription, } from 'rxjs';
 
 import { AppClock,
+         MILLISECONDS_IN_HOUR,
+         MILLISECONDS_IN_MENUTE,
          ToastsComponent,
          TodoListTaskLinks,
          TodoListTaskNavigator,
          TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
 import { TodoListTaskComponent,        } from 'src/app/todo-list-task/components/todo-list-task';
-import { AddTodoListDayTaskRequestDto, } from '../../api';
 import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
 
 @Component({
@@ -58,7 +59,15 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
 
         if (todoListId) {
           this.vm.task.todoListId     = todoListId;
-          this.vm.task.period.day     = this.clock.now();
+
+          const now   = this.clock.now();
+          const step  = 15 * MILLISECONDS_IN_MENUTE;
+          const start = now - (now % step) + step;
+          const end   = start + MILLISECONDS_IN_HOUR;
+          
+          this.vm.task.period.day     = now;
+          this.vm.task.period.start   = start;
+          this.vm.task.period.end     = end;
           this.vm.task.period.fullDay = true;
         }
         else {
