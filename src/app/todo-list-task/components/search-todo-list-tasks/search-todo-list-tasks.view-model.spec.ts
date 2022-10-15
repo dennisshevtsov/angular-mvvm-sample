@@ -3,7 +3,6 @@ import { inject, TestBed, } from '@angular/core/testing';
 import { of, } from 'rxjs';
 
 import { SearchTodoListTasksRecordResponseDto,
-         TodoListTaskDateDto,
          TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -45,7 +44,6 @@ describe('SearchTodoListTasksViewModel', () => {
           false,
           'test todo list task title',
           'test todo list task description',
-          new TodoListTaskDateDto(0, true),
         );
 
         expect(vm.hasSelection)
@@ -73,21 +71,18 @@ describe('SearchTodoListTasksViewModel', () => {
             false,
             'test todo list task title 0',
             'test todo list task description 0',
-            new TodoListTaskDateDto(1000000, false),
           ),
           new SearchTodoListTasksRecordResponseDto(
             'test todo list task id 1',
             false,
             'test todo list task title 1',
             'test todo list task description 1',
-            new TodoListTaskDateDto(1000000, false),
           ),
           new SearchTodoListTasksRecordResponseDto(
             'test todo list task id 2',
             false,
             'test todo list task title 2',
             'test todo list task description 2',
-            new TodoListTaskDateDto(1000000, false),
           ),
         ];
 
@@ -139,7 +134,6 @@ describe('SearchTodoListTasksViewModel', () => {
           false,
           'test todo list task title 0',
           'test todo list task description 0',
-          new TodoListTaskDateDto(1000000, false),
         );
 
         vm.complete().subscribe(() => {
@@ -187,7 +181,6 @@ describe('SearchTodoListTasksViewModel', () => {
         false,
         'test todo list task title 0',
         'test todo list task description 0',
-        new TodoListTaskDateDto(1000000, false),
       );
 
       vm.uncomplete().subscribe(() => {
@@ -226,21 +219,18 @@ describe('SearchTodoListTasksViewModel', () => {
           false,
           'test todo list task title 0',
           'test todo list task description 0',
-          new TodoListTaskDateDto(1000000, false),
         ),
         new SearchTodoListTasksRecordResponseDto(
           'test todo list task id 1',
           false,
           'test todo list task title 1',
           'test todo list task description 1',
-          new TodoListTaskDateDto(1000000, false),
         ),
         new SearchTodoListTasksRecordResponseDto(
           'test todo list task id 2',
           false,
           'test todo list task title 2',
           'test todo list task description 2',
-          new TodoListTaskDateDto(1000000, false),
         ),
       ];
 
@@ -261,7 +251,6 @@ describe('SearchTodoListTasksViewModel', () => {
         false,
         'test todo list task title 0',
         'test todo list task description 0',
-        new TodoListTaskDateDto(1000000, false),
       );
 
       vm.delete().subscribe(() => {

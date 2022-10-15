@@ -4,8 +4,8 @@ import { AbstractControl, FormBuilder,
 
 import { Observable, of, Subscription, } from 'rxjs';
 
-import { TodoListTaskDateDto,          } from 'src/app/todo-list-task/api';
-import { TodoListTaskPeriodComponent,  } from './todo-list-task-period.component';
+import { TodoListTaskPeriodComponent, } from './todo-list-task-period.component';
+import { TodoListTaskPeriodViewModel, } from './todo-list-task-period.view-model';
 
 describe('TodoListTaskPeriodComponent', () => {
   beforeEach(() => {
@@ -91,7 +91,7 @@ describe('TodoListTaskPeriodComponent', () => {
       .withContext('setValue should not be called')
       .toBe(0);
 
-    const periodDto = new TodoListTaskDateDto(100000, false, 200000, 300000)
+    const periodDto = new TodoListTaskPeriodViewModel(100000, false, 200000, 300000)
 
     fixture.componentInstance.writeValue(periodDto);
 

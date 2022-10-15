@@ -6,8 +6,7 @@ import { ActivatedRoute, RouterModule,         } from '@angular/router';
 import { of, Subscription, throwError,         } from 'rxjs';
 
 import { TodoListLinks, TodoListTaskLinks,     } from 'src/app/core';
-import { SearchTodoListTasksRecordResponseDto,
-         TodoListTaskDateDto,                  } from 'src/app/todo-list-task/api';
+import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksComponent,         } from './search-todo-list-tasks.component';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -178,8 +177,7 @@ describe('SearchTodoListTasksComponent', () => {
         'test todo list task id',
         false,
         'test todo list task title',
-        'test todo list task description',
-        new TodoListTaskDateDto());
+        'test todo list task description');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
@@ -295,8 +293,7 @@ describe('SearchTodoListTasksComponent', () => {
         'test todo list task id',
         true,
         'test todo list task title',
-        'test todo list task description',
-        new TodoListTaskDateDto());
+        'test todo list task description');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
@@ -407,8 +404,7 @@ describe('SearchTodoListTasksComponent', () => {
         'test todo list task id',
         true,
         'test todo list task title',
-        'test todo list task description',
-        new TodoListTaskDateDto());
+        'test todo list task description');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
@@ -455,8 +451,7 @@ describe('SearchTodoListTasksComponent', () => {
         'test todo list task id',
         true,
         'test todo list task title',
-        'test todo list task description',
-        new TodoListTaskDateDto());
+        'test todo list task description');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
