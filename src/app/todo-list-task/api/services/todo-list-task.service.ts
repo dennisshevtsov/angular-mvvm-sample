@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders, } from '@angular/common/http';
 import { Injectable,              } from '@angular/core';
 
-import { Observable, } from 'rxjs';
+import { map, Observable, } from 'rxjs';
 
+import { DAY_TASK,                             } from '../../interceptors/todo-list-task.interceptor';
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
          AddTodoListTaskResponseDto,
@@ -36,7 +37,21 @@ export class TodoListTaskService {
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
     : Observable<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]> {
-    return this.http.get<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]>(`${this.todoRoute}/${query.todoListId}/task`);
+    return this.http.get<any[]>(`${this.todoRoute}/${query.todoListId}/task`)
+                    .pipe(map(reponse => {
+                      const dtos = new Array<SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto>(reponse.length);
+
+                      for (let i = 0; i < reponse.length; i++) {
+                        if (reponse[i].type == DAY_TASK) {
+                          dtos[i] = Object.assign(new SearchTodoListDayTaskResponseDto(), reponse[i]);
+                        }
+                        else {
+                          dtos[i] = Object.assign(new SearchTodoListPeriodTaskResponseDto(), reponse[i]);
+                        }
+                      }
+
+                      return dtos;
+                    }));
   }
 
   public addTodoListTask(
