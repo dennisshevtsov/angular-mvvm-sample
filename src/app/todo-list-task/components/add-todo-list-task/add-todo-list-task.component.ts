@@ -64,7 +64,7 @@ export class AddTodoListTaskComponent implements OnInit, AfterViewInit, OnDestro
           const step  = 15 * MILLISECONDS_IN_MENUTE;
           const start = now - (now % step) + step;
           const end   = start + MILLISECONDS_IN_HOUR;
-          
+
           this.vm.task.period.day     = now;
           this.vm.task.period.start   = start;
           this.vm.task.period.end     = end;

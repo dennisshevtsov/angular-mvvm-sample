@@ -20,8 +20,8 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
 
       return next.handle(req.clone({
         body: {
-          ...body,
           type: DAY_TASK,
+          ...body,
         },
       }));
     }
@@ -31,8 +31,8 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
 
       return next.handle(req.clone({
         body: {
-          ...body,
           type: DAY_TASK,
+          ...body,
         },
       }));
     }
@@ -42,8 +42,8 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
 
       return next.handle(req.clone({
         body: {
-          ...body,
           type: PERIOD_TASK,
+          ...body,
         },
       }));
     }
@@ -53,8 +53,8 @@ export class TodoListTaskInterceptor implements HttpInterceptor {
 
       return next.handle(req.clone({
         body: {
-          ...body,
           type: PERIOD_TASK,
+          ...body,
         },
       }));
     }

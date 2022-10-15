@@ -3,7 +3,6 @@ import { inject, TestBed, } from '@angular/core/testing';
 import { of, } from 'rxjs';
 
 import { GetTodoListTaskResponseDto,
-         TodoListTaskDateDto,
          TodoListTaskService,
          UpdateTodoListDayTaskRequestDto, } from 'src/app/todo-list-task/api';
 import { UpdateTodoListTaskViewModel,     } from './update-todo-list-task.view-model';
@@ -39,8 +38,7 @@ describe('UpdateTodoListTaskViewModel', () => {
         const responseDto = new GetTodoListTaskResponseDto(
           'test todo list task title',
           'test todo list task description',
-          new TodoListTaskDateDto(0, true),
-        )
+        );
 
         srv.getTodoListTask.and.returnValue(of(responseDto));
 
