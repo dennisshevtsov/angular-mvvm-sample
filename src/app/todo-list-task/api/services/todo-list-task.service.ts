@@ -10,7 +10,8 @@ import { AddTodoListDayTaskRequestDto,
          DeleteTodoListTaskRequestDto,
          GetTodoListTaskRequestDto,
          GetTodoListTaskResponseDto,
-         SearchTodoListTasksRecordResponseDto,
+         SearchTodoListDayTaskResponseDto,
+         SearchTodoListPeriodTaskResponseDto,
          SearchTodoListTasksRequestDto,
          UncompleteTodoListTaskRequestDto,
          UpdateTodoListDayTaskRequestDto,
@@ -34,8 +35,8 @@ export class TodoListTaskService {
 
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
-    : Observable<SearchTodoListTasksRecordResponseDto[]> {
-    return this.http.get<SearchTodoListTasksRecordResponseDto[]>(`${this.todoRoute}/${query.todoListId}/task`);
+    : Observable<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]> {
+    return this.http.get<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]>(`${this.todoRoute}/${query.todoListId}/task`);
   }
 
   public addTodoListTask(

@@ -2,7 +2,7 @@ import { inject, TestBed, } from '@angular/core/testing';
 
 import { of, } from 'rxjs';
 
-import { SearchTodoListTasksRecordResponseDto,
+import { SearchTodoListDayTaskResponseDto,
          TodoListTaskService,                  } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -39,7 +39,7 @@ describe('SearchTodoListTasksViewModel', () => {
           .withContext('hasSelection should return false')
           .toBeFalse();
 
-        vm.selected = new SearchTodoListTasksRecordResponseDto(
+        vm.selected = new SearchTodoListDayTaskResponseDto(
           'test todo list task id',
           false,
           'test todo list task title',
@@ -66,19 +66,19 @@ describe('SearchTodoListTasksViewModel', () => {
         vm.todoListId = todoListId;
 
         const responseDtos = [
-          new SearchTodoListTasksRecordResponseDto(
+          new SearchTodoListDayTaskResponseDto(
             'test todo list task id 0',
             false,
             'test todo list task title 0',
             'test todo list task description 0',
           ),
-          new SearchTodoListTasksRecordResponseDto(
+          new SearchTodoListDayTaskResponseDto(
             'test todo list task id 1',
             false,
             'test todo list task title 1',
             'test todo list task description 1',
           ),
-          new SearchTodoListTasksRecordResponseDto(
+          new SearchTodoListDayTaskResponseDto(
             'test todo list task id 2',
             false,
             'test todo list task title 2',
@@ -129,7 +129,7 @@ describe('SearchTodoListTasksViewModel', () => {
         const todoListTaskId = 'test todo list task id 0';
 
         vm.todoListId = todoListId;
-        vm.selected = new SearchTodoListTasksRecordResponseDto(
+        vm.selected = new SearchTodoListDayTaskResponseDto(
           todoListTaskId,
           false,
           'test todo list task title 0',
@@ -176,7 +176,7 @@ describe('SearchTodoListTasksViewModel', () => {
       const todoListTaskId = 'test todo list task id 0';
 
       vm.todoListId = todoListId;
-      vm.selected = new SearchTodoListTasksRecordResponseDto(
+      vm.selected = new SearchTodoListDayTaskResponseDto(
         todoListTaskId,
         false,
         'test todo list task title 0',
@@ -214,19 +214,19 @@ describe('SearchTodoListTasksViewModel', () => {
       srv.deleteTodoListTask.and.returnValue(of(void 0));
 
       const responseDtos = [
-        new SearchTodoListTasksRecordResponseDto(
+        new SearchTodoListDayTaskResponseDto(
           'test todo list task id 0',
           false,
           'test todo list task title 0',
           'test todo list task description 0',
         ),
-        new SearchTodoListTasksRecordResponseDto(
+        new SearchTodoListDayTaskResponseDto(
           'test todo list task id 1',
           false,
           'test todo list task title 1',
           'test todo list task description 1',
         ),
-        new SearchTodoListTasksRecordResponseDto(
+        new SearchTodoListDayTaskResponseDto(
           'test todo list task id 2',
           false,
           'test todo list task title 2',
@@ -246,7 +246,7 @@ describe('SearchTodoListTasksViewModel', () => {
       const todoListTaskId = 'test todo list task id 0';
 
       vm.todoListId = todoListId;
-      vm.selected = new SearchTodoListTasksRecordResponseDto(
+      vm.selected = new SearchTodoListDayTaskResponseDto(
         todoListTaskId,
         false,
         'test todo list task title 0',

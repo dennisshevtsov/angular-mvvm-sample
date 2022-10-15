@@ -7,7 +7,8 @@ import { mergeMap, Subscription, throwError, } from 'rxjs';
 import { ModalComponent, ToastsComponent,
          TodoListLinks, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,         } from 'src/app/core';
-import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
+import { SearchTodoListDayTaskResponseDto,
+         SearchTodoListPeriodTaskResponseDto,  } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
 @Component({
@@ -87,7 +88,7 @@ export class SearchTodoListTasksComponent implements OnInit, AfterViewInit, OnDe
   }
 
   public onCompletedChanged(
-    record: SearchTodoListTasksRecordResponseDto): void {
+    record: SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto): void {
     this.vm.selected = record;
 
     let message: string;
@@ -113,7 +114,7 @@ export class SearchTodoListTasksComponent implements OnInit, AfterViewInit, OnDe
   }
 
   public onDeletePressed(
-    record: SearchTodoListTasksRecordResponseDto): void {
+    record: SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto): void {
     this.vm.selected = record;
     this.modal.show();
   }

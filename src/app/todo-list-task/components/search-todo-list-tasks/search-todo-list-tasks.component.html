@@ -27,7 +27,7 @@
              (change)="onCompletedChanged(record)">
       <div class="form-checked-content">
         <h5><strong class="mb-1">{{ record.title }}</strong></h5>
-        <div><small><i class="bi bi-calendar me-2"></i>{{ record.date | todoListTaskTime }}</small></div>
+        <div><small><i class="bi bi-calendar me-2"></i>{{ record | todoListTaskTime }}</small></div>
         <div><small>{{ record.description }}</small></div>
         <div class="d-flex w-100 align-items-center">
           <a class="me-2"

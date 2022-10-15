@@ -4,7 +4,8 @@ import { map, mergeMap, Observable, of, } from 'rxjs';
 
 import { CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
-         SearchTodoListTasksRecordResponseDto,
+         SearchTodoListDayTaskResponseDto,
+         SearchTodoListPeriodTaskResponseDto,
          SearchTodoListTasksRequestDto,
          TodoListTaskService,
          UncompleteTodoListTaskRequestDto,     } from 'src/app/todo-list-task/api';
@@ -12,8 +13,8 @@ import { CompleteTodoListTaskRequestDto,
 @Injectable()
 export class SearchTodoListTasksViewModel {
   private todoListIdValue: undefined | string;
-  private recordValue    : undefined | SearchTodoListTasksRecordResponseDto;
-  private tasksValue     : undefined | SearchTodoListTasksRecordResponseDto[];
+  private recordValue    : undefined | SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto;
+  private tasksValue     : undefined | (SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[];
 
   public constructor(
     private readonly service: TodoListTaskService,
@@ -27,11 +28,11 @@ export class SearchTodoListTasksViewModel {
     this.todoListIdValue = todoListId;
   }
 
-  public get selected(): SearchTodoListTasksRecordResponseDto {
-    return this.recordValue ?? new SearchTodoListTasksRecordResponseDto();
+  public get selected(): SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto {
+    return this.recordValue ?? new SearchTodoListDayTaskResponseDto();
   }
 
-  public set selected(record: SearchTodoListTasksRecordResponseDto) {
+  public set selected(record: SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto) {
     this.recordValue = record;
   }
 
@@ -39,11 +40,11 @@ export class SearchTodoListTasksViewModel {
     return !!this.selected.todoListTaskId;
   }
 
-  public get tasks(): SearchTodoListTasksRecordResponseDto[] {
+  public get tasks(): (SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[] {
     return this.tasksValue ?? [];
   }
 
-  public set tasks(tasks: SearchTodoListTasksRecordResponseDto[]) {
+  public set tasks(tasks: (SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]) {
     this.tasksValue = tasks;
   }
 

@@ -6,7 +6,7 @@ import { ActivatedRoute, RouterModule,         } from '@angular/router';
 import { of, Subscription, throwError,         } from 'rxjs';
 
 import { TodoListLinks, TodoListTaskLinks,     } from 'src/app/core';
-import { SearchTodoListTasksRecordResponseDto, } from 'src/app/todo-list-task/api';
+import { SearchTodoListDayTaskResponseDto,     } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksComponent,         } from './search-todo-list-tasks.component';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
 
@@ -173,15 +173,16 @@ describe('SearchTodoListTasksComponent', () => {
       errorSpy.calls.reset();
       infoSpy.calls.reset();
 
-      const recordDto = new SearchTodoListTasksRecordResponseDto(
+      const recordDto = new SearchTodoListDayTaskResponseDto(
         'test todo list task id',
         false,
         'test todo list task title',
-        'test todo list task description');
+        'test todo list task description',
+        '2022-09-01T00:00:00');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
-      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
-      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
+      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListDayTaskResponseDto) => void>;
+      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListDayTaskResponseDto>;
 
       getSelectedSpy.and.returnValue(recordDto);
 
@@ -289,15 +290,16 @@ describe('SearchTodoListTasksComponent', () => {
       errorSpy.calls.reset();
       infoSpy.calls.reset();
 
-      const recordDto = new SearchTodoListTasksRecordResponseDto(
+      const recordDto = new SearchTodoListDayTaskResponseDto(
         'test todo list task id',
         true,
         'test todo list task title',
-        'test todo list task description');
+        'test todo list task description',
+        '2022-09-01T00:00:00');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
-      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
-      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
+      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListDayTaskResponseDto) => void>;
+      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListDayTaskResponseDto>;
 
       getSelectedSpy.and.returnValue(recordDto);
 
@@ -400,14 +402,15 @@ describe('SearchTodoListTasksComponent', () => {
 
       tick();
 
-      const recordDto = new SearchTodoListTasksRecordResponseDto(
+      const recordDto = new SearchTodoListDayTaskResponseDto(
         'test todo list task id',
         true,
         'test todo list task title',
-        'test todo list task description');
+        'test todo list task description',
+        '2022-09-01T00:00:00');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
-      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListTasksRecordResponseDto) => void>;
+      const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListDayTaskResponseDto) => void>;
 
       fixture.componentInstance.onDeletePressed(recordDto);
 
@@ -447,14 +450,15 @@ describe('SearchTodoListTasksComponent', () => {
       errorSpy.calls.reset();
       infoSpy.calls.reset();
 
-      const recordDto = new SearchTodoListTasksRecordResponseDto(
+      const recordDto = new SearchTodoListDayTaskResponseDto(
         'test todo list task id',
         true,
         'test todo list task title',
-        'test todo list task description');
+        'test todo list task description',
+        '2022-09-01T00:00:00');
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
-      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListTasksRecordResponseDto>;
+      const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListDayTaskResponseDto>;
 
       getSelectedSpy.and.returnValue(recordDto);
 
