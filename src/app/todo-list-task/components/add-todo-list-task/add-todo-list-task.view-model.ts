@@ -32,7 +32,7 @@ export class AddTodoListTaskViewModel {
         this.task.todoListId,
         this.task.title,
         this.task.description,
-        '2022-09-01T00:00:00', //this.task.period.day,
+        this.task.period.day,
       );
     }
 
@@ -40,8 +40,8 @@ export class AddTodoListTaskViewModel {
       this.task.todoListId,
       this.task.title,
       this.task.description,
-      '2022-09-01T12:00:00', //this.task.period.start,
-      '2022-09-01T13:00:00', //this.task.period.end,
+      this.task.period.start,
+      this.task.period.end,
     );
   }
 }

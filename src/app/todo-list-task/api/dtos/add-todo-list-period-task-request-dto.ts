@@ -3,7 +3,7 @@ export class AddTodoListPeriodTaskRequestDto {
     public todoListId : string = '',
     public title      : string = '',
     public description: string = '',
-    public begin      : string = '',
-    public end        : string = '',
+    public begin      : number = 0,
+    public end        : number = 0,
   ) { }
 }

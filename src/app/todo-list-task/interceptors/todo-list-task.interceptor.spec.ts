@@ -49,7 +49,7 @@ describe('TodoListTaskInterceptor', () => {
       'a7abc513-4154-48d2-8d00-ea9b36c878f9',
       'test title',
       'test description',
-      '2022-09-01T00:00:00');
+      637975872000000000);
 
     bodyPropSpy.and.returnValue(requestDto);
 
