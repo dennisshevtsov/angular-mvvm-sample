@@ -6,6 +6,6 @@ export class SearchTodoListDayTaskResponseDto implements SearchTodoListTaskRespo
     public completed     : boolean = false,
     public title         : string  = '',
     public description   : string  = '',
-    public date          : string  = '',
+    public date          : number  = 0,
   ) { }
 }

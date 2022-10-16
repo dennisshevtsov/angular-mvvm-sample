@@ -14,17 +14,14 @@ export class TodoListTaskTimePipe implements PipeTransform {
 
   public transform(value: any): any {
     if (value instanceof SearchTodoListDayTaskResponseDto) {
-      //return this.formatter.toLocalDate(value.date);
-      return value.date;
+      return this.formatter.toLocalDate(value.date);
     }
 
     if (value instanceof SearchTodoListPeriodTaskResponseDto) {
-      // const begin = this.formatter.toLocalDateTime(value.begin);
-      // const end   = this.formatter.toLocalDateTime(value.end);
+      const begin = this.formatter.toLocalDateTime(value.begin);
+      const end   = this.formatter.toLocalDateTime(value.end);
 
-      //return `${begin} - ${end}`;
-
-      return `${value.begin} - ${value.end}`;
+      return `${begin} - ${end}`;
     }
 
     return '(no date)';
