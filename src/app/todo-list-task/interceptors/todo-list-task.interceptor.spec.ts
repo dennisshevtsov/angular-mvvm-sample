@@ -95,7 +95,7 @@ describe('TodoListTaskInterceptor', () => {
       'ba1e26c4-efe6-40a8-aa21-fa30e168174a',
       'test title',
       'test description',
-      '2022-09-01T00:00:00');
+      637975872000000000);
 
     bodyPropSpy.and.returnValue(requestDto);
 
@@ -141,8 +141,8 @@ describe('TodoListTaskInterceptor', () => {
       '40f60662-10af-4dcf-8ca2-2b64726e8789',
       'test title',
       'test description',
-      '2022-09-01T12:00:00',
-      '2022-09-01T13:00:00');
+      637976304000000000,
+      637976340000000000);
 
     bodyPropSpy.and.returnValue(requestDto);
 

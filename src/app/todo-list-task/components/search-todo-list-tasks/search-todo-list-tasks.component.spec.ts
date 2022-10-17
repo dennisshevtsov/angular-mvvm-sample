@@ -178,7 +178,7 @@ describe('SearchTodoListTasksComponent', () => {
         false,
         'test todo list task title',
         'test todo list task description',
-        '2022-09-01T00:00:00');
+        637975872000000000);
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListDayTaskResponseDto) => void>;
@@ -295,7 +295,7 @@ describe('SearchTodoListTasksComponent', () => {
         true,
         'test todo list task title',
         'test todo list task description',
-        '2022-09-01T00:00:00');
+        637975872000000000);
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListDayTaskResponseDto) => void>;
@@ -407,7 +407,7 @@ describe('SearchTodoListTasksComponent', () => {
         true,
         'test todo list task title',
         'test todo list task description',
-        '2022-09-01T00:00:00');
+        637975872000000000);
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const setSelectedSpy = descs.selected.set! as jasmine.Spy<(value: SearchTodoListDayTaskResponseDto) => void>;
@@ -455,7 +455,7 @@ describe('SearchTodoListTasksComponent', () => {
         true,
         'test todo list task title',
         'test todo list task description',
-        '2022-09-01T00:00:00');
+        637975872000000000);
 
       const descs = Object.getOwnPropertyDescriptors(vmSpy);
       const getSelectedSpy = descs.selected.get! as jasmine.Spy<() => SearchTodoListDayTaskResponseDto>;

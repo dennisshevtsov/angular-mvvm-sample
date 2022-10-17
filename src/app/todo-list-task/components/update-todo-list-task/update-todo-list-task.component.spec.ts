@@ -8,7 +8,7 @@ import { of, Subscription, throwError,      } from 'rxjs';
 import { PageComponent, TodoListTaskLinks,
          TODO_LIST_ROUTE_ID_PARAMETER,
          TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { UpdateTodoListDayTaskRequestDto    } from 'src/app/todo-list-task/api';
+import { TodoListTaskViewModel,             } from 'src/app/todo-list-task/components/todo-list-task';
 import { UpdateTodoListTaskComponent,       } from './update-todo-list-task.component';
 import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
 
@@ -113,9 +113,9 @@ describe('UpdateTodoListTaskComponent', () => {
       return null;
     });
 
-    const requestDto = new UpdateTodoListDayTaskRequestDto();
+    const requestDto = new TodoListTaskViewModel();
     const vmSpyDescs = Object.getOwnPropertyDescriptors(vmSpy);
-    const taskPropSpy = vmSpyDescs.task.get as jasmine.Spy<() => UpdateTodoListDayTaskRequestDto>;
+    const taskPropSpy = vmSpyDescs.task.get as jasmine.Spy<() => TodoListTaskViewModel>;
 
     taskPropSpy.and.returnValue(requestDto);
 
@@ -162,9 +162,9 @@ describe('UpdateTodoListTaskComponent', () => {
       vmSpy: jasmine.SpyObj<UpdateTodoListTaskViewModel>,
     ) => {
     const vmSpyDescs = Object.getOwnPropertyDescriptors(vmSpy);
-    const taskPropSpy = vmSpyDescs.task.get as jasmine.Spy<() => UpdateTodoListDayTaskRequestDto>;
+    const taskPropSpy = vmSpyDescs.task.get as jasmine.Spy<() => TodoListTaskViewModel>;
 
-    taskPropSpy.and.returnValue(new UpdateTodoListDayTaskRequestDto());
+    taskPropSpy.and.returnValue(new TodoListTaskViewModel());
 
     const fixture = TestBed.createComponent(UpdateTodoListTaskComponent);
 
@@ -187,9 +187,9 @@ describe('UpdateTodoListTaskComponent', () => {
       vmSpy: jasmine.SpyObj<UpdateTodoListTaskViewModel>,
     ) => {
     const vmSpyDescs = Object.getOwnPropertyDescriptors(vmSpy);
-    const taskPropSpy = vmSpyDescs.task.get as jasmine.Spy<() => UpdateTodoListDayTaskRequestDto>;
+    const taskPropSpy = vmSpyDescs.task.get as jasmine.Spy<() => TodoListTaskViewModel>;
 
-    taskPropSpy.and.returnValue(new UpdateTodoListDayTaskRequestDto());
+    taskPropSpy.and.returnValue(new TodoListTaskViewModel());
 
     const fixture = TestBed.createComponent(UpdateTodoListTaskComponent);
 

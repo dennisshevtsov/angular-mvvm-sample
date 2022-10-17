@@ -45,7 +45,7 @@ describe('UpdateTodoListTaskViewModel', () => {
         const todoListId = 'test todo list id';
         const todoListTaskId = 'test todo list id';
 
-        vm.fullDay = true;
+        vm.task.period.fullDay = true;
         vm.task.todoListId = todoListId;
         vm.task.todoListTaskId = todoListTaskId;
 
@@ -59,8 +59,8 @@ describe('UpdateTodoListTaskViewModel', () => {
             todoListTaskId,
             responseDto.title,
             responseDto.description,
-            '', //responseDto.date.day,
-          )
+            0,
+          );
 
           expect(vm.task)
             .withContext('task should be defined')
@@ -116,12 +116,12 @@ describe('UpdateTodoListTaskViewModel', () => {
           'test todo list task title',
           'test todo list task description');
 
-        vm.fullDay = true;
+        vm.task.period.fullDay = true;
         vm.task.todoListId = dto.todoListId;
         vm.task.todoListTaskId = dto.todoListTaskId;
         vm.task.title = dto.title;
         vm.task.description = dto.description;
-        (vm.task as UpdateTodoListDayTaskRequestDto).date = (dto as UpdateTodoListDayTaskRequestDto).date;
+        vm.task.period.day = (dto as UpdateTodoListDayTaskRequestDto).date;
 
         vm.update().subscribe(() => {
           expect(srv.updateTodoListTask.calls.count())

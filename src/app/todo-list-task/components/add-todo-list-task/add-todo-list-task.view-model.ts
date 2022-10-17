@@ -4,12 +4,12 @@ import { map, Observable, } from 'rxjs';
 
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
-         TodoListTaskService,          } from 'src/app/todo-list-task/api';
-import { TodoListTaskViewModel,        } from 'src/app/todo-list-task/components/todo-list-task/todo-list-task.view-model';
+         TodoListTaskService,             } from 'src/app/todo-list-task/api';
+import { TodoListTaskViewModel,           } from 'src/app/todo-list-task/components/todo-list-task';
 
 @Injectable()
 export class AddTodoListTaskViewModel {
-  private taskValue          : undefined | TodoListTaskViewModel;
+  private taskValue : undefined | TodoListTaskViewModel;
 
   public constructor(
     private readonly service: TodoListTaskService,
