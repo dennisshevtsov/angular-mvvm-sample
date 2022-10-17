@@ -23,8 +23,7 @@ import { TodoListTaskViewModel,       } from './todo-list-task.view-model';
 export class TodoListTaskComponent
   extends FormComponentBase
   implements OnInit, OnDestroy {
-  @Input()
-  public task!: TodoListTaskViewModel;
+  private taskValue: undefined | TodoListTaskViewModel;
 
   public constructor(
     private readonly subscription: Subscription,
@@ -33,13 +32,24 @@ export class TodoListTaskComponent
     super();
   }
 
-  public ngOnInit(): void {
+  @Input()
+  public set task(value: TodoListTaskViewModel)
+  {
+    console.log(value);
+    this.taskValue = value;
     this.form.setValue({
       'title'      : this.task.title,
       'description': this.task.description,
       'period'     : this.task.period,
     });
+  }
 
+  public get task(): TodoListTaskViewModel
+  {
+    return this.taskValue ?? new TodoListTaskViewModel();
+  }
+
+  public ngOnInit(): void {
     this.subscription.add(
       this.form.valueChanges.subscribe(value => {
         this.task.title       = value.title;

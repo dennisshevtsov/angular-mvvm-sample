@@ -29,8 +29,12 @@ export class UpdateTodoListTaskViewModel {
 
     const project = (responseDto: GetTodoListTaskResponseDto) => {
       if (responseDto) {
-        this.task.title = responseDto.title;
-        this.task.description = responseDto.description;
+        this.taskValue = new TodoListTaskViewModel(
+          this.task.todoListId,
+          this.task.todoListTaskId,
+          responseDto.title,
+          responseDto.description,
+        );
       }
     };
 
