@@ -3,14 +3,15 @@ import { Injectable,              } from '@angular/core';
 
 import { map, Observable, } from 'rxjs';
 
-import { DAY_TASK,                             } from '../../interceptors/todo-list-task.interceptor';
+import { DAY_TASK, PERIOD_TASK,                } from '../../interceptors/todo-list-task.interceptor';
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
          AddTodoListTaskResponseDto,
          CompleteTodoListTaskRequestDto,
          DeleteTodoListTaskRequestDto,
+         GetTodoListDayTaskResponseDto,
+         GetTodoListPeriodTaskResponseDto,
          GetTodoListTaskRequestDto,
-         GetTodoListTaskResponseDtoBase,
          SearchTodoListDayTaskResponseDto,
          SearchTodoListPeriodTaskResponseDto,
          SearchTodoListTasksRequestDto,
@@ -30,8 +31,19 @@ export class TodoListTaskService {
 
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
-    : Observable<GetTodoListTaskResponseDtoBase> {
-    return this.http.get<GetTodoListTaskResponseDtoBase>(`${this.todoRoute}/${query.todoListId}/task/${query.todoListTaskId}`);
+    : Observable<GetTodoListDayTaskResponseDto | GetTodoListPeriodTaskResponseDto> {
+    return this.http.get<any>(`${this.todoRoute}/${query.todoListId}/task/${query.todoListTaskId}`)
+                    .pipe(map(response => {
+                      if (response.type == DAY_TASK) {
+                        return Object.assign(new GetTodoListDayTaskResponseDto(), response);
+                      }
+
+                      if (response.type == PERIOD_TASK) {
+                        return Object.assign(new GetTodoListPeriodTaskResponseDto(), response);
+                      }
+
+                      throw 'Incorrect response';
+                    }));
   }
 
   public searchTodoListTasks(
