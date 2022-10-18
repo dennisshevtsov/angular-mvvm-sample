@@ -35,7 +35,6 @@ export class TodoListTaskComponent
   @Input()
   public set task(value: TodoListTaskViewModel)
   {
-    console.log(value);
     this.taskValue = value;
     this.form.setValue({
       'title'      : this.task.title,
