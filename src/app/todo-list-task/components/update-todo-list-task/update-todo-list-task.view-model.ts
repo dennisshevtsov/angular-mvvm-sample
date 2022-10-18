@@ -3,7 +3,7 @@ import { Injectable, } from '@angular/core';
 import { map, Observable, } from 'rxjs';
 
 import { GetTodoListTaskRequestDto,
-         GetTodoListTaskResponseDto,
+         GetTodoListTaskResponseDtoBase,
          TodoListTaskService,
          UpdateTodoListDayTaskRequestDto,
          UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
@@ -27,7 +27,7 @@ export class UpdateTodoListTaskViewModel {
       this.task.todoListTaskId,
     );
 
-    const project = (responseDto: GetTodoListTaskResponseDto) => {
+    const project = (responseDto: GetTodoListTaskResponseDtoBase) => {
       if (responseDto) {
         this.taskValue = new TodoListTaskViewModel(
           this.task.todoListId,
