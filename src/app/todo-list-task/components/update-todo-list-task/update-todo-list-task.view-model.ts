@@ -2,8 +2,9 @@ import { Injectable, } from '@angular/core';
 
 import { map, Observable, } from 'rxjs';
 
-import { GetTodoListTaskRequestDto,
-         GetTodoListTaskResponseDtoBase,
+import { GetTodoListDayTaskResponseDto,
+         GetTodoListPeriodTaskResponseDto,
+         GetTodoListTaskRequestDto,
          TodoListTaskService,
          UpdateTodoListDayTaskRequestDto,
          UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
@@ -27,15 +28,9 @@ export class UpdateTodoListTaskViewModel {
       this.task.todoListTaskId,
     );
 
-    const project = (responseDto: GetTodoListTaskResponseDtoBase) => {
-      if (responseDto) {
-        this.taskValue = new TodoListTaskViewModel(
-          this.task.todoListId,
-          this.task.todoListTaskId,
-          responseDto.title,
-          responseDto.description,
-        );
-      }
+    const project = (responseDto: GetTodoListDayTaskResponseDto |
+                                  GetTodoListPeriodTaskResponseDto) => {
+      this.taskValue = this.buildTodoListTaskViewModel(responseDto);
     };
 
     return this.service.getTodoListTask(requestDto)
@@ -44,6 +39,30 @@ export class UpdateTodoListTaskViewModel {
 
   public update(): Observable<void> {
     return this.service.updateTodoListTask(this.buildRequestDto());
+  }
+
+  private buildTodoListTaskViewModel(
+    responseDto: GetTodoListDayTaskResponseDto |
+                 GetTodoListPeriodTaskResponseDto)
+    : TodoListTaskViewModel {
+    const vm = new TodoListTaskViewModel(
+      this.task.todoListId,
+      this.task.todoListTaskId,
+      responseDto.title,
+      responseDto.description,
+    );
+
+    if (responseDto instanceof GetTodoListDayTaskResponseDto) {
+      vm.period.day     = responseDto.date;
+      vm.period.fullDay = true;
+    }
+    else if (responseDto instanceof GetTodoListPeriodTaskResponseDto) {
+      vm.period.start   = responseDto.begin;
+      vm.period.end     = responseDto.end;
+      vm.period.fullDay = false;
+    }
+
+    return vm;
   }
 
   private buildRequestDto(): UpdateTodoListDayTaskRequestDto | UpdateTodoListPeriodTaskRequestDto {
