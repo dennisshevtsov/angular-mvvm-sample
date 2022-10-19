@@ -2,6 +2,7 @@ import { Injectable, } from '@angular/core';
 
 import { map, Observable, } from 'rxjs';
 
+import { MILLISECONDS_IN_DAY,                } from 'src/app/core';
 import { GetTodoListDayTaskResponseDto,
          GetTodoListPeriodTaskResponseDto,
          GetTodoListTaskRequestDto,
@@ -54,9 +55,12 @@ export class UpdateTodoListTaskViewModel {
 
     if (responseDto instanceof GetTodoListDayTaskResponseDto) {
       vm.period.day     = responseDto.date;
+      vm.period.start   = responseDto.date - responseDto.date % MILLISECONDS_IN_DAY;
+      vm.period.end     = vm.period.start + MILLISECONDS_IN_DAY - 1;
       vm.period.fullDay = true;
     }
     else if (responseDto instanceof GetTodoListPeriodTaskResponseDto) {
+      vm.period.day     = responseDto.begin - responseDto.begin % MILLISECONDS_IN_DAY;
       vm.period.start   = responseDto.begin;
       vm.period.end     = responseDto.end;
       vm.period.fullDay = false;
