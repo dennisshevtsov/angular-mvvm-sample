@@ -2,7 +2,7 @@ import { inject, TestBed, } from '@angular/core/testing';
 
 import { of, } from 'rxjs';
 
-import { GetTodoListTaskResponseDtoBase,
+import { GetTodoListDayTaskResponseDto,
          TodoListTaskService,
          UpdateTodoListDayTaskRequestDto, } from 'src/app/todo-list-task/api';
 import { UpdateTodoListTaskViewModel,     } from './update-todo-list-task.view-model';
@@ -35,7 +35,7 @@ describe('UpdateTodoListTaskViewModel', () => {
         vm: UpdateTodoListTaskViewModel,
         srv: jasmine.SpyObj<TodoListTaskService>,
       ) => {
-        const responseDto = new GetTodoListTaskResponseDtoBase(
+        const responseDto = new GetTodoListDayTaskResponseDto(
           'test todo list task title',
           'test todo list task description',
         );
