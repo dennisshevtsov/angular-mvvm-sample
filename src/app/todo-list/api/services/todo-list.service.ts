@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders, } from '@angular/common/http';
-import { Injectable,              } from '@angular/core';
+import { Inject, Injectable,      } from '@angular/core';
 
 import { Observable, } from 'rxjs';
 
+import { AppSettings, APP_SETTINGS,        } from 'src/app/core/settings';
 import { AddTodoListRequestDto,
          AddTodoListResponseDto,
          DeleteTodoListRequestDto,
@@ -10,17 +11,22 @@ import { AddTodoListRequestDto,
          GetTodoListResponseDto,
          UpdateTodoListRequestDto,
          SearchTodoListsRecordResponseDto,
-         SearchTodoListsRequestDto,        } from '../dtos';
+         SearchTodoListsRequestDto,        } from 'src/app/todo-list/api/dtos';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TodoListService {
-  private readonly todoListRoute: string = 'http://localhost:5295/api/todo-list';
+  private readonly todoListRoute: string;
 
   public constructor(
-    private readonly http: HttpClient,
-  ) {}
+    @Inject(APP_SETTINGS)
+    settings: AppSettings,
+
+    private readonly http    : HttpClient,
+  ) {
+    this.todoListRoute = settings.apiServer + '/todo-list';
+  }
 
   public getTodoList(
     requestDto: GetTodoListRequestDto)

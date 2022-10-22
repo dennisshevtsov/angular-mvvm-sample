@@ -1,8 +1,9 @@
 import { HttpClient, HttpHeaders, } from '@angular/common/http';
-import { Injectable,              } from '@angular/core';
+import { Inject, Injectable,      } from '@angular/core';
 
 import { map, Observable, } from 'rxjs';
 
+import { AppSettings, APP_SETTINGS,            } from 'src/app/core/settings';
 import { DAY_TASK, PERIOD_TASK,                } from '../../interceptors/todo-list-task.interceptor';
 import { AddTodoListDayTaskRequestDto,
          AddTodoListPeriodTaskRequestDto,
@@ -23,16 +24,21 @@ import { AddTodoListDayTaskRequestDto,
   providedIn: 'root',
 })
 export class TodoListTaskService {
-  private readonly todoRoute: string = 'http://localhost:5295/api/todo-list';
+  private readonly todoListRoute: string;
 
   public constructor(
+    @Inject(APP_SETTINGS)
+    settings: AppSettings,
+
     private readonly http: HttpClient,
-  ) { }
+  ) {
+    this.todoListRoute = settings.apiServer + '/todo-list';
+  }
 
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
     : Observable<GetTodoListDayTaskResponseDto | GetTodoListPeriodTaskResponseDto> {
-    return this.http.get<any>(`${this.todoRoute}/${query.todoListId}/task/${query.todoListTaskId}`)
+    return this.http.get<any>(`${this.todoListRoute}/${query.todoListId}/task/${query.todoListTaskId}`)
                     .pipe(map(response => {
                       if (response.type == DAY_TASK) {
                         return Object.assign(new GetTodoListDayTaskResponseDto(), response);
@@ -49,7 +55,7 @@ export class TodoListTaskService {
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
     : Observable<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]> {
-    return this.http.get<any[]>(`${this.todoRoute}/${query.todoListId}/task`)
+    return this.http.get<any[]>(`${this.todoListRoute}/${query.todoListId}/task`)
                     .pipe(map(reponse => {
                       const dtos = new Array<SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto>(reponse.length);
 
@@ -69,7 +75,7 @@ export class TodoListTaskService {
   public addTodoListTask(
     command: AddTodoListDayTaskRequestDto | AddTodoListPeriodTaskRequestDto)
     : Observable<AddTodoListTaskResponseDto> {
-    const url  = `${this.todoRoute}/${command.todoListId}/task`;
+    const url  = `${this.todoListRoute}/${command.todoListId}/task`;
     const options = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -82,7 +88,7 @@ export class TodoListTaskService {
   public updateTodoListTask(
     command: UpdateTodoListDayTaskRequestDto | UpdateTodoListPeriodTaskRequestDto)
     : Observable<void> {
-      const url  = `${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}`;
+      const url  = `${this.todoListRoute}/${command.todoListId}/task/${command.todoListTaskId}`;
       const options = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json',
@@ -95,18 +101,18 @@ export class TodoListTaskService {
   public completeTodoListTask(
     command: CompleteTodoListTaskRequestDto)
     : Observable<void> {
-    return this.http.post<void>(`${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}/complete`, null);
+    return this.http.post<void>(`${this.todoListRoute}/${command.todoListId}/task/${command.todoListTaskId}/complete`, null);
   }
 
   public uncompleteTodoListTask(
     command: UncompleteTodoListTaskRequestDto)
     : Observable<void> {
-    return this.http.post<void>(`${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}/uncomplete`, null);
+    return this.http.post<void>(`${this.todoListRoute}/${command.todoListId}/task/${command.todoListTaskId}/uncomplete`, null);
   }
 
   public deleteTodoListTask(
     command: DeleteTodoListTaskRequestDto)
     : Observable<void> {
-    return this.http.delete<void>(`${this.todoRoute}/${command.todoListId}/task/${command.todoListTaskId}`);
+    return this.http.delete<void>(`${this.todoListRoute}/${command.todoListId}/task/${command.todoListTaskId}`);
   }
 }

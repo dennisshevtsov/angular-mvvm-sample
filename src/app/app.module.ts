@@ -4,9 +4,9 @@ import { BrowserModule, } from '@angular/platform-browser';
 import { AppRoutingModule,   } from './app-routing.module';
 import { AppComponent,       } from './app.component';
 import { CoreModule,         } from './core';
+import { APP_SETTINGS,       } from './core/settings';
 import { TodoListTaskModule, } from './todo-list-task';
 import { TodoListModule,     } from './todo-list';
-import { APP_SETTINGS,       } from './core/settings';
 import { environment,        } from 'src/environments/environment';
 
 @NgModule({
