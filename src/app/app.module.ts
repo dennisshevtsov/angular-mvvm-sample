@@ -6,6 +6,8 @@ import { AppComponent,       } from './app.component';
 import { CoreModule,         } from './core';
 import { TodoListTaskModule, } from './todo-list-task';
 import { TodoListModule,     } from './todo-list';
+import { APP_SETTINGS,       } from './core/settings';
+import { environment,        } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,12 @@ import { TodoListModule,     } from './todo-list';
     TodoListTaskModule,
     AppRoutingModule,
   ],
-  providers: [],
+  providers: [{
+    provide: APP_SETTINGS,
+    useValue: {
+      apiServer: environment.apiServer,
+    },
+  }],
   bootstrap: [
     AppComponent,
   ],
