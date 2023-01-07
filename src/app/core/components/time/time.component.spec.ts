@@ -1,7 +1,8 @@
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { inject, TestBed, } from '@angular/core/testing';
 
-import { Formatter,     } from 'src/app/core/formatting';
-import { TimeComponent, } from './time.component';
+import { Formatter     } from 'src/app/core/formatting';
+import { TimeComponent } from './time.component';
 
 describe('TimeComponent', () => {
   beforeEach(() => {
@@ -15,6 +16,7 @@ describe('TimeComponent', () => {
             ['toLocalDate', 'fromLocalDate', 'toLocalHours', 'toLocalMinutes']),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     })
   });
 

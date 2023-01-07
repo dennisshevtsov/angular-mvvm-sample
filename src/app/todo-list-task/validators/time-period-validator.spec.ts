@@ -1,7 +1,7 @@
-import { AbstractControl,     } from '@angular/forms';
-import { MILLISECONDS_IN_DAY, } from 'src/app/core';
+import { AbstractControl     } from '@angular/forms';
 
-import { timePeriodValidator, } from './time-period-validator';
+import { MILLISECONDS_IN_DAY } from 'src/app/core';
+import { timePeriodValidator } from './time-period-validator';
 
 describe('timePeriodValidator', () => {
   it('timePeriodValidator should not validate if it is full day', () => {
@@ -15,7 +15,7 @@ describe('timePeriodValidator', () => {
     const endControlSpy : jasmine.SpyObj<AbstractControl> = jasmine.createSpyObj('AbstractControl', ['setErrors'], ['pristine','touched','dirty']);
     const timePeriodControlSpy: jasmine.SpyObj<AbstractControl> = jasmine.createSpyObj('AbstractControl', ['get'], []);
 
-    timePeriodControlSpy.get.and.callFake(name => {
+    timePeriodControlSpy.get.and.callFake((name: string) => {
       if (name == 'fullDay') {
         return fullDayControlSpy;
       }
@@ -66,7 +66,7 @@ describe('timePeriodValidator', () => {
     timePeriodTouchedPropSpy.and.returnValue(false);
     timePeriodDirtyPropSpy.and.returnValue(false);
 
-    timePeriodControlSpy.get.and.callFake(name => {
+    timePeriodControlSpy.get.and.callFake((name: string) => {
       if (name == 'fullDay') {
         return fullDayControlSpy;
       }
@@ -137,7 +137,7 @@ describe('timePeriodValidator', () => {
     startControlValuePropSpy.and.returnValue('');
     endControlValuePropSpy.and.returnValue('');
 
-    timePeriodControlSpy.get.and.callFake(name => {
+    timePeriodControlSpy.get.and.callFake((name: string) => {
       if (name == 'fullDay') {
         return fullDayControlSpy;
       }
@@ -280,7 +280,7 @@ describe('timePeriodValidator', () => {
     timePeriodTouchedPropSpy.and.returnValue(true);
     timePeriodDirtyPropSpy.and.returnValue(true);
 
-    timePeriodControlSpy.get.and.callFake(name => {
+    timePeriodControlSpy.get.and.callFake((name: string) => {
       if (name == 'fullDay') {
         return fullDayControlSpy;
       }

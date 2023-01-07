@@ -1,7 +1,10 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { Formatter,       } from 'src/app/core/formatting';
-import { DateComponent,   } from './date.component';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
+import { Formatter     } from 'src/app/core/formatting';
+import { DateComponent } from './date.component';
 
 describe('DateComponent', () => {
   beforeEach(() => {
@@ -13,6 +16,7 @@ describe('DateComponent', () => {
           useValue: jasmine.createSpyObj(Formatter, ['toLocalDate', 'fromLocalDate']),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

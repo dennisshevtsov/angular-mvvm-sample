@@ -1,9 +1,10 @@
-import { AbstractControl, FormGroup,
-         ValidationErrors,           } from '@angular/forms';
+import { AbstractControl  } from '@angular/forms';
+import { FormGroup        } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
 
-import { FormComponentBase,          } from './form-component-base';
+import { FormComponentBase } from './form-component-base';
 
-class TestFormComponent extends FormComponentBase {
+class TestFormComponent extends FormComponentBase<any> {
   private formSpyValue        : undefined | jasmine.SpyObj<FormGroup>;
   private controlSpyValue     : undefined | jasmine.SpyObj<AbstractControl>;
   private controlsPropSpyValue: undefined | jasmine.Spy<() => { [key: string]: jasmine.SpyObj<AbstractControl> }>;

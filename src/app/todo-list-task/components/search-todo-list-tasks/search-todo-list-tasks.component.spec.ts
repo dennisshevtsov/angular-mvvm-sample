@@ -1,11 +1,24 @@
-import { Component,                            } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick,     } from '@angular/core/testing';
-import { By,                                   } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule,         } from '@angular/router';
+import { Component } from '@angular/core';
+import { Input     } from '@angular/core';
 
-import { of, Subscription, throwError,         } from 'rxjs';
+import { fakeAsync } from '@angular/core/testing';
+import { inject    } from '@angular/core/testing';
+import { TestBed   } from '@angular/core/testing';
+import { tick      } from '@angular/core/testing';
 
-import { TodoListLinks, TodoListTaskLinks,     } from 'src/app/core';
+import { By } from '@angular/platform-browser';
+
+import { ActivatedRoute } from '@angular/router';
+import { RouterModule   } from '@angular/router';
+
+import { of           } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { PageComponent     } from 'src/app/core';
+import { TodoListLinks     } from 'src/app/core';
+import { TodoListTaskLinks } from 'src/app/core';
+
 import { SearchTodoListDayTaskResponseDto,     } from 'src/app/todo-list-task/api';
 import { SearchTodoListTasksComponent,         } from './search-todo-list-tasks.component';
 import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
@@ -26,6 +39,12 @@ class ToastsComponentMock {
 })
 class ModalComponentMock {
   public show(): void {}
+
+  @Input()
+  public title: any;
+
+  @Input()
+  public body: any;
 }
 
 describe('SearchTodoListTasksComponent', () => {
@@ -35,6 +54,7 @@ describe('SearchTodoListTasksComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
+        PageComponent,
         SearchTodoListTasksComponent,
         ToastsComponentMock,
         ModalComponentMock, ],

@@ -1,15 +1,26 @@
-import { Component,                        } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick, } from '@angular/core/testing';
-import { By,                               } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule,     } from '@angular/router';
+import { Component } from '@angular/core';
+import { Input     } from '@angular/core';
 
-import { of, Subscription, throwError, } from 'rxjs';
+import { fakeAsync } from '@angular/core/testing';
+import { inject    } from '@angular/core/testing';
+import { TestBed   } from '@angular/core/testing';
+import { tick      } from '@angular/core/testing';
 
-import { PageComponent,
-         TodoListTaskNavigator,    } from 'src/app/core';
-import { TodoListTaskViewModel,    } from '../todo-list-task/todo-list-task.view-model';
-import { AddTodoListTaskComponent, } from './add-todo-list-task.component';
-import { AddTodoListTaskViewModel, } from './add-todo-list-task.view-model';
+import { By } from '@angular/platform-browser';
+
+import { ActivatedRoute } from '@angular/router';
+import { RouterModule   } from '@angular/router';
+
+import { of           } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { PageComponent         } from 'src/app/core';
+import { TodoListTaskNavigator } from 'src/app/core';
+
+import { TodoListTaskViewModel    } from '../todo-list-task/todo-list-task.view-model';
+import { AddTodoListTaskComponent } from './add-todo-list-task.component';
+import { AddTodoListTaskViewModel } from './add-todo-list-task.view-model';
 
 const PARAM_MAP_TOKEN = 'ParamMap';
 
@@ -25,10 +36,13 @@ class ToastsComponentMock {
 @Component({
   selector: 'todo-list-task',
 })
-export class TodoListTaskComponentMock {
+class TodoListTaskComponentMock {
   public validateForm(): void {}
 
   public get form(): any { return; }
+
+  @Input()
+  public task: any;
 }
 
 describe('AddTodoListTaskComponent', () => {

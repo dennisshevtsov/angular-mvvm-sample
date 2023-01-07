@@ -1,15 +1,24 @@
-import { inject, TestBed,              } from '@angular/core/testing';
-import { AbstractControl, FormBuilder,
-         FormGroup, ValidationErrors,  } from '@angular/forms';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { Observable, of, Subscription, } from 'rxjs';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { TodoListTaskPeriodComponent, } from './todo-list-task-period.component';
-import { TodoListTaskPeriodViewModel, } from './todo-list-task-period.view-model';
+import { AbstractControl  } from '@angular/forms';
+import { FormBuilder      } from '@angular/forms';
+import { FormControl      } from '@angular/forms';
+import { FormGroup        } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
+
+import { Observable   } from 'rxjs';
+import { of           } from 'rxjs';
+import { Subscription } from 'rxjs';
+
+import { TodoListTaskPeriodComponent } from './todo-list-task-period.component';
+import { TodoListTaskPeriodViewModel } from './todo-list-task-period.view-model';
 
 describe('TodoListTaskPeriodComponent', () => {
   beforeEach(() => {
-    const controlSpy: jasmine.SpyObj<AbstractControl> = jasmine.createSpyObj('AbstractControl', [], [ 'valueChanges', ])
+    const controlSpy: jasmine.SpyObj<FormControl> = jasmine.createSpyObj('AbstractControl', [], [ 'valueChanges', ])
     const controlSpyDescs = Object.getOwnPropertyDescriptors(controlSpy);
     const valueChangesSpy = controlSpyDescs.valueChanges.get! as jasmine.Spy<() => Observable<any>>;
     valueChangesSpy.and.returnValue(of({}));
@@ -24,8 +33,9 @@ describe('TodoListTaskPeriodComponent', () => {
     formSpy.get.and.returnValue(controlSpy);
     valueSpy.and.returnValue({});
 
-    const fbSpy : jasmine.SpyObj<FormBuilder> = jasmine.createSpyObj(FormBuilder, [ 'group', ]);
+    const fbSpy : jasmine.SpyObj<FormBuilder> = jasmine.createSpyObj(FormBuilder, [ 'group', 'control', ]);
     fbSpy.group.and.returnValue(formSpy);
+    fbSpy.control.and.returnValue(controlSpy);
 
     TestBed.configureTestingModule({
       declarations: [ TodoListTaskPeriodComponent, ],
@@ -33,6 +43,7 @@ describe('TodoListTaskPeriodComponent', () => {
         { provide: FormBuilder    , useValue: fbSpy,      },
         { provide: FormGroup      , useValue: formSpy,    },
         { provide: AbstractControl, useValue: controlSpy, }, ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.overrideProvider(Subscription, { useValue: jasmine.createSpyObj(Subscription, [ 'add', 'unsubscribe', ])});

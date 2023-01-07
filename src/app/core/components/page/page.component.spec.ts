@@ -1,4 +1,8 @@
-import { inject, TestBed } from '@angular/core/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { TodoListLinks } from '../../navigation/todo-list.links';
 import { PageComponent } from './page.component';
 
@@ -12,6 +16,7 @@ describe('PageComponent', () => {
           useValue: jasmine.createSpyObj(TodoListLinks, ['searchTodoListsLink']),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
   });
 

@@ -1,13 +1,25 @@
-import { Component,                         } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick,  } from '@angular/core/testing';
-import { By,                                } from '@angular/platform-browser';
-import { ActivatedRoute, ParamMap,          } from '@angular/router';
+import { Component        } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
-import { of, Subscription, throwError,      } from 'rxjs';
+import { fakeAsync } from '@angular/core/testing';
+import { inject    } from '@angular/core/testing';
+import { TestBed   } from '@angular/core/testing';
+import { tick      } from '@angular/core/testing';
 
-import { PageComponent, TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER,
-         TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
+import { By } from '@angular/platform-browser';
+
+import { ActivatedRoute } from '@angular/router';
+import { ParamMap       } from '@angular/router';
+
+import { of           } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { PageComponent                     } from 'src/app/core';
+import { TodoListTaskLinks                 } from 'src/app/core';
+import { TODO_LIST_ROUTE_ID_PARAMETER      } from 'src/app/core';
+import { TODO_LIST_TASK_ROUTE_ID_PARAMETER } from 'src/app/core';
+
 import { TodoListTaskViewModel,             } from 'src/app/todo-list-task/components/todo-list-task';
 import { UpdateTodoListTaskComponent,       } from './update-todo-list-task.component';
 import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
@@ -26,7 +38,7 @@ class ToastsComponentMock {
 @Component({
   selector: 'todo-list-task',
 })
-export class TodoListTaskComponentMock {
+class TodoListTaskComponentMock {
   public validateForm(): void {}
 
   public get form(): any { return; }
@@ -61,6 +73,7 @@ describe('UpdateTodoListTaskComponent', () => {
           useValue: jasmine.createSpyObj(TodoListTaskLinks, ['searchTodoListTasksLink', 'addTodoListTaskLink']),
         },
       ],
+      schemas: [NO_ERRORS_SCHEMA],
     });
 
     TestBed.overrideProvider(

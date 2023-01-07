@@ -1,13 +1,23 @@
-import { Component,                 } from '@angular/core';
-import { ComponentFixture,
-         fakeAsync, TestBed, tick,  } from '@angular/core/testing';
-import { By,                        } from '@angular/platform-browser';
-import { RouterModule,              } from '@angular/router';
+import { Component } from '@angular/core';
+import { Input     } from '@angular/core';
 
-import { of, Subscription, throwError, } from 'rxjs';
+import { ComponentFixture } from '@angular/core/testing';
+import { fakeAsync        } from '@angular/core/testing';
+import { TestBed          } from '@angular/core/testing';
+import { tick             } from '@angular/core/testing';
 
-import { CoreModule, PageComponent,
-         TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
+import { By           } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
+
+import { of           } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { CoreModule        } from 'src/app/core';
+import { PageComponent     } from 'src/app/core';
+import { TodoListLinks     } from 'src/app/core';
+import { TodoListTaskLinks } from 'src/app/core';
+
 import { SearchTodoListsRecordResponseDto  } from 'src/app/todo-list/api';
 import { SearchTodoListsComponent,         } from './search-todo-lists.component';
 import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
@@ -17,6 +27,12 @@ import { SearchTodoListsViewModel,         } from './search-todo-lists.view-mode
 })
 class ModalComponentMock {
   public show(): void {}
+
+  @Input()
+  public title: any;
+
+  @Input()
+  public body: any;
 }
 
 @Component({
