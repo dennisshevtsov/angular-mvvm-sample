@@ -1,11 +1,28 @@
-import { Component, Input, OnDestroy, OnInit, } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,  } from '@angular/forms';
+import { Component } from '@angular/core';
+import { Input     } from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { OnInit    } from '@angular/core';
+
+import { FormBuilder } from '@angular/forms';
+import { FormControl } from '@angular/forms';
+import { FormGroup   } from '@angular/forms';
+import { Validators  } from '@angular/forms';
 
 import { Subscription, } from 'rxjs';
 
-import { FormComponentBase,        } from 'src/app/core';
-import { AddTodoListRequestDto,
-         UpdateTodoListRequestDto, } from 'src/app/todo-list/api';
+import { FormComponentBase } from 'src/app/core';
+
+import { AddTodoListRequestDto    } from 'src/app/todo-list/api';
+import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
+
+interface TodoListProps {
+  title      : string;
+  description: string;
+}
+
+type TodoListFormScheme = {
+  [K in keyof TodoListProps]: FormControl<TodoListProps[K] | null>;
+}
 
 @Component({
   selector: 'todo-list',
@@ -15,7 +32,7 @@ import { AddTodoListRequestDto,
   ],
 })
 export class TodoListComponent
-  extends FormComponentBase
+  extends FormComponentBase<TodoListFormScheme>
   implements OnInit, OnDestroy {
   private todoListValue!: AddTodoListRequestDto | UpdateTodoListRequestDto;
 
@@ -30,8 +47,8 @@ export class TodoListComponent
   public ngOnInit(): void {
     this.subscription.add(
       this.form.valueChanges.subscribe(value => {
-        this.todoList.title = value.title;
-        this.todoList.description = value.description;
+        this.todoList.title       = value.title ?? '';
+        this.todoList.description = value.description ?? '';
       }));
   }
 

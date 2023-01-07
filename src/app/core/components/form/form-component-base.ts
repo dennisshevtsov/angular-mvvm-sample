@@ -1,13 +1,13 @@
 import { FormGroup, } from '@angular/forms';
 
-export abstract class FormComponentBase {
-  private formValue: FormGroup | undefined;
+export abstract class FormComponentBase<T extends { [K in keyof T]: T[K]; }> {
+  private formValue: FormGroup<T> | undefined;
 
-  public get form(): FormGroup {
+  public get form(): FormGroup<T> {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
-  protected abstract buildForm(): FormGroup;
+  protected abstract buildForm(): FormGroup<T>;
 
   public validateForm(): void {
     this.validateFormGroup(this.form);

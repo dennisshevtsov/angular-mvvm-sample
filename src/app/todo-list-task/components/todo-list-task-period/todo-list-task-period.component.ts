@@ -3,7 +3,7 @@ import { Component, OnDestroy,
 import { AbstractControl,
          AbstractControlOptions,
          ControlValueAccessor,
-         FormBuilder, FormGroup,
+         FormBuilder, FormControl, FormGroup,
          NG_VALIDATORS,
          NG_VALUE_ACCESSOR,
          ValidationErrors,
@@ -14,6 +14,10 @@ import { Subscription, } from 'rxjs';
 import { FormComponentBase,           } from 'src/app/core';
 import { timePeriodValidator,         } from 'src/app/todo-list-task/validators';
 import { TodoListTaskPeriodViewModel, } from './todo-list-task-period.view-model';
+
+type TodoListTaskPeriodFormScheme = {
+  [K in keyof TodoListTaskPeriodViewModel]: FormControl<TodoListTaskPeriodViewModel[K] | null>;
+}
 
 @Component({
   selector: 'todo-list-task-period',
@@ -39,7 +43,7 @@ import { TodoListTaskPeriodViewModel, } from './todo-list-task-period.view-model
   ],
 })
 export class TodoListTaskPeriodComponent
-  extends FormComponentBase
+  extends FormComponentBase<TodoListTaskPeriodFormScheme>
   implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   public constructor(
     private readonly subscription: Subscription,
@@ -113,7 +117,7 @@ export class TodoListTaskPeriodComponent
 
     Object.keys(this.form.controls)
           .forEach(controlName => {
-            const control = this.form.controls[controlName];
+            const control = this.form.controls[controlName as keyof TodoListTaskPeriodFormScheme];
 
             if (control.errors) {
               errors[controlName] = control.errors;
@@ -123,12 +127,12 @@ export class TodoListTaskPeriodComponent
     return errors;
   }
 
-  protected buildForm(): FormGroup {
+  protected buildForm(): FormGroup<TodoListTaskPeriodFormScheme> {
     const controlConfig = {
-      'day'    : '',
-      'fullDay': false,
-      'start'  : '',
-      'end'    : '',
+      day    : this.fb.control(0),
+      fullDay: this.fb.control(false),
+      start  : this.fb.control(0),
+      end    : this.fb.control(0),
     };
 
     const options: AbstractControlOptions = {
