@@ -135,6 +135,5 @@
         }
       }
     }
-  },
-  "defaultProject": "angular-mvvm-sample"
+  }
 }

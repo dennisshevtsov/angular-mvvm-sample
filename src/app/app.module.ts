@@ -10,9 +10,7 @@ import { TodoListModule,     } from './todo-list';
 import { environment,        } from 'src/environments/environment';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     CoreModule,
@@ -26,8 +24,6 @@ import { environment,        } from 'src/environments/environment';
       apiServer: environment.apiServer,
     },
   }],
-  bootstrap: [
-    AppComponent,
-  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }
