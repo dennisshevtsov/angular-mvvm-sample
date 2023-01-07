@@ -1,4 +1,4 @@
-import { FormGroup, } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 export abstract class FormComponentBase<T extends { [K in keyof T]: T[K]; }> {
   private formValue: FormGroup<T> | undefined;

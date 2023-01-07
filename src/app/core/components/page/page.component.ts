@@ -1,13 +1,12 @@
-import { Component, Input, TemplateRef, } from '@angular/core';
+import { Component   } from '@angular/core';
+import { Input       } from '@angular/core';
+import { TemplateRef } from '@angular/core';
 
-import { TodoListLinks, } from 'src/app/core/navigation';
+import { TodoListLinks } from 'src/app/core/navigation';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
-  styleUrls: [
-    './page.component.scss',
-  ],
 })
 export class PageComponent {
   @Input()

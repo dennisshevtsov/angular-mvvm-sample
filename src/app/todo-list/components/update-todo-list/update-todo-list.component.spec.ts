@@ -1,19 +1,31 @@
-import { Component,                    } from '@angular/core';
-import { ComponentFixture, fakeAsync,
-         TestBed, tick,                } from '@angular/core/testing';
-import { ReactiveFormsModule,          } from '@angular/forms';
-import { By,                           } from '@angular/platform-browser';
-import { ActivatedRoute, RouterModule, } from '@angular/router';
+import { Component } from '@angular/core';
 
-import { of, Subscription, throwError, } from 'rxjs';
+import { ComponentFixture } from '@angular/core/testing';
+import { fakeAsync        } from '@angular/core/testing';
+import { TestBed          } from '@angular/core/testing';
+import { tick             } from '@angular/core/testing';
 
-import { CoreModule,  PageComponent,
-         RouteCleaner, TodoListLinks,
-         TodoListTaskLinks,            } from 'src/app/core';
-import { UpdateTodoListRequestDto,     } from 'src/app/todo-list/api';
-import { TodoListComponent,            } from 'src/app/todo-list/components/todo-list/todo-list.component';
-import { UpdateTodoListComponent,      } from './update-todo-list.component';
-import { UpdateTodoListViewModel,      } from './update-todo-list.view-model';
+import { ReactiveFormsModule } from '@angular/forms';
+
+import { By } from '@angular/platform-browser';
+
+import { ActivatedRoute } from '@angular/router';
+import { RouterModule   } from '@angular/router';
+
+import { of           } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { CoreModule        } from 'src/app/core';
+import { PageComponent     } from 'src/app/core';
+import { RouteCleaner      } from 'src/app/core';
+import { TodoListLinks     } from 'src/app/core';
+import { TodoListTaskLinks } from 'src/app/core';
+
+import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
+import { TodoListComponent        } from 'src/app/todo-list/components/todo-list/todo-list.component';
+import { UpdateTodoListComponent  } from './update-todo-list.component';
+import { UpdateTodoListViewModel  } from './update-todo-list.view-model';
 
 @Component({
   selector: 'app-modal',
@@ -57,16 +69,7 @@ describe('UpdateTodoListComponent', () => {
         'searchTodoListTasksLink',
       ]);
 
-    vm = jasmine.createSpyObj(
-      'UpdateTodoListViewModel',
-      [
-        'initialize',
-        'update',
-      ],
-      [
-        'todoList',
-      ]);
-
+    vm = jasmine.createSpyObj('UpdateTodoListViewModel', ['initialize', 'update'], ['todoList']);
     vm.initialize.and.returnValue(of(void 0));
 
     const todoListPropertyDescriptor = Object.getOwnPropertyDescriptor(vm, 'todoList')!;

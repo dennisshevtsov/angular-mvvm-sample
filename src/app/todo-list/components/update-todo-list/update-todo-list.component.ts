@@ -1,14 +1,24 @@
-import { AfterViewInit, Component, OnDestroy,
-         OnInit, ViewChild,                   } from '@angular/core';
-import { ActivatedRoute, ParamMap,            } from '@angular/router';
+import { AfterViewInit } from '@angular/core';
+import { Component     } from '@angular/core';
+import { OnDestroy     } from '@angular/core';
+import { OnInit        } from '@angular/core';
+import { ViewChild     } from '@angular/core';
 
-import { mergeMap, Subscription, throwError,  } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { ParamMap       } from '@angular/router';
 
-import { RouteCleaner, ToastsComponent,
-         TodoListLinks, TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER,        } from 'src/app/core';
-import { TodoListComponent,                   } from '../todo-list/todo-list.component';
-import { UpdateTodoListViewModel,             } from './update-todo-list.view-model';
+import { mergeMap     } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { RouteCleaner                 } from 'src/app/core';
+import { ToastsComponent              } from 'src/app/core';
+import { TodoListLinks                } from 'src/app/core';
+import { TodoListTaskLinks            } from 'src/app/core';
+import { TODO_LIST_ROUTE_ID_PARAMETER } from 'src/app/core';
+
+import { TodoListComponent       } from '../todo-list/todo-list.component';
+import { UpdateTodoListViewModel } from './update-todo-list.view-model';
 
 @Component({
   templateUrl: './update-todo-list.component.html',

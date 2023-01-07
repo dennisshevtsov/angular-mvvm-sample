@@ -1,4 +1,4 @@
-import { convertToRoute, } from './convert-to-route';
+import { convertToRoute } from './convert-to-route';
 
 describe('convertToRoute', () => {
   it ('convertToRoute normolize route', () => {

@@ -1,6 +1,7 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { ModalComponent,  } from './modal.component';
+import { ModalComponent } from './modal.component';
 
 declare var bootstrap: any;
 

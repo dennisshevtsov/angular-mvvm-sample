@@ -1,15 +1,17 @@
-import { CommonModule,        } from '@angular/common';
-import { HttpClientModule,    } from '@angular/common/http';
-import { NgModule,            } from '@angular/core';
-import { ReactiveFormsModule, } from '@angular/forms';
+import { CommonModule        } from '@angular/common';
+import { HttpClientModule    } from '@angular/common/http';
+import { NgModule            } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { CoreModule,               } from 'src/app/core';
-import { AddTodoListComponent,
-         SearchTodoListsComponent,
-         TodoListComponent,
-         UpdateTodoListComponent,  } from './components';
-import { httpInterceptorProviders, } from './interceptors';
-import { TodoListRoutingModule,    } from './todo-list-routing.module';
+import { CoreModule } from 'src/app/core';
+
+import { AddTodoListComponent     } from './components';
+import { SearchTodoListsComponent } from './components';
+import { TodoListComponent        } from './components';
+import { UpdateTodoListComponent  } from './components';
+
+import { httpInterceptorProviders } from './interceptors';
+import { TodoListRoutingModule    } from './todo-list-routing.module';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,6 @@ import { TodoListRoutingModule,    } from './todo-list-routing.module';
     HttpClientModule,
     TodoListRoutingModule,
   ],
-  providers: [ httpInterceptorProviders, ],
+  providers: [httpInterceptorProviders],
 })
 export class TodoListModule { }

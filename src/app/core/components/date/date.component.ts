@@ -1,15 +1,13 @@
-import { Component,            } from '@angular/core';
-import { ControlValueAccessor,
-         NG_VALUE_ACCESSOR,    } from '@angular/forms';
+import { Component } from '@angular/core';
 
-import { Formatter, } from 'src/app/core/formatting';
+import { ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR    } from '@angular/forms';
+
+import { Formatter } from 'src/app/core/formatting';
 
 @Component({
   selector: 'date',
   templateUrl: './date.component.html',
-  styleUrls: [
-    './date.component.scss',
-  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

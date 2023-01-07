@@ -1,4 +1,4 @@
-import { GetTodoListTaskResponseDtoBase, } from './get-todo-list-task-response-dto-base';
+import { GetTodoListTaskResponseDtoBase } from './get-todo-list-task-response-dto-base';
 
 export class GetTodoListPeriodTaskResponseDto implements GetTodoListTaskResponseDtoBase {
   public constructor(

@@ -1,12 +1,16 @@
-import { NgModule,             } from '@angular/core';
-import { RouterModule, Routes, } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { convertToRoute, TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER,
-         TODO_LIST_TASK_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { AddTodoListTaskComponent,
-         SearchTodoListTasksComponent,
-         UpdateTodoListTaskComponent,       } from './components';
+import { RouterModule } from '@angular/router';
+import { Routes       } from '@angular/router';
+
+import { convertToRoute                    } from 'src/app/core';
+import { TodoListTaskLinks                 } from 'src/app/core';
+import { TODO_LIST_ROUTE_ID_PARAMETER      } from 'src/app/core';
+import { TODO_LIST_TASK_ROUTE_ID_PARAMETER } from 'src/app/core';
+
+import { AddTodoListTaskComponent     } from './components';
+import { SearchTodoListTasksComponent } from './components';
+import { UpdateTodoListTaskComponent  } from './components';
 
 const links = new TodoListTaskLinks();
 
@@ -31,11 +35,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes),
-  ],
-  exports: [
-    RouterModule,
-  ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
 })
 export class TodoListTaskRoutingModule { }

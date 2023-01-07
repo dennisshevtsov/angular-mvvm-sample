@@ -1,15 +1,16 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { map, Observable, } from 'rxjs';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { AddTodoListRequestDto,
-         AddTodoListResponseDto,
-         TodoListService,        } from 'src/app/todo-list/api';
+import { AddTodoListRequestDto  } from 'src/app/todo-list/api';
+import { AddTodoListResponseDto } from 'src/app/todo-list/api';
+import { TodoListService        } from 'src/app/todo-list/api';
 
 @Injectable()
 export class AddTodoListViewModel {
-  private todoListIdValue: number | string | undefined;
-  private todoListValue: AddTodoListRequestDto | undefined;
+  private todoListIdValue: undefined | number | string;
+  private todoListValue  : undefined | AddTodoListRequestDto;
 
   public constructor(
     private readonly service: TodoListService,

@@ -1,13 +1,16 @@
-import { HttpEvent, HttpHandler,
-         HttpInterceptor, HttpRequest, } from '@angular/common/http';
-import { Injectable,                   } from '@angular/core';
+import { HttpEvent       } from '@angular/common/http';
+import { HttpHandler     } from '@angular/common/http';
+import { HttpInterceptor } from '@angular/common/http';
+import { HttpRequest     } from '@angular/common/http';
 
-import { Observable, } from 'rxjs';
+import { Injectable } from '@angular/core';
 
-import { AddTodoListDayTaskRequestDto,
-         AddTodoListPeriodTaskRequestDto,
-         UpdateTodoListDayTaskRequestDto,
-         UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
+import { Observable } from 'rxjs';
+
+import { AddTodoListDayTaskRequestDto       } from 'src/app/todo-list-task/api';
+import { AddTodoListPeriodTaskRequestDto    } from 'src/app/todo-list-task/api';
+import { UpdateTodoListDayTaskRequestDto    } from 'src/app/todo-list-task/api';
+import { UpdateTodoListPeriodTaskRequestDto } from 'src/app/todo-list-task/api';
 
 export const DAY_TASK    = 1;
 export const PERIOD_TASK = 2;

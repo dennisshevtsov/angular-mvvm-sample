@@ -1,5 +1,6 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject           } from '@angular/core/testing';
+import { TestBed          } from '@angular/core/testing';
 
 import { Formatter     } from 'src/app/core/formatting';
 import { TimeComponent } from './time.component';

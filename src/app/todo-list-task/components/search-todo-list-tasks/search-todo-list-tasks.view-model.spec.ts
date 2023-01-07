@@ -1,10 +1,11 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { of, } from 'rxjs';
+import { of } from 'rxjs';
 
-import { SearchTodoListDayTaskResponseDto,
-         TodoListTaskService,                  } from 'src/app/todo-list-task/api';
-import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
+import { SearchTodoListDayTaskResponseDto } from 'src/app/todo-list-task/api';
+import { TodoListTaskService              } from 'src/app/todo-list-task/api';
+import { SearchTodoListTasksViewModel     } from './search-todo-list-tasks.view-model';
 
 describe('SearchTodoListTasksViewModel', () => {
   beforeEach(() => {

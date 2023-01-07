@@ -1,10 +1,10 @@
-import { formatDate, } from '@angular/common';
-import { Injectable, } from '@angular/core';
+import { formatDate } from '@angular/common';
+import { Injectable } from '@angular/core';
 
-import { HOURS_IN_DAY,
-         MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE,
-         MINUTES_IN_HOUR,        } from '../date';
+import { HOURS_IN_DAY           } from '../date';
+import { MILLISECONDS_IN_HOUR   } from '../date';
+import { MILLISECONDS_IN_MENUTE } from '../date';
+import { MINUTES_IN_HOUR        } from '../date';
 
 export const DATE_FORMAT = 'yyyy-MM-dd';
 export const DATE_LOCALE = 'en-US';

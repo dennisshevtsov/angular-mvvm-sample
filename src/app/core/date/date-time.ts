@@ -1,6 +1,6 @@
-import { HOURS_IN_DAY,
-         MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE, } from './app-clock';
+import { HOURS_IN_DAY           } from './app-clock';
+import { MILLISECONDS_IN_HOUR   } from './app-clock';
+import { MILLISECONDS_IN_MENUTE } from './app-clock';
 
 export class DateTime {
   private dateTimeValue: number;

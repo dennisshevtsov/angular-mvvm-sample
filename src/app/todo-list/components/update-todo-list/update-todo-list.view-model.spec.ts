@@ -1,10 +1,12 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { of, } from 'rxjs';
+import { of } from 'rxjs';
 
-import { GetTodoListResponseDto,
-         TodoListService,         } from 'src/app/todo-list/api';
-import { UpdateTodoListViewModel, } from './update-todo-list.view-model';
+import { GetTodoListResponseDto } from 'src/app/todo-list/api';
+import { TodoListService        } from 'src/app/todo-list/api';
+
+import { UpdateTodoListViewModel } from './update-todo-list.view-model';
 
 describe('UpdateTodoListViewModel', () => {
   beforeEach(() => {
@@ -13,14 +15,9 @@ describe('UpdateTodoListViewModel', () => {
         UpdateTodoListViewModel,
         {
           provide: TodoListService,
-          useValue: jasmine.createSpyObj(
-            TodoListService,
-            [
-              'getTodoList',
-              'updateTodoList',
-            ]),
+          useValue: jasmine.createSpyObj(TodoListService, ['getTodoList', 'updateTodoList']),
         },
-      ]
+      ],
     });
   });
 

@@ -1,7 +1,8 @@
-import { HttpHandler, HttpRequest, } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 
-import { UpdateTodoListRequestDto, } from 'src/app/todo-list/api';
-import { TodoListInterceptor,      } from './todo-list.interceptor';
+import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
+import { TodoListInterceptor      } from './todo-list.interceptor';
 
 describe('TodoListInterceptor', () => {
   it('intercept should keep original request', () => {

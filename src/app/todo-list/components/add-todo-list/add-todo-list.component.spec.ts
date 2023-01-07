@@ -1,16 +1,22 @@
-import { ComponentFixture, TestBed, } from '@angular/core/testing';
-import { ReactiveFormsModule,       } from '@angular/forms';
-import { By,                        } from '@angular/platform-browser';
-import { RouterModule,              } from '@angular/router';
+import { ComponentFixture } from '@angular/core/testing';
+import { TestBed          } from '@angular/core/testing';
 
-import { of, throwError, } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 
-import { CoreModule,
-         TodoListLinks,
-         TodoListNavigator,    } from 'src/app/core';
-import { TodoListComponent,    } from '../todo-list/todo-list.component';
-import { AddTodoListComponent, } from './add-todo-list.component';
-import { AddTodoListViewModel, } from './add-todo-list.view-model';
+import { By } from '@angular/platform-browser';
+
+import { RouterModule } from '@angular/router';
+
+import { of         } from 'rxjs';
+import { throwError } from 'rxjs';
+
+import { CoreModule        } from 'src/app/core';
+import { TodoListLinks     } from 'src/app/core';
+import { TodoListNavigator } from 'src/app/core';
+
+import { TodoListComponent    } from '../todo-list/todo-list.component';
+import { AddTodoListComponent } from './add-todo-list.component';
+import { AddTodoListViewModel } from './add-todo-list.view-model';
 
 describe('AddTodoListComponent', () => {
   let addTodoListFixture: ComponentFixture<AddTodoListComponent>;

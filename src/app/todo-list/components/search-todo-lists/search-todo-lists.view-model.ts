@@ -1,11 +1,14 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { map, Observable, of, switchMap, } from 'rxjs';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
+import { of         } from 'rxjs';
+import { switchMap  } from 'rxjs';
 
-import { DeleteTodoListRequestDto,
-         SearchTodoListsRecordResponseDto,
-         SearchTodoListsRequestDto,
-         TodoListService,                  } from 'src/app/todo-list/api';
+import { DeleteTodoListRequestDto         } from 'src/app/todo-list/api';
+import { SearchTodoListsRecordResponseDto } from 'src/app/todo-list/api';
+import { SearchTodoListsRequestDto        } from 'src/app/todo-list/api';
+import { TodoListService                  } from 'src/app/todo-list/api';
 
 @Injectable()
 export class SearchTodoListsViewModel {

@@ -1,6 +1,7 @@
-import { inject, TestBed,   } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { TodoListTaskLinks, } from './todo-list-task.links';
+import { TodoListTaskLinks } from './todo-list-task.links';
 
 describe('TodoListTaskLinks', () => {
   beforeEach(() => TestBed.configureTestingModule({providers: [TodoListTaskLinks]}));

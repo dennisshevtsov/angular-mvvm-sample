@@ -1,4 +1,4 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export const HOURS_IN_DAY      = 24;
 export const SECONDS_IN_MINUTE = 60;

@@ -1,18 +1,20 @@
-import { Component, OnDestroy, OnInit,
-         ViewChild,                        } from '@angular/core';
+import { Component } from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { OnInit    } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
-import { Subscription,                     } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { ModalComponent, ToastsComponent,
-         TodoListLinks, TodoListTaskLinks, } from 'src/app/core';
-import { SearchTodoListsRecordResponseDto, } from 'src/app/todo-list/api';
-import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
+import { ModalComponent    } from 'src/app/core';
+import { ToastsComponent   } from 'src/app/core';
+import { TodoListLinks     } from 'src/app/core';
+import { TodoListTaskLinks } from 'src/app/core';
+
+import { SearchTodoListsRecordResponseDto } from 'src/app/todo-list/api';
+import { SearchTodoListsViewModel         } from './search-todo-lists.view-model';
 
 @Component({
   templateUrl: './search-todo-lists.component.html',
-  styleUrls: [
-    './search-todo-lists.component.scss',
-  ],
   providers: [
     SearchTodoListsViewModel,
     {

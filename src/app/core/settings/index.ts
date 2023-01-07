@@ -1,6 +1,6 @@
-import { InjectionToken, } from '@angular/core';
+import { InjectionToken } from '@angular/core';
 
-import { AppSettings,    } from './settings';
+import { AppSettings    } from './settings';
 
 export * from './settings';
 

@@ -1,8 +1,13 @@
-import { AfterViewInit, Component,
-         ElementRef, EventEmitter,
-         OnDestroy, Output, ViewChild, } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
+import { Component     } from '@angular/core';
+import { ElementRef    } from '@angular/core';
+import { EventEmitter  } from '@angular/core';
+import { OnDestroy     } from '@angular/core';
+import { Output        } from '@angular/core';
+import { ViewChild     } from '@angular/core';
 
-import { fromEvent, Subscription, } from 'rxjs';
+import { fromEvent    } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 declare var bootstrap: any;
 
@@ -16,9 +21,6 @@ const TOAST_OPTIONS = {
 
 @Component({
   templateUrl: './toast.component.html',
-  styleUrls: [
-    './toast.component.scss',
-  ],
   providers: [
     {
       provide: Subscription,

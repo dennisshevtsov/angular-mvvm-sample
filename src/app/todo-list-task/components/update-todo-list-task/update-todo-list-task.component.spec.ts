@@ -20,9 +20,9 @@ import { TodoListTaskLinks                 } from 'src/app/core';
 import { TODO_LIST_ROUTE_ID_PARAMETER      } from 'src/app/core';
 import { TODO_LIST_TASK_ROUTE_ID_PARAMETER } from 'src/app/core';
 
-import { TodoListTaskViewModel,             } from 'src/app/todo-list-task/components/todo-list-task';
-import { UpdateTodoListTaskComponent,       } from './update-todo-list-task.component';
-import { UpdateTodoListTaskViewModel,       } from './update-todo-list-task.view-model';
+import { TodoListTaskViewModel       } from 'src/app/todo-list-task/components/todo-list-task';
+import { UpdateTodoListTaskComponent } from './update-todo-list-task.component';
+import { UpdateTodoListTaskViewModel } from './update-todo-list-task.view-model';
 
 const PARAM_MAP_TOKEN = 'ParamMap';
 

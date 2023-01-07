@@ -1,15 +1,17 @@
-import { AfterViewInit, Component, ElementRef,
-         EventEmitter, Input, Output, TemplateRef,
-         ViewChild,                                } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
+import { Component     } from '@angular/core';
+import { ElementRef    } from '@angular/core';
+import { EventEmitter  } from '@angular/core';
+import { Input         } from '@angular/core';
+import { Output        } from '@angular/core';
+import { TemplateRef   } from '@angular/core';
+import { ViewChild     } from '@angular/core';
 
 declare var bootstrap: any;
 
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: [
-    './modal.component.scss',
-  ],
 })
 export class ModalComponent implements AfterViewInit {
   @Input()

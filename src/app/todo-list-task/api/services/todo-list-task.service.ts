@@ -1,24 +1,32 @@
-import { HttpClient, HttpHeaders, } from '@angular/common/http';
-import { Inject, Injectable,      } from '@angular/core';
+import { HttpClient  } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
-import { map, Observable, } from 'rxjs';
+import { Inject     } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { AppSettings, APP_SETTINGS,            } from 'src/app/core/settings';
-import { DAY_TASK, PERIOD_TASK,                } from '../../interceptors/todo-list-task.interceptor';
-import { AddTodoListDayTaskRequestDto,
-         AddTodoListPeriodTaskRequestDto,
-         AddTodoListTaskResponseDto,
-         CompleteTodoListTaskRequestDto,
-         DeleteTodoListTaskRequestDto,
-         GetTodoListDayTaskResponseDto,
-         GetTodoListPeriodTaskResponseDto,
-         GetTodoListTaskRequestDto,
-         SearchTodoListDayTaskResponseDto,
-         SearchTodoListPeriodTaskResponseDto,
-         SearchTodoListTasksRequestDto,
-         UncompleteTodoListTaskRequestDto,
-         UpdateTodoListDayTaskRequestDto,
-         UpdateTodoListPeriodTaskRequestDto,   } from '../dtos';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
+
+import { AppSettings  } from 'src/app/core/settings';
+import { APP_SETTINGS } from 'src/app/core/settings';
+
+import { DAY_TASK    } from '../../interceptors/todo-list-task.interceptor';
+import { PERIOD_TASK } from '../../interceptors/todo-list-task.interceptor';
+
+import { AddTodoListDayTaskRequestDto        } from '../dtos';
+import { AddTodoListPeriodTaskRequestDto     } from '../dtos';
+import { AddTodoListTaskResponseDto          } from '../dtos';
+import { CompleteTodoListTaskRequestDto      } from '../dtos';
+import { DeleteTodoListTaskRequestDto        } from '../dtos';
+import { GetTodoListDayTaskResponseDto       } from '../dtos';
+import { GetTodoListPeriodTaskResponseDto    } from '../dtos';
+import { GetTodoListTaskRequestDto           } from '../dtos';
+import { SearchTodoListDayTaskResponseDto    } from '../dtos';
+import { SearchTodoListPeriodTaskResponseDto } from '../dtos';
+import { SearchTodoListTasksRequestDto       } from '../dtos';
+import { UncompleteTodoListTaskRequestDto    } from '../dtos';
+import { UpdateTodoListDayTaskRequestDto     } from '../dtos';
+import { UpdateTodoListPeriodTaskRequestDto  } from '../dtos';
 
 @Injectable({
   providedIn: 'root',

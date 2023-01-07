@@ -1,10 +1,14 @@
-import { ComponentRef, EventEmitter, ViewContainerRef } from '@angular/core';
-import { inject, TestBed, } from '@angular/core/testing';
+import { ComponentRef     } from '@angular/core';
+import { EventEmitter     } from '@angular/core';
+import { ViewContainerRef } from '@angular/core';
 
-import { Subscription,    } from 'rxjs';
-import { ToastComponent } from '../toast/toast.component';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { ToastsComponent, } from './toasts.component';
+import { Subscription } from 'rxjs';
+
+import { ToastComponent  } from '../toast/toast.component';
+import { ToastsComponent } from './toasts.component';
 
 describe('ToastsComponent', () => {
   beforeEach(() => {

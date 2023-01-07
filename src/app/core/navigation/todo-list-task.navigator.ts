@@ -1,7 +1,7 @@
-import { Injectable, } from '@angular/core';
-import { Router,     } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router     } from '@angular/router';
 
-import { TodoListTaskLinks, } from './todo-list-task.links';
+import { TodoListTaskLinks } from './todo-list-task.links';
 
 @Injectable({
   providedIn: 'root',

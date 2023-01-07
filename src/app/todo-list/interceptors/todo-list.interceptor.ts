@@ -1,10 +1,13 @@
-import { HttpEvent, HttpHandler,
-         HttpInterceptor, HttpRequest, } from '@angular/common/http';
-import { Injectable,                   } from '@angular/core';
+import { HttpEvent       } from '@angular/common/http';
+import { HttpHandler     } from '@angular/common/http';
+import { HttpInterceptor } from '@angular/common/http';
+import { HttpRequest     } from '@angular/common/http';
 
-import { Observable, } from 'rxjs';
+import { Injectable } from '@angular/core';
 
-import { UpdateTodoListRequestDto, } from 'src/app/todo-list/api';
+import { Observable } from 'rxjs';
+
+import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
 
 @Injectable()
 export class TodoListInterceptor implements HttpInterceptor {

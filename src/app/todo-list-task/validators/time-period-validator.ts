@@ -1,6 +1,7 @@
-import { AbstractControl, ValidationErrors, } from '@angular/forms';
+import { AbstractControl   } from '@angular/forms';
+import { ValidationErrors } from '@angular/forms';
 
-import { MILLISECONDS_IN_DAY, } from 'src/app/core/date';
+import { MILLISECONDS_IN_DAY } from 'src/app/core/date';
 
 export function timePeriodValidator(timePeriodControl: AbstractControl)
   : ValidationErrors | null {

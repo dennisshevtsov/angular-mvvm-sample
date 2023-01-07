@@ -1,4 +1,4 @@
-import { DateTime, } from './date-time';
+import { DateTime } from './date-time';
 
 describe('DateTime', () => {
   it('value should return full value', () => {

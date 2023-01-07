@@ -1,19 +1,24 @@
-import { Component, OnDestroy,
-         OnInit,                 } from '@angular/core';
-import { AbstractControl,
-         AbstractControlOptions,
-         ControlValueAccessor,
-         FormBuilder, FormControl, FormGroup,
-         NG_VALIDATORS,
-         NG_VALUE_ACCESSOR,
-         ValidationErrors,
-         Validator, Validators,  } from '@angular/forms';
+import { Component } from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { OnInit    } from '@angular/core';
 
-import { Subscription, } from 'rxjs';
+import { AbstractControl        } from '@angular/forms';
+import { AbstractControlOptions } from '@angular/forms';
+import { ControlValueAccessor   } from '@angular/forms';
+import { FormBuilder            } from '@angular/forms';
+import { FormControl            } from '@angular/forms';
+import { FormGroup              } from '@angular/forms';
+import { NG_VALIDATORS          } from '@angular/forms';
+import { NG_VALUE_ACCESSOR      } from '@angular/forms';
+import { ValidationErrors       } from '@angular/forms';
+import { Validator              } from '@angular/forms';
+import { Validators             } from '@angular/forms';
 
-import { FormComponentBase,           } from 'src/app/core';
-import { timePeriodValidator,         } from 'src/app/todo-list-task/validators';
-import { TodoListTaskPeriodViewModel, } from './todo-list-task-period.view-model';
+import { Subscription } from 'rxjs';
+
+import { FormComponentBase           } from 'src/app/core';
+import { timePeriodValidator         } from 'src/app/todo-list-task/validators';
+import { TodoListTaskPeriodViewModel } from './todo-list-task-period.view-model';
 
 type TodoListTaskPeriodFormScheme = {
   [K in keyof TodoListTaskPeriodViewModel]: FormControl<TodoListTaskPeriodViewModel[K] | null>;

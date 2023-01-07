@@ -1,4 +1,4 @@
-import { TodoListTaskPeriodViewModel, } from '../todo-list-task-period/todo-list-task-period.view-model';
+import { TodoListTaskPeriodViewModel } from '../todo-list-task-period/todo-list-task-period.view-model';
 
 export interface TodoListTaskProps {
   title      : string;

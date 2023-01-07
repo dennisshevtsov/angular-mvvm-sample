@@ -1,8 +1,12 @@
-import { fakeAsync, inject, TestBed, tick, } from '@angular/core/testing';
-import { Router,                           } from '@angular/router';
+import { fakeAsync } from '@angular/core/testing';
+import { inject    } from '@angular/core/testing';
+import { TestBed   } from '@angular/core/testing';
+import { tick      } from '@angular/core/testing';
 
-import { TodoListLinks,                    } from './todo-list.links';
-import { TodoListNavigator,                } from './todo-list.navigator';
+import { Router } from '@angular/router';
+
+import { TodoListLinks     } from './todo-list.links';
+import { TodoListNavigator } from './todo-list.navigator';
 
 describe('TodoListNavigator', () => {
   beforeEach(() => {

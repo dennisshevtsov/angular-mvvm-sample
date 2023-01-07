@@ -1,11 +1,12 @@
 import { Injectable, } from '@angular/core';
 
-import { map, Observable, } from 'rxjs';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { GetTodoListRequestDto,
-         GetTodoListResponseDto,
-         TodoListService,
-         UpdateTodoListRequestDto, } from 'src/app/todo-list/api';
+import { GetTodoListRequestDto    } from 'src/app/todo-list/api';
+import { GetTodoListResponseDto   } from 'src/app/todo-list/api';
+import { TodoListService          } from 'src/app/todo-list/api';
+import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
 
 @Injectable()
 export class UpdateTodoListViewModel {

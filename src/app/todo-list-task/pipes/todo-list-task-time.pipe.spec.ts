@@ -1,9 +1,12 @@
-import { inject, TestBed,      } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { Formatter,                           } from 'src/app/core';
-import { SearchTodoListDayTaskResponseDto,
-         SearchTodoListPeriodTaskResponseDto, } from 'src/app/todo-list-task/api';
-import { TodoListTaskTimePipe,                } from './todo-list-task-time.pipe';
+import { Formatter } from 'src/app/core';
+
+import { SearchTodoListDayTaskResponseDto    } from 'src/app/todo-list-task/api';
+import { SearchTodoListPeriodTaskResponseDto } from 'src/app/todo-list-task/api';
+
+import { TodoListTaskTimePipe } from './todo-list-task-time.pipe';
 
 describe('TodoListTaskTimePipe', () => {
   beforeEach(() => {

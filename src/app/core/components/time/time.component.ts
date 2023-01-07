@@ -1,12 +1,15 @@
-import { Component, Input,
-         ViewEncapsulation,    } from '@angular/core';
-import { ControlValueAccessor,
-         NG_VALUE_ACCESSOR     } from '@angular/forms';
+import { Component         } from '@angular/core';
+import { Input             } from '@angular/core';
+import { ViewEncapsulation } from '@angular/core';
 
-import { HOURS_IN_DAY,
-         MILLISECONDS_IN_HOUR,
-         DateTime,             } from 'src/app/core/date';
-import { Formatter,            } from 'src/app/core/formatting';
+import { ControlValueAccessor } from '@angular/forms';
+import { NG_VALUE_ACCESSOR    } from '@angular/forms';
+
+import { HOURS_IN_DAY         } from 'src/app/core/date';
+import { MILLISECONDS_IN_HOUR } from 'src/app/core/date';
+import { DateTime             } from 'src/app/core/date';
+
+import { Formatter } from 'src/app/core/formatting';
 
 export const DEFAULT_MENUTES_STEP = 15;
 

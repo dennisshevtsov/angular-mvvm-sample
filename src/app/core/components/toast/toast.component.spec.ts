@@ -1,7 +1,9 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
+
 import { Subscription } from 'rxjs';
 
-import { ToastComponent,  } from './toast.component';
+import { ToastComponent } from './toast.component';
 
 declare var bootstrap: any;
 

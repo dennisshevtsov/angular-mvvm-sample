@@ -1,8 +1,11 @@
-import { ComponentFixture, TestBed,       } from '@angular/core/testing';
-import { ReactiveFormsModule, Validators, } from '@angular/forms';
+import { ComponentFixture } from '@angular/core/testing';
+import { TestBed          } from '@angular/core/testing';
+
+import { ReactiveFormsModule } from '@angular/forms';
+import { Validators          } from '@angular/forms';
 
 import { AddTodoListRequestDto } from 'src/app/todo-list/api';
-import { TodoListComponent,    } from './todo-list.component';
+import { TodoListComponent     } from './todo-list.component';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;

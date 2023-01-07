@@ -1,4 +1,4 @@
-import { AbstractControl     } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 
 import { MILLISECONDS_IN_DAY } from 'src/app/core';
 import { timePeriodValidator } from './time-period-validator';

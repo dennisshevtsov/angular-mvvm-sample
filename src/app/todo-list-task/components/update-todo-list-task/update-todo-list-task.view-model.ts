@@ -1,15 +1,18 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { map, Observable, } from 'rxjs';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { MILLISECONDS_IN_DAY,                } from 'src/app/core';
-import { GetTodoListDayTaskResponseDto,
-         GetTodoListPeriodTaskResponseDto,
-         GetTodoListTaskRequestDto,
-         TodoListTaskService,
-         UpdateTodoListDayTaskRequestDto,
-         UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
-import { TodoListTaskViewModel,              } from 'src/app/todo-list-task/components/todo-list-task';
+import { MILLISECONDS_IN_DAY } from 'src/app/core';
+
+import { GetTodoListDayTaskResponseDto      } from 'src/app/todo-list-task/api';
+import { GetTodoListPeriodTaskResponseDto   } from 'src/app/todo-list-task/api';
+import { GetTodoListTaskRequestDto          } from 'src/app/todo-list-task/api';
+import { TodoListTaskService                } from 'src/app/todo-list-task/api';
+import { UpdateTodoListDayTaskRequestDto    } from 'src/app/todo-list-task/api';
+import { UpdateTodoListPeriodTaskRequestDto } from 'src/app/todo-list-task/api';
+
+import { TodoListTaskViewModel } from 'src/app/todo-list-task/components/todo-list-task';
 
 @Injectable()
 export class UpdateTodoListTaskViewModel {

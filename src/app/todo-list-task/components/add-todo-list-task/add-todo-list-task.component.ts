@@ -1,19 +1,24 @@
-import { AfterViewInit, Component,
-         OnDestroy, OnInit,
-         ViewChild,                } from '@angular/core';
-import { ActivatedRoute, ParamMap, } from '@angular/router';
+import { AfterViewInit } from '@angular/core';
+import { Component     } from '@angular/core';
+import { OnDestroy     } from '@angular/core';
+import { OnInit        } from '@angular/core';
+import { ViewChild     } from '@angular/core';
 
-import { Subscription, } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { ParamMap       } from '@angular/router';
 
-import { AppClock,
-         MILLISECONDS_IN_HOUR,
-         MILLISECONDS_IN_MENUTE,
-         ToastsComponent,
-         TodoListTaskLinks,
-         TodoListTaskNavigator,
-         TODO_LIST_ROUTE_ID_PARAMETER, } from 'src/app/core';
-import { TodoListTaskComponent,        } from 'src/app/todo-list-task/components/todo-list-task';
-import { AddTodoListTaskViewModel,     } from './add-todo-list-task.view-model';
+import { Subscription } from 'rxjs';
+
+import { AppClock                     } from 'src/app/core';
+import { MILLISECONDS_IN_HOUR         } from 'src/app/core';
+import { MILLISECONDS_IN_MENUTE       } from 'src/app/core';
+import { ToastsComponent              } from 'src/app/core';
+import { TodoListTaskLinks            } from 'src/app/core';
+import { TodoListTaskNavigator        } from 'src/app/core';
+import { TODO_LIST_ROUTE_ID_PARAMETER } from 'src/app/core';
+
+import { TodoListTaskComponent    } from 'src/app/todo-list-task/components/todo-list-task';
+import { AddTodoListTaskViewModel } from './add-todo-list-task.view-model';
 
 @Component({
   templateUrl: './add-todo-list-task.component.html',

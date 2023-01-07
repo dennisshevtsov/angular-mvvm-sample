@@ -1,14 +1,17 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { map, mergeMap, Observable, of, } from 'rxjs';
+import { map        } from 'rxjs';
+import { mergeMap   } from 'rxjs';
+import { Observable } from 'rxjs';
+import { of         } from 'rxjs';
 
-import { CompleteTodoListTaskRequestDto,
-         DeleteTodoListTaskRequestDto,
-         SearchTodoListDayTaskResponseDto,
-         SearchTodoListPeriodTaskResponseDto,
-         SearchTodoListTasksRequestDto,
-         TodoListTaskService,
-         UncompleteTodoListTaskRequestDto,     } from 'src/app/todo-list-task/api';
+import { CompleteTodoListTaskRequestDto      } from 'src/app/todo-list-task/api';
+import { DeleteTodoListTaskRequestDto        } from 'src/app/todo-list-task/api';
+import { SearchTodoListDayTaskResponseDto    } from 'src/app/todo-list-task/api';
+import { SearchTodoListPeriodTaskResponseDto } from 'src/app/todo-list-task/api';
+import { SearchTodoListTasksRequestDto       } from 'src/app/todo-list-task/api';
+import { TodoListTaskService                 } from 'src/app/todo-list-task/api';
+import { UncompleteTodoListTaskRequestDto    } from 'src/app/todo-list-task/api';
 
 @Injectable()
 export class SearchTodoListTasksViewModel {
@@ -18,7 +21,7 @@ export class SearchTodoListTasksViewModel {
 
   public constructor(
     private readonly service: TodoListTaskService,
-  ) {}
+  ) { }
 
   public get todoListId(): string {
     return this.todoListIdValue ?? '';

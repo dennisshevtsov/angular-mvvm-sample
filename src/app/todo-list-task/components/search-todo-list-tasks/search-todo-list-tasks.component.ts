@@ -1,21 +1,28 @@
-import { AfterViewInit, Component,
-         OnDestroy, OnInit, ViewChild, } from '@angular/core';
-import { ActivatedRoute, ParamMap,     } from '@angular/router';
+import { AfterViewInit } from '@angular/core';
+import { Component     } from '@angular/core';
+import { OnDestroy     } from '@angular/core';
+import { OnInit        } from '@angular/core';
+import { ViewChild     } from '@angular/core';
 
-import { mergeMap, Subscription, throwError, } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
+import { ParamMap       } from '@angular/router';
 
-import { ModalComponent, ToastsComponent,
-         TodoListLinks, TodoListTaskLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER,         } from 'src/app/core';
-import { SearchTodoListDayTaskResponseDto,
-         SearchTodoListPeriodTaskResponseDto,  } from 'src/app/todo-list-task/api';
-import { SearchTodoListTasksViewModel,         } from './search-todo-list-tasks.view-model';
+import { mergeMap     } from 'rxjs';
+import { Subscription } from 'rxjs';
+import { throwError   } from 'rxjs';
+
+import { ModalComponent               } from 'src/app/core';
+import { ToastsComponent              } from 'src/app/core';
+import { TodoListLinks                } from 'src/app/core';
+import { TodoListTaskLinks            } from 'src/app/core';
+import { TODO_LIST_ROUTE_ID_PARAMETER } from 'src/app/core';
+
+import { SearchTodoListDayTaskResponseDto    } from 'src/app/todo-list-task/api';
+import { SearchTodoListPeriodTaskResponseDto } from 'src/app/todo-list-task/api';
+import { SearchTodoListTasksViewModel        } from './search-todo-list-tasks.view-model';
 
 @Component({
   templateUrl: './search-todo-list-tasks.component.html',
-  styleUrls: [
-    './search-todo-list-tasks.component.scss',
-  ],
   providers: [
     SearchTodoListTasksViewModel,
     {

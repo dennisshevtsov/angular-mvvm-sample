@@ -1,11 +1,13 @@
-import { Component, ComponentRef,
-         OnDestroy, ViewChild,
-         ViewContainerRef,
-         ViewEncapsulation,        } from '@angular/core';
+import { Component         } from '@angular/core';
+import { ComponentRef      } from '@angular/core';
+import { OnDestroy         } from '@angular/core';
+import { ViewChild         } from '@angular/core';
+import { ViewContainerRef  } from '@angular/core';
+import { ViewEncapsulation } from '@angular/core';
 
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { ToastComponent, } from '../toast/toast.component';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-toasts',

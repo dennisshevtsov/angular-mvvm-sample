@@ -1,11 +1,15 @@
-import { NgModule,             } from '@angular/core';
-import { RouterModule, Routes, } from '@angular/router';
+import { NgModule } from '@angular/core';
 
-import { convertToRoute, TodoListLinks,
-         TODO_LIST_ROUTE_ID_PARAMETER,  } from 'src/app/core';
-import { AddTodoListComponent,
-         SearchTodoListsComponent,
-         UpdateTodoListComponent,       } from './components';
+import { RouterModule } from '@angular/router';
+import { Routes       } from '@angular/router';
+
+import { convertToRoute               } from 'src/app/core';
+import { TodoListLinks                } from 'src/app/core';
+import { TODO_LIST_ROUTE_ID_PARAMETER } from 'src/app/core';
+
+import { AddTodoListComponent     } from './components';
+import { SearchTodoListsComponent } from './components';
+import { UpdateTodoListComponent  } from './components';
 
 const links = new TodoListLinks();
 

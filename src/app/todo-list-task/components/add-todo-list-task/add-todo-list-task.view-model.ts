@@ -1,11 +1,12 @@
-import { Injectable, } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { map, Observable, } from 'rxjs';
+import { map        } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import { AddTodoListDayTaskRequestDto,
-         AddTodoListPeriodTaskRequestDto,
-         TodoListTaskService,             } from 'src/app/todo-list-task/api';
-import { TodoListTaskViewModel,           } from 'src/app/todo-list-task/components/todo-list-task';
+import { AddTodoListDayTaskRequestDto    } from 'src/app/todo-list-task/api';
+import { AddTodoListPeriodTaskRequestDto } from 'src/app/todo-list-task/api';
+import { TodoListTaskService             } from 'src/app/todo-list-task/api';
+import { TodoListTaskViewModel           } from 'src/app/todo-list-task/components/todo-list-task';
 
 @Injectable()
 export class AddTodoListTaskViewModel {

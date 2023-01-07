@@ -18,9 +18,9 @@ import { PageComponent     } from 'src/app/core';
 import { TodoListLinks     } from 'src/app/core';
 import { TodoListTaskLinks } from 'src/app/core';
 
-import { SearchTodoListsRecordResponseDto  } from 'src/app/todo-list/api';
-import { SearchTodoListsComponent,         } from './search-todo-lists.component';
-import { SearchTodoListsViewModel,         } from './search-todo-lists.view-model';
+import { SearchTodoListsRecordResponseDto } from 'src/app/todo-list/api';
+import { SearchTodoListsComponent         } from './search-todo-lists.component';
+import { SearchTodoListsViewModel         } from './search-todo-lists.view-model';
 
 @Component({
   selector: 'app-modal',

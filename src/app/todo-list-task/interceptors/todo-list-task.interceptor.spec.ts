@@ -1,11 +1,13 @@
-import { HttpHandler, HttpRequest, } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 
-import { AddTodoListDayTaskRequestDto,
-         AddTodoListPeriodTaskRequestDto,
-         UpdateTodoListDayTaskRequestDto,
-         UpdateTodoListPeriodTaskRequestDto, } from 'src/app/todo-list-task/api';
-import { DAY_TASK, PERIOD_TASK,
-         TodoListTaskInterceptor,         } from './todo-list-task.interceptor';
+import { AddTodoListDayTaskRequestDto       } from 'src/app/todo-list-task/api';
+import { UpdateTodoListDayTaskRequestDto    } from 'src/app/todo-list-task/api';
+import { UpdateTodoListPeriodTaskRequestDto } from 'src/app/todo-list-task/api';
+
+import { DAY_TASK                } from './todo-list-task.interceptor';
+import { PERIOD_TASK             } from './todo-list-task.interceptor';
+import { TodoListTaskInterceptor } from './todo-list-task.interceptor';
 
 describe('TodoListTaskInterceptor', () => {
   it('intercept should keep original request', () => {

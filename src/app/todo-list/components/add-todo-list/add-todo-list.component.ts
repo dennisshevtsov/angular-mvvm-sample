@@ -1,12 +1,15 @@
-import { Component, OnDestroy, ViewChild, } from '@angular/core';
+import { Component } from '@angular/core';
+import { OnDestroy } from '@angular/core';
+import { ViewChild } from '@angular/core';
 
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 
-import { ToastsComponent,
-         TodoListLinks,
-         TodoListNavigator,    } from 'src/app/core';
-import { TodoListComponent,    } from '../todo-list/todo-list.component';
-import { AddTodoListViewModel, } from './add-todo-list.view-model';
+import { ToastsComponent   } from 'src/app/core';
+import { TodoListLinks     } from 'src/app/core';
+import { TodoListNavigator } from 'src/app/core';
+
+import { TodoListComponent    } from '../todo-list/todo-list.component';
+import { AddTodoListViewModel } from './add-todo-list.view-model';
 
 @Component({
   templateUrl: './add-todo-list.component.html',

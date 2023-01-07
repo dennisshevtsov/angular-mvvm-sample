@@ -1,6 +1,7 @@
-import { inject, TestBed, } from '@angular/core/testing';
+import { inject  } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
-import { Formatter,       } from './formatter';
+import { Formatter } from './formatter';
 
 describe('Formatter', () => {
   beforeEach(() => TestBed.configureTestingModule({providers: [Formatter]}));

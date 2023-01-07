@@ -1,4 +1,4 @@
-import { SearchTodoListTaskResponseDtoBase, } from './search-todo-list-task-response-dto-base';
+import { SearchTodoListTaskResponseDtoBase } from './search-todo-list-task-response-dto-base';
 
 export class SearchTodoListDayTaskResponseDto implements SearchTodoListTaskResponseDtoBase {
   public constructor(
