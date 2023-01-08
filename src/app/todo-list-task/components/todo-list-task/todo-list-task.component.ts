@@ -4,21 +4,18 @@ import { OnDestroy } from '@angular/core';
 import { OnInit    } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
-import { FormControl } from '@angular/forms';
 import { FormGroup   } from '@angular/forms';
 import { Validators  } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
-import { FormComponentBase           } from 'src/app/core';
+import { FormComponentBase } from 'src/app/core';
+import { FormScheme        } from 'src/app/core';
+
 import { TodoListTaskPeriodViewModel } from '../todo-list-task-period/todo-list-task-period.view-model';
 
 import { TodoListTaskProps     } from './todo-list-task.view-model';
 import { TodoListTaskViewModel } from './todo-list-task.view-model';
-
-type TodoListTaskFormScheme = {
-  [K in keyof TodoListTaskProps]: FormControl<TodoListTaskProps[K] | null>;
-}
 
 @Component({
   selector: 'todo-list-task',
@@ -32,7 +29,7 @@ type TodoListTaskFormScheme = {
   ],
 })
 export class TodoListTaskComponent
-  extends FormComponentBase<TodoListTaskFormScheme>
+  extends FormComponentBase<TodoListTaskProps>
   implements OnInit, OnDestroy {
   private taskValue: undefined | TodoListTaskViewModel;
 
@@ -62,7 +59,7 @@ export class TodoListTaskComponent
       this.form.valueChanges.subscribe(value => {
         this.task.title       = value.title ?? '';
         this.task.description = value.description ?? '';
-        this.task.period      = value.period ??new TodoListTaskPeriodViewModel();
+        this.task.period      = value.period ?? new TodoListTaskPeriodViewModel();
       })
     );
   }
@@ -71,7 +68,7 @@ export class TodoListTaskComponent
     this.subscription.unsubscribe();
   }
 
-  protected buildForm(): FormGroup<TodoListTaskFormScheme> {
+  protected buildForm(): FormGroup<FormScheme<TodoListTaskProps>> {
     return this.fb.group({
       title      : this.fb.control('', Validators.required),
       description: this.fb.control(''),

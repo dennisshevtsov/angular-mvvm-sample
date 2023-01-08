@@ -6,7 +6,6 @@ import { AbstractControl        } from '@angular/forms';
 import { AbstractControlOptions } from '@angular/forms';
 import { ControlValueAccessor   } from '@angular/forms';
 import { FormBuilder            } from '@angular/forms';
-import { FormControl            } from '@angular/forms';
 import { FormGroup              } from '@angular/forms';
 import { NG_VALIDATORS          } from '@angular/forms';
 import { NG_VALUE_ACCESSOR      } from '@angular/forms';
@@ -16,13 +15,11 @@ import { Validators             } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
-import { FormComponentBase           } from 'src/app/core';
+import { FormComponentBase } from 'src/app/core';
+import { FormScheme        } from 'src/app/core';
+
 import { timePeriodValidator         } from 'src/app/todo-list-task/validators';
 import { TodoListTaskPeriodViewModel } from './todo-list-task-period.view-model';
-
-type TodoListTaskPeriodFormScheme = {
-  [K in keyof TodoListTaskPeriodViewModel]: FormControl<TodoListTaskPeriodViewModel[K] | null>;
-}
 
 @Component({
   selector: 'todo-list-task-period',
@@ -48,7 +45,7 @@ type TodoListTaskPeriodFormScheme = {
   ],
 })
 export class TodoListTaskPeriodComponent
-  extends FormComponentBase<TodoListTaskPeriodFormScheme>
+  extends FormComponentBase<TodoListTaskPeriodViewModel>
   implements OnInit, OnDestroy, ControlValueAccessor, Validator {
   public constructor(
     private readonly subscription: Subscription,
@@ -70,10 +67,10 @@ export class TodoListTaskPeriodComponent
   public writeValue(period: TodoListTaskPeriodViewModel): void {
     if (period) {
       this.form.setValue({
-        'day'    : period.day,
-        'fullDay': period.fullDay,
-        'start'  : period.start,
-        'end'    : period.end,
+        day    : period.day,
+        fullDay: period.fullDay,
+        start  : period.start,
+        end    : period.end,
       });
     }
   }
@@ -122,7 +119,7 @@ export class TodoListTaskPeriodComponent
 
     Object.keys(this.form.controls)
           .forEach(controlName => {
-            const control = this.form.controls[controlName as keyof TodoListTaskPeriodFormScheme];
+            const control = this.form.controls[controlName as keyof FormScheme<TodoListTaskPeriodViewModel>];
 
             if (control.errors) {
               errors[controlName] = control.errors;
@@ -132,7 +129,7 @@ export class TodoListTaskPeriodComponent
     return errors;
   }
 
-  protected buildForm(): FormGroup<TodoListTaskPeriodFormScheme> {
+  protected buildForm(): FormGroup<FormScheme<TodoListTaskPeriodViewModel>> {
     const controlConfig = {
       day    : this.fb.control(0),
       fullDay: this.fb.control(false),

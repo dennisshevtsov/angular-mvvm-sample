@@ -1,13 +1,17 @@
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
-export abstract class FormComponentBase<T extends { [K in keyof T]: T[K]; }> {
-  private formValue: FormGroup<T> | undefined;
+export type FormScheme<T> = {
+  [K in keyof T]: FormControl<T[K] | null>;
+}
 
-  public get form(): FormGroup<T> {
+export abstract class FormComponentBase<T> {
+  private formValue: FormGroup<FormScheme<T>> | undefined;
+
+  public get form(): FormGroup<FormScheme<T>> {
     return this.formValue ?? (this.formValue = this.buildForm());
   }
 
-  protected abstract buildForm(): FormGroup<T>;
+  protected abstract buildForm(): FormGroup<FormScheme<T>>;
 
   public validateForm(): void {
     this.validateFormGroup(this.form);

@@ -4,13 +4,13 @@ import { OnDestroy } from '@angular/core';
 import { OnInit    } from '@angular/core';
 
 import { FormBuilder } from '@angular/forms';
-import { FormControl } from '@angular/forms';
 import { FormGroup   } from '@angular/forms';
 import { Validators  } from '@angular/forms';
 
-import { Subscription, } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { FormComponentBase } from 'src/app/core';
+import { FormScheme        } from 'src/app/core';
 
 import { AddTodoListRequestDto    } from 'src/app/todo-list/api';
 import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
@@ -18,10 +18,6 @@ import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
 interface TodoListProps {
   title      : string;
   description: string;
-}
-
-type TodoListFormScheme = {
-  [K in keyof TodoListProps]: FormControl<TodoListProps[K] | null>;
 }
 
 @Component({
@@ -32,7 +28,7 @@ type TodoListFormScheme = {
   ],
 })
 export class TodoListComponent
-  extends FormComponentBase<TodoListFormScheme>
+  extends FormComponentBase<TodoListProps>
   implements OnInit, OnDestroy {
   private todoListValue!: AddTodoListRequestDto | UpdateTodoListRequestDto;
 
@@ -71,10 +67,10 @@ export class TodoListComponent
     return this.todoListValue;
   }
 
-  protected buildForm(): FormGroup {
+  protected buildForm(): FormGroup<FormScheme<TodoListProps>> {
     return this.fb.group({
-      'title'      : this.fb.control('', Validators.required),
-      'description': '',
+      title      : this.fb.control('', Validators.required),
+      description: this.fb.control(''),
     });
   }
 }
