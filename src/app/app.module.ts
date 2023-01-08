@@ -1,13 +1,13 @@
-import { NgModule,      } from '@angular/core';
-import { BrowserModule, } from '@angular/platform-browser';
+import { NgModule      } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule,   } from './app-routing.module';
-import { AppComponent,       } from './app.component';
-import { CoreModule,         } from './core';
-import { APP_SETTINGS,       } from './core/settings';
-import { TodoListTaskModule, } from './todo-list-task';
-import { TodoListModule,     } from './todo-list';
-import { environment,        } from 'src/environments/environment';
+import { AppRoutingModule   } from './app-routing.module';
+import { AppComponent       } from './app.component';
+import { CoreModule         } from './core';
+import { APP_SETTINGS       } from './core';
+import { TodoListTaskModule } from './todo-list-task';
+import { TodoListModule     } from './todo-list';
+import { environment        } from 'src/environments/environment';
 
 @NgModule({
   declarations: [AppComponent],

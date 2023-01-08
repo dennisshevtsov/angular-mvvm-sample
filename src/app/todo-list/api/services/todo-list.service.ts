@@ -6,8 +6,8 @@ import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { AppSettings  } from 'src/app/core/settings';
-import { APP_SETTINGS } from 'src/app/core/settings';
+import { AppSettings  } from 'src/app/core';
+import { APP_SETTINGS } from 'src/app/core';
 
 import { AddTodoListRequestDto            } from 'src/app/todo-list/api/dtos';
 import { AddTodoListResponseDto           } from 'src/app/todo-list/api/dtos';

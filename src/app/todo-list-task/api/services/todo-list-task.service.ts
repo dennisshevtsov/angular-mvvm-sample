@@ -7,8 +7,8 @@ import { Injectable } from '@angular/core';
 import { map        } from 'rxjs';
 import { Observable } from 'rxjs';
 
-import { AppSettings  } from 'src/app/core/settings';
-import { APP_SETTINGS } from 'src/app/core/settings';
+import { AppSettings  } from 'src/app/core';
+import { APP_SETTINGS } from 'src/app/core';
 
 import { DAY_TASK    } from '../../interceptors/todo-list-task.interceptor';
 import { PERIOD_TASK } from '../../interceptors/todo-list-task.interceptor';
