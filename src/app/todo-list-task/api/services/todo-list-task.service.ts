@@ -4,14 +4,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { Inject     } from '@angular/core';
 import { Injectable } from '@angular/core';
 
-import { map        } from 'rxjs';
 import { Observable } from 'rxjs';
 
 import { AppSettings  } from 'src/app/core';
 import { APP_SETTINGS } from 'src/app/core';
-
-import { DAY_TASK    } from '../../interceptors/todo-list-task.interceptor';
-import { PERIOD_TASK } from '../../interceptors/todo-list-task.interceptor';
 
 import { AddTodoListDayTaskRequestDto        } from '../dtos';
 import { AddTodoListPeriodTaskRequestDto     } from '../dtos';
@@ -46,38 +42,15 @@ export class TodoListTaskService {
   public getTodoListTask(
     query: GetTodoListTaskRequestDto)
     : Observable<GetTodoListDayTaskResponseDto | GetTodoListPeriodTaskResponseDto> {
-    return this.http.get<any>(`${this.todoListRoute}/${query.todoListId}/task/${query.todoListTaskId}`)
-                    .pipe(map(response => {
-                      if (response.type == DAY_TASK) {
-                        return Object.assign(new GetTodoListDayTaskResponseDto(), response);
-                      }
-
-                      if (response.type == PERIOD_TASK) {
-                        return Object.assign(new GetTodoListPeriodTaskResponseDto(), response);
-                      }
-
-                      throw 'Incorrect response';
-                    }));
+    return this.http.get<GetTodoListDayTaskResponseDto | GetTodoListPeriodTaskResponseDto>(
+      `${this.todoListRoute}/${query.todoListId}/task/${query.todoListTaskId}`);
   }
 
   public searchTodoListTasks(
     query: SearchTodoListTasksRequestDto)
     : Observable<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]> {
-    return this.http.get<any[]>(`${this.todoListRoute}/${query.todoListId}/task`)
-                    .pipe(map(reponse => {
-                      const dtos = new Array<SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto>(reponse.length);
-
-                      for (let i = 0; i < reponse.length; i++) {
-                        if (reponse[i].type == DAY_TASK) {
-                          dtos[i] = Object.assign(new SearchTodoListDayTaskResponseDto(), reponse[i]);
-                        }
-                        else {
-                          dtos[i] = Object.assign(new SearchTodoListPeriodTaskResponseDto(), reponse[i]);
-                        }
-                      }
-
-                      return dtos;
-                    }));
+    return this.http.get<(SearchTodoListDayTaskResponseDto | SearchTodoListPeriodTaskResponseDto)[]>(
+      `${this.todoListRoute}/${query.todoListId}/task`);
   }
 
   public addTodoListTask(

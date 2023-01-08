@@ -1,6 +1,8 @@
 import { HttpHandler } from '@angular/common/http';
 import { HttpRequest } from '@angular/common/http';
 
+import { of } from 'rxjs';
+
 import { AddTodoListDayTaskRequestDto       } from 'src/app/todo-list-task/api';
 import { UpdateTodoListDayTaskRequestDto    } from 'src/app/todo-list-task/api';
 import { UpdateTodoListPeriodTaskRequestDto } from 'src/app/todo-list-task/api';
@@ -13,6 +15,8 @@ describe('TodoListTaskInterceptor', () => {
   it('intercept should keep original request', () => {
     const req : jasmine.SpyObj<HttpRequest<any>> = jasmine.createSpyObj('HttpRequest', ['clone'], ['body']);
     const next: jasmine.SpyObj<HttpHandler>      = jasmine.createSpyObj('HttpHandler', ['handle']);
+
+    next.handle.and.returnValue(of())
 
     const interceptor = new TodoListTaskInterceptor();
 
