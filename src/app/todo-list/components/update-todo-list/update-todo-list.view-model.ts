@@ -8,19 +8,21 @@ import { GetTodoListResponseDto   } from 'src/app/todo-list/api';
 import { TodoListService          } from 'src/app/todo-list/api';
 import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
 
+import { TodoListViewModel } from '../todo-list';
+
 @Injectable()
 export class UpdateTodoListViewModel {
-  private todoListValue: undefined | UpdateTodoListRequestDto;
+  private todoListValue: undefined | TodoListViewModel;
 
   public constructor(
     private readonly service: TodoListService,
   ) {}
 
-  public get todoList(): UpdateTodoListRequestDto {
-    return this.todoListValue ?? (this.todoListValue = new UpdateTodoListRequestDto());
+  public get todoList(): TodoListViewModel {
+    return this.todoListValue ?? (this.todoListValue = new TodoListViewModel());
   }
 
-  public set todoList(value: UpdateTodoListRequestDto) {
+  public set todoList(value: TodoListViewModel) {
     this.todoListValue = value;
   }
 

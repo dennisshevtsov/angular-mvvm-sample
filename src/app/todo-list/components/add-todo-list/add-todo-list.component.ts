@@ -36,9 +36,9 @@ export class AddTodoListComponent implements OnDestroy {
 
     private readonly links    : TodoListLinks,
     private readonly navigator: TodoListNavigator,
-    private readonly subscription: Subscription,
+    private readonly sub      : Subscription,
   ) {
-    this.subscription = new Subscription();
+    this.sub = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -46,7 +46,7 @@ export class AddTodoListComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   public onOkPressed(): void {
@@ -54,11 +54,11 @@ export class AddTodoListComponent implements OnDestroy {
 
     if (this.todoList.form.valid) {
       const observer = {
-        complete: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
+        complete: () => this.navigator.navigateToUpdateTodoList(this.vm.todoList.todoListId),
         error   : () => this.toasts.error('An error occured.'),
       };
 
-      this.subscription.add(this.vm.add().subscribe(observer));
+      this.sub.add(this.vm.add().subscribe(observer));
     }
   }
 }
