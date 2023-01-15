@@ -18,6 +18,10 @@ import { AddTodoListViewModel } from './add-todo-list.view-model';
   ],
   providers: [
     AddTodoListViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    }
   ],
 })
 export class AddTodoListComponent implements OnDestroy {
@@ -27,15 +31,14 @@ export class AddTodoListComponent implements OnDestroy {
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
-  private readonly subscription: Subscription;
-
   public constructor(
     public readonly vm: AddTodoListViewModel,
 
     private readonly links    : TodoListLinks,
     private readonly navigator: TodoListNavigator,
+    private readonly sub      : Subscription,
   ) {
-    this.subscription = new Subscription();
+    this.sub = new Subscription();
   }
 
   public get backLink(): any[] {
@@ -43,7 +46,7 @@ export class AddTodoListComponent implements OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   public onOkPressed(): void {
@@ -51,11 +54,11 @@ export class AddTodoListComponent implements OnDestroy {
 
     if (this.todoList.form.valid) {
       const observer = {
-        complete: () => this.navigator.navigateToUpdateTodoList(this.vm.todoListId),
+        complete: () => this.navigator.navigateToUpdateTodoList(this.vm.todoList.todoListId),
         error   : () => this.toasts.error('An error occured.'),
       };
 
-      this.subscription.add(this.vm.add().subscribe(observer));
+      this.sub.add(this.vm.add().subscribe(observer));
     }
   }
 }

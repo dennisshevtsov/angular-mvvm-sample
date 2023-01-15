@@ -17,7 +17,7 @@ import { TodoListLinks                } from 'src/app/core';
 import { TodoListTaskLinks            } from 'src/app/core';
 import { TODO_LIST_ROUTE_ID_PARAMETER } from 'src/app/core';
 
-import { TodoListComponent       } from '../todo-list/todo-list.component';
+import { TodoListComponent       } from '../todo-list';
 import { UpdateTodoListViewModel } from './update-todo-list.view-model';
 
 @Component({
@@ -46,7 +46,7 @@ export class UpdateTodoListComponent
   public constructor(
     public readonly vm: UpdateTodoListViewModel,
 
-    private readonly subscription: Subscription,
+    private readonly sub: Subscription,
 
     private readonly route            : ActivatedRoute,
     private readonly routeCleaner     : RouteCleaner,
@@ -82,11 +82,11 @@ export class UpdateTodoListComponent
       error: () => this.toasts.error('An error occured.'),
     };
 
-    this.subscription.add(
+    this.sub.add(
       this.route.paramMap.pipe(mergeMap(project))
                          .subscribe(observer));
 
-    this.subscription.add(
+    this.sub.add(
       this.route.fragment.subscribe((fragment) => {
         if (fragment === 'added') {
           this.routeCleaner.clean();
@@ -102,7 +102,7 @@ export class UpdateTodoListComponent
   }
 
   public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.sub.unsubscribe();
   }
 
   public onOkPressed(): void {
@@ -114,7 +114,7 @@ export class UpdateTodoListComponent
         error   : () => this.toasts.error('An error occured.'),
       };
 
-      this.subscription.add(this.vm.update().subscribe(observer));
+      this.sub.add(this.vm.update().subscribe(observer));
     }
   }
 }

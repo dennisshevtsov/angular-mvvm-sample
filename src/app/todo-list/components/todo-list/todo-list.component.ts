@@ -12,36 +12,34 @@ import { Subscription } from 'rxjs';
 import { FormComponentBase } from 'src/app/core';
 import { FormScheme        } from 'src/app/core';
 
-import { AddTodoListRequestDto    } from 'src/app/todo-list/api';
-import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
-
-interface TodoListProps {
-  title      : string;
-  description: string;
-}
+import { TodoListProps     } from './todo-list.view-model';
+import { TodoListViewModel } from './todo-list.view-model';
 
 @Component({
   selector: 'todo-list',
   templateUrl: './todo-list.component.html',
-  styleUrls: [
-    './todo-list.component.scss',
+  styleUrls: ['./todo-list.component.scss'],
+  providers: [
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    },
   ],
 })
 export class TodoListComponent
   extends FormComponentBase<TodoListProps>
   implements OnInit, OnDestroy {
-  private todoListValue!: AddTodoListRequestDto | UpdateTodoListRequestDto;
+  private todoListValue!: TodoListViewModel;
 
-  private readonly subscription: Subscription;
-
-  public constructor(private readonly fb: FormBuilder) {
+  public constructor(
+    private readonly fb : FormBuilder,
+    private readonly sub: Subscription,
+  ) {
     super();
-
-    this.subscription = new Subscription();
   }
 
   public ngOnInit(): void {
-    this.subscription.add(
+    this.sub.add(
       this.form.valueChanges.subscribe(value => {
         this.todoList.title       = value.title ?? '';
         this.todoList.description = value.description ?? '';
@@ -49,21 +47,19 @@ export class TodoListComponent
   }
 
   public ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.sub.unsubscribe();
   }
 
   @Input()
-  public set todoList(value: AddTodoListRequestDto | UpdateTodoListRequestDto) {
+  public set todoList(value: TodoListViewModel) {
     this.todoListValue = value;
     this.form.setValue({
-      'title'      : value.title,
-      'description': value.description,
+      title      : value.title,
+      description: value.description,
     });
   }
 
-  public get todoList(): AddTodoListRequestDto | UpdateTodoListRequestDto {
+  public get todoList(): TodoListViewModel {
     return this.todoListValue;
   }
 

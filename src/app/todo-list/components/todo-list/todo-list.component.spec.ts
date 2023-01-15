@@ -4,8 +4,8 @@ import { TestBed          } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Validators          } from '@angular/forms';
 
-import { AddTodoListRequestDto } from 'src/app/todo-list/api';
-import { TodoListComponent     } from './todo-list.component';
+import { TodoListComponent } from './todo-list.component';
+import { TodoListViewModel } from './todo-list.view-model';
 
 describe('TodoListComponent', () => {
   let component: TodoListComponent;
@@ -26,8 +26,8 @@ describe('TodoListComponent', () => {
   });
 
   it('should contain initialized form', () => {
-    const todoList = new AddTodoListRequestDto(
-      'test title', 'test description');
+    const todoList = new TodoListViewModel(
+      '', 'test title', 'test description');
 
     component.todoList = todoList;
     component.ngOnInit();
@@ -49,7 +49,7 @@ describe('TodoListComponent', () => {
   });
 
   it('should validate form', () => {
-    component.todoList = new AddTodoListRequestDto();
+    component.todoList = new TodoListViewModel();
     component.ngOnInit();
 
     const titleControl = component.form.get('title')!;

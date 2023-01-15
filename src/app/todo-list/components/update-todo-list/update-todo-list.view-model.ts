@@ -8,19 +8,21 @@ import { GetTodoListResponseDto   } from 'src/app/todo-list/api';
 import { TodoListService          } from 'src/app/todo-list/api';
 import { UpdateTodoListRequestDto } from 'src/app/todo-list/api';
 
+import { TodoListViewModel } from '../todo-list';
+
 @Injectable()
 export class UpdateTodoListViewModel {
-  private todoListValue: undefined | UpdateTodoListRequestDto;
+  private todoListValue: undefined | TodoListViewModel;
 
   public constructor(
     private readonly service: TodoListService,
-  ) {}
+  ) { }
 
-  public get todoList(): UpdateTodoListRequestDto {
-    return this.todoListValue ?? (this.todoListValue = new UpdateTodoListRequestDto());
+  public get todoList(): TodoListViewModel {
+    return this.todoListValue ?? (this.todoListValue = new TodoListViewModel());
   }
 
-  public set todoList(value: UpdateTodoListRequestDto) {
+  public set todoList(value: TodoListViewModel) {
     this.todoListValue = value;
   }
 
@@ -28,7 +30,7 @@ export class UpdateTodoListViewModel {
     const requestDto = new GetTodoListRequestDto(this.todoList.todoListId);
 
     const project = (responseDto: GetTodoListResponseDto) => {
-      this.todoListValue = new UpdateTodoListRequestDto(
+      this.todoListValue = new TodoListViewModel(
         this.todoList.todoListId,
         responseDto.title,
         responseDto.description,
@@ -40,6 +42,14 @@ export class UpdateTodoListViewModel {
   }
 
   public update(): Observable<void> {
-    return this.service.updateTodoList(this.todoList);
+    return this.service.updateTodoList(this.buildRequestDto());
+  }
+
+  private buildRequestDto(): UpdateTodoListRequestDto {
+    return new UpdateTodoListRequestDto(
+      this.todoList.todoListId,
+      this.todoList.title,
+      this.todoList.description,
+    );
   }
 }
