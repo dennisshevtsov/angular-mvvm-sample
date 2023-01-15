@@ -18,6 +18,10 @@ import { AddTodoListViewModel } from './add-todo-list.view-model';
   ],
   providers: [
     AddTodoListViewModel,
+    {
+      provide: Subscription,
+      useFactory: () => new Subscription(),
+    }
   ],
 })
 export class AddTodoListComponent implements OnDestroy {
@@ -27,13 +31,12 @@ export class AddTodoListComponent implements OnDestroy {
   @ViewChild('toasts')
   private toasts!: ToastsComponent;
 
-  private readonly subscription: Subscription;
-
   public constructor(
     public readonly vm: AddTodoListViewModel,
 
     private readonly links    : TodoListLinks,
     private readonly navigator: TodoListNavigator,
+    private readonly subscription: Subscription,
   ) {
     this.subscription = new Subscription();
   }
