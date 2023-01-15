@@ -16,7 +16,7 @@ export class UpdateTodoListViewModel {
 
   public constructor(
     private readonly service: TodoListService,
-  ) {}
+  ) { }
 
   public get todoList(): TodoListViewModel {
     return this.todoListValue ?? (this.todoListValue = new TodoListViewModel());
@@ -30,7 +30,7 @@ export class UpdateTodoListViewModel {
     const requestDto = new GetTodoListRequestDto(this.todoList.todoListId);
 
     const project = (responseDto: GetTodoListResponseDto) => {
-      this.todoListValue = new UpdateTodoListRequestDto(
+      this.todoListValue = new TodoListViewModel(
         this.todoList.todoListId,
         responseDto.title,
         responseDto.description,
@@ -42,6 +42,14 @@ export class UpdateTodoListViewModel {
   }
 
   public update(): Observable<void> {
-    return this.service.updateTodoList(this.todoList);
+    return this.service.updateTodoList(this.buildRequestDto());
+  }
+
+  private buildRequestDto(): UpdateTodoListRequestDto {
+    return new UpdateTodoListRequestDto(
+      this.todoList.todoListId,
+      this.todoList.title,
+      this.todoList.description,
+    );
   }
 }
